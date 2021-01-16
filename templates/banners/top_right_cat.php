@@ -1,0 +1,2 @@
+<!-- <a href="http://www.satanarise.com/index.php?ln=CAT&sec=concurs&tit=riotofviolence" target="_new" title="Sorteo Riot Of Violence"><img src="pics/banner/riot_top.gif" width="170" height="90" alt="Sorteo Riot Of Violence"/></a>-->
+<img src="pics/banner/colaboradores.gif" width="170" height="90" alt=" "/>

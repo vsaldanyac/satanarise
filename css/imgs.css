@@ -1,0 +1,124 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+h2.titol {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:20px;
+	color:#FFF;
+	text-align:center;
+	margin-bottom:2px;
+}
+h2.titol2 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	color:#CCC;
+	text-align:center;
+	margin-top:3px;
+	margin-bottom:30px;
+}
+h2.remarcat {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	color:#FFF;
+	text-align:center;
+	font-style:italic;
+}
+p.texte {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#CCC;
+	text-indent:20px;
+	text-align:justify;
+
+}
+p.texteband {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#CCC;
+	text-indent:20px;
+	text-align:justify;
+
+}
+p.texteenf {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#CCC;
+	text-indent:20px;
+
+}
+
+img.esq {
+	float:left;
+	margin-right:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+	
+	
+}
+img.dret {
+	float:right;
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:10px;
+	
+}
+div.fotos {
+	text-align:center;
+	margin:30px;
+	
+}
+img.titol {
+	margin:10px;
+}
+div.track {
+	position:relative;
+	width:100%;
+	height:auto;
+	margin:auto 0 auto 250px;
+	text-align:center;
+	
+}
+div.trackfloat {
+	position:relative;
+	width:200px;
+	height:auto;
+	margin:auto 0 auto 0;
+	float:left;
+	text-align:center;
+	
+}
+h5.tl {
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#999;
+	text-align:center
+}
+table.pics {
+	table-layout:fixed;
+	width:auto;
+	height:auto;
+	margin:0 auto 0 auto;
+	border:0;
+	border-spacing:0;
+	border-collapse:collapse;
+}
+td.pic {
+	width:100px;
+	height:100px;
+	text-align:center;
+	vertical-align:middle;
+}
+p.peu {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#CCC;
+	text-align:center;
+}
+div#setlists {
+	position:relative;
+	width:100%;
+	height:auto;
+	overflow:hidden;
+}

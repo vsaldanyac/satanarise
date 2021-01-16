@@ -1,0 +1,183 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#imagenes {
+	position:relative;
+	width:700px;
+	height:300px;
+	left:-2px;
+	margin-bottom:5px;
+	padding-top:5px;
+	
+
+}
+table.pics {
+	table-layout:fixed;
+	width:700px;
+	border-collapse:collapse;
+	border-spacing:0px;
+	border:0;
+	margin:0;
+
+}
+tr {
+	border:0;
+	margin:0;
+}
+td.picss {
+	border:0;
+	margin:0;
+	width:350px;
+	height:300px;
+	text-align:center;
+
+}
+div#titformacion {
+	position:relative;
+	width:349px;
+	height:25px;
+	background-color:#600;
+	background-image:url(../pics/back_info.jpg);
+}
+div#titformacion p {
+	text-align:left;
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:15px;
+	margin:0;
+	padding-top:3px;
+	padding-left:10px;
+	color:#fff;
+	font-weight:bold;	
+}
+div#formacion {
+	position:relative;
+	width:349px;
+	min-height:90px;
+	margin-bottom:10px;
+
+	
+}
+div#formacion p {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ccc;
+	padding-left:3px;
+}
+span.white {
+	color:#fff;
+}
+div#titinfor {
+	position:absolute;
+	top:445px;
+	left:351px;
+	width:349px;
+	height:25px;
+	background-color:#600;
+	background-image:url(../pics/back_info.jpg);	
+}
+div#titinfor p {
+	text-align:left;
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:15px;
+	margin:0;
+	padding-top:3px;
+	padding-left:10px;
+	font-weight:bold;
+	color:#fff
+}
+div#infor {
+	position:absolute;
+	width:349px;
+	height:90px;
+	top:470px;
+	left:356px;
+}
+table.infor {
+	table-layout:fixed;
+	width:340px;
+	border-collapse:collapse;
+	border-spacing:0;
+	border:0;
+	margin:10px 0 0 0;
+
+}
+
+td.tit { 
+	border:0;
+	margin:0;
+	width:150px;
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#666;
+
+	padding:0;
+}
+td.data {
+	border:0;
+	margin:0;
+	width:180px;
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff;
+
+	padding:0;
+}
+div.cont_discografias {
+	position:relative;
+	width:700px;
+	height:135px;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+div.disco_discografia {
+	float:left;
+	width:100px;
+	height:150px;
+	text-align:center;
+}
+div.disco_discografia img {
+	clear:left;
+	display:block;
+	margin:0 auto 0 auto;
+	border:0;
+}
+div.disco_discografia p {
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#666;
+}
+div#cont_videos {
+	position:relative;
+	width:700px;
+	height:250px;
+	padding-top:5px;
+	margin-bottom:5px;
+
+}
+div#cont_videos span {
+	padding-left:30px;
+	padding-right:10px;
+}
+
+div#autodef {
+
+	position:relative;
+	width:700px;
+	height:auto;
+
+}
+div#autodef p {
+
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#FFF;
+	margin-left:30px;
+	margin-right:30px;
+	padding-top:3px;
+	text-align:justify;
+	text-indent:30px;
+}
+

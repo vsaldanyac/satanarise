@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+div#datatext {
+	position:relative;
+	float:left;
+	width:450px;
+	height:100px;
+	margin:10px 25px 0 25px;
+	overflow:hidden;
+}
+div.datatext p {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	color:#CCC;
+	text-indent:20px;
+}
+div#cartell {
+	position:relative;
+	float:left;
+	width:350px;
+	height:637px;
+	margin:10px 25px 0 25px;
+	overflow:hidden;
+}
+div#logos {
+	position:relative;
+	float:left;
+	width:250px;
+	height:auto;
+	margin:10px 25px 0 25px;
+	text-align:center;
+	overflow:hidden;
+}
+div#logos img.img1 {
+	margin-top:57px;
+}
+div#logos img {
+	vertical-align:middle;
+}
+div.grup {
+	position:relative;
+	width:700px;
+	height:auto;
+	overflow:hidden;
+
+	margin:10px 0 0 0;
+	border-top-style:solid;
+	border-top-width:2px;
+	border-top-color:#FFF
+}
+div.grup div.video {
+	position:relative;
+	float:left;
+	width:450px;
+	height:auto;
+	overflow:hidden;
+	text-align:center;
+	margin:10px 5px 0 0;
+}
+div.grup_right {
+	position:relative;
+	float:left;
+	width:245px;
+	height:auto;
+	margin:10px 0 0 0; 
+	overflow:hidden;
+}
+
+div.logogrup {
+	position:relative;
+	width:225px;
+	height:auto;
+	margin:0 0 0 25px;
+	overflow:hidden; 
+}
+div.fotos {
+	position:relative;
+	width:225px;
+	height:auto;
+	margin:20px 0 0 25px;
+	text-align:center;
+	overflow:hidden;
+	
+}
+div.fotos img {
+	margin:0 2px 0 2px;
+}
+
+div#logos_final {
+	position:relative;
+	float:left;
+	width:700px;
+	height:auto;
+	margin:20px 0 10px 25px;
+	text-align:center;
+}
+div#mapa {
+	position:relative;
+	float:left;
+	width:450px;
+	height:auto;
+	margin:20px 25px 0 25px;
+}
+div.textes {
+	clear:both;
+	position:relative;
+	width:auto;
+	height:auto;
+	overflow:hidden;
+	margin:30px 200px 30px 200px;
+}
+p.texte {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	color:#CCC;
+	text-align:justify;
+}

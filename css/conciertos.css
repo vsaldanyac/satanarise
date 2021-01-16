@@ -1,0 +1,266 @@
+@charset "utf-8";
+/* CSS Document */
+div#contenidor_concerts {
+	position:relative;
+	width:700px;
+	height:auto;
+
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+div#concerts_left {
+	position:relative;	
+	width:400px;
+	height:auto;
+	float:left;
+	min-height:500px;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+
+}
+div#concerts_right {
+	position:relative;	
+	width:300px;
+	height:auto;
+	float:left;
+	min-height:500px;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+}
+div.tit400 {
+	position:relative;
+	width:395px;
+	height:25px;
+	background-color:#600;
+	background-image:url(../pics/back_400.jpg);
+	overflow:hidden;
+	margin:0;
+}
+	div.tit400 p {
+
+	text-align:left;
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:15px;
+	color:#fff;
+	padding-left:10px;
+	margin:0;
+	padding-top:3px;
+	font-weight:bold;
+
+}
+div.tit300 {
+	position:relative;
+	width:295px;
+	height:25px;
+	background-color:#600;
+	background-image:url(../pics/back_300.jpg);
+	overflow:hidden;
+	margin:0;
+}
+div.tit300 p {
+
+	text-align:left;
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:15px;
+	color:#fff;
+	padding-left:10px;
+	margin:0;
+	padding-top:3px;
+	font-weight:bold;
+}
+
+div.entrada_concert {
+	position:relative;
+	width:385px;
+	height:auto;
+	min-height:150px;
+	margin:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	clear:both;
+	overflow:hidden;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#600;
+}
+div.entrada_concert_ample {
+	position:relative;
+	width:700x;
+	height:auto;
+	min-height:150px;
+	margin:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	clear:both;
+	overflow:hidden;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#600;
+}
+div.entrada_concert_ample img {
+	float:left;
+	margin:0 5px 0 5px;
+}
+div.entrada_concert img {
+	float:left;
+	margin:0 5px 0 5px;
+}
+div.entrada_concert_ample h1 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;
+	color:#ccc;
+	padding-top:5px;
+	padding-left:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	margin-left:115px;
+
+}
+div.entrada_concert_ample p {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#ccc;
+	padding-top:5px;
+	padding-left:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	margin-left:115px;
+}
+div.entrada_concert h1 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;
+	color:#ccc;
+	padding-top:5px;
+	padding-left:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	margin-left:115px;
+
+}
+div.entrada_concert p {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#ccc;
+	padding-top:5px;
+	padding-left:5px;
+	padding-bottom:5px;
+	padding-right:5px;
+	margin-left:115px;
+}
+div.data_con {
+	position:relative;
+	float:right;
+	width:70px;
+	height:20px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:10px;	
+	color:#666;
+}
+p.entrada_agenda {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;	
+	color:#ccc;
+	text-align:right;
+
+}
+p.agenda_data {
+	font-size:14px;
+	font-family:Verdana, Geneva, sans-serif;
+	color:#666;
+	text-align:left;
+	margin-bottom:5px;
+	padding-bottom:0;
+}
+span.agenda_nom {
+	font-size:14px;	
+	color:#fff;
+}
+div#entrada_concerts {
+	position:relative;
+	width:700px;
+	height:auto;
+	min-height:70px;
+	margin:0,0,0,15px;
+	padding:0;
+	overflow:hidden;
+}
+img.cartell_concert {
+	/*float:left;
+	margin-right:10px;*/
+	text-align:center;
+}
+h1.titol_concert {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:18px;	
+	color:#ccc;
+	text-align:center;
+	margin-bottom:50px;
+}
+h1.titol_gira {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:18px;	
+	color:#ccc;
+	text-align:center;
+}
+h1.titol_gira_grups {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:15px;	
+	color:#ccc;
+	text-align:center;
+	margin-bottom:10px;
+}
+div#entrada_concerts p {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;	
+	color:#666;
+	text-align:center;
+}
+span.blanc {
+	color:#ccc;
+}
+p.texte_concerts {
+	position:relative;
+	width:700px;
+	height:auto;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;	
+	color:#666;
+	text-align:left;
+}
+/* css de conciertos en inicio */
+
+div#propers_concerts_index {
+	position:relative;
+	width:700px;
+	height:auto;
+	overflow:hidden;	
+}
+div.proper_concert {
+	position:relative;
+	width:226px;
+	height:158px;
+	float:left;
+	overflow:hidden;
+	margin:2px 0 2px 4px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#600;
+	
+}
+div.proper_concert img {
+	float:left;
+	margin:2px 5px 0 2px;
+}
+div.proper_concert h1 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;	
+	color:#ccc;
+}
+div.proper_concert p{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;	
+	color:#666;
+}

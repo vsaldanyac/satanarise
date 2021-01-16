@@ -1,0 +1,229 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+	background-color:#000;
+}
+div#off {
+	display:none;
+}
+div#contenidor {
+	position:relative;
+	width:1000px;
+	height:auto;	
+	margin:0 auto 0 auto;
+	overflow:hidden;
+}
+div#logo  {
+	position:relative;
+	width:1000px;
+	height:100px;
+	text-align:center;
+	margin:0 auto 10px auto;
+	overflow:hidden;
+}
+div#contenidor_columnes {
+	position:relative;
+	width:1000px;
+	height:auto;
+	float:left;
+	overflow:hidden;
+	border-top-style:solid;
+	border-top-width:2px;
+	border-top-color:#600;
+}
+div#columna_menu {
+	float:left;
+	position:relative;
+	width:145px;
+	height:auto;
+	overflow:hidden;
+	margin:0 0 0 5px;
+	padding:10px 0 0 0;
+
+}
+p.linkmenu {
+	height:25px;
+	font-family:"Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+	font-size:13px;
+	font-weight:bold;
+	color:#000;
+	margin:0;
+	padding-top:3px;
+	padding-right:6px;
+	padding-left:6px;
+}
+p.submenu  {
+	height:25px;
+	font-family:"Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000;
+	margin:0;
+	padding-top:3px;
+	padding-right:6px;
+	padding-left:6px;
+	font-weight:normal;
+	padding-left:10px;
+}
+a.men:link {
+	text-decoration:none;
+	color:#fff;
+
+}
+a.men:visited {
+	text-decoration:none;
+		color:#fff;
+}
+a.men:hover {
+	text-decoration:none;
+	color:#C00;
+}
+span.on {
+	color:#FF0;
+
+}
+div#columna_central {
+	float:left;
+	position:relative;
+	width:838px;
+	height:auto;
+	min-height:630px;
+	overflow:hidden;
+	margin:0 0 0 0;
+	padding:10px 0 0 10px;
+	border-left-style:solid;
+	border-left-width:2px;
+	border-left-color:#600;	
+
+
+}
+p.titol_parcial {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#FFF;
+	border-bottom-style:solid;
+	border-bottom-width:2px;
+	border-bottom-color:#600;	
+	
+}
+p.contingut {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#CCC;
+}
+
+p.terminal {
+	font-family:Terminal, Georgia, "Times New Roman", Times, serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#CF0;
+
+}
+/* formulari */
+
+input.titol_form {
+	width:800px;
+}
+input.imgs_form {
+	width:200px;
+}
+
+textarea.texte_form {
+	width:800px;
+	height:200px;
+}
+input.esq {
+	float:right;
+}
+div.noticia_curta {
+	position:relative;
+	width:100%;
+	height:auto;
+	overflow:hidden;
+}
+p.titol {
+	display:inline;
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	color:#FFF;
+	margin-right:10px;
+}
+p.texte {
+	display:inline;	
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#FFF;
+}
+legend.white {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#FFF;
+}
+div.navegador {
+	position:relative;
+	width:100%;
+	height:auto;
+	text-align:center;
+	overflow:hidden;
+}
+a.linkk:link {
+	text-decoration:none;
+	color:#ccc;
+}
+a.linkk:visited {
+	text-decoration:none;
+	color:#ccc;
+}
+a.linkk:hover {
+	text-decoration:none;
+	color:#600;
+}
+img.iconavegador {
+	margin:5px;
+}
+div.concert_cp {
+	position:relative;
+	min-height:200px;
+	overflow:hidden;
+}
+div.concert_cp img {
+	float:left;
+	margin:5px;
+}
+/* Codi per la plana d'autentificació del panell */
+
+p.contingut_aut {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:red;
+	text-align:center;
+}
+#formulari_aut {
+	position:relative;
+	width:600px;
+	height:auto;
+	margin:100px auto 0 auto;
+	overflow:hidden;
+}
+p.text_form_aut {
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#ccc;
+}
+table.aut {
+	text-align:center;
+	width:600px;
+}
+#cont_aut {
+	position:relative;
+	width:1000px;
+	height:auto;
+	margin:0 auto 0 auto;
+	overflow:hidden;
+}

@@ -1,0 +1,240 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+div.entrevista p {
+	font-size:13px;
+	padding-left:50px;
+}
+
+img.esq {
+	float:left;
+	margin-right:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+	
+	
+}
+img.dret {
+	float:right;
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:10px;
+	
+}
+h1.ent {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:15px;
+	color:#ccc;
+	padding-top:20px;
+	padding-left:50px;
+	padding-bottom:20px;
+	padding-right:50px;
+	text-align:justify;
+	font-weight:normal;
+	line-height:20px;
+}
+h2.preg {
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:20px;
+	font-size:14px;
+	color:#666;
+	padding-top:10px;
+	padding-left:50px;
+	padding-right:50px;
+	padding-bottom:10px;
+	text-align:justify;
+	text-indent:30px;
+	font-weight:normal;
+
+}
+h2.resp {
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:20px;
+	font-size:14px;
+	color:#999;
+	padding-left:50px;
+	padding-right:50px;
+	padding-bottom:10px;
+	text-align:justify;
+	text-indent:30px;	
+	font-weight:normal;
+}
+h2.resp2 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#8A0808;
+	padding-left:50px;
+	padding-right:50px;
+	padding-bottom:10px;
+	text-align:justify;
+	text-indent:30px;	
+
+}
+h2.resp3 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#0431B4;
+	padding-left:50px;
+	padding-right:50px;
+	padding-bottom:10px;
+	text-align:justify;
+	text-indent:30px;	
+
+}
+h2.resp4 {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#0B3B0B;
+	padding-left:50px;
+	padding-right:50px;
+	padding-bottom:10px;
+	text-align:justify;
+	text-indent:30px;	
+
+}
+p.firma {
+	text-align:right;
+	margin-right:50px;
+	margin-top:50px;
+	margin-bottom:80px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#ccc;
+	
+}
+div#entrevista {
+	position:relative;
+	width:700px;
+}
+div#logoent {
+	position:relative;
+	text-align:center;
+	margin-top:5px;
+
+}
+h5.trans {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#666;
+	text-indent:30px;
+	text-align:justify;
+}
+iframe {
+	margin-bottom:15px;
+}
+.recomended {
+	clear:both;
+	position:relative;
+	width:700px;
+	height:auto;
+	margin:10px 10px 10px 10px;
+}
+.recomended p {
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color:#CCC;
+	text-align:left;
+	margin:0 0 10px 10px;
+}
+.recomend_item {
+	float:left;
+	width:100px;
+	height:200px;
+	margin-right:40px;
+	overflow:hidden;
+}
+.recomend_item h1 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff;
+	text-align:center;
+	margin:5px 0 0 0;
+}
+.recomend_item h2 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ccc;
+	text-align:center;
+	margin:0 0 0 0;
+}
+.recomend_item h3 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#ccc;
+	text-align:center;
+	margin:0 0 0 0;
+}
+div.entrevista_rec {
+	position:relative;
+	width:690px;
+	margin-left:2px;
+	overflow:hidden;
+	border-bottom:2px;
+	border-bottom-color:#600;
+	border-bottom-style:solid;
+	padding-bottom:2px;
+}
+div.entrevista_rec p {
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#999;
+	margin-top:5px;
+	margin-left:100px;
+	margin-right:60px;
+	padding-bottom:5px;
+
+	padding-left:50px;
+}
+div.data_rec {
+	position:absolute;
+	left:634px;
+	width:50px;
+	height:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;	
+	color:#666;
+	
+}
+h3.titol_op
+{
+ text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;	
+	color:#ccc;
+	margin-top:5px;
+	margin-left:5px;
+	margin-right:60px;
+	padding-bottom:5px;
+
+	padding-left:10px;   
+}
+
+h3.texte_op
+{
+    
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;	
+	color:#999;
+	margin:20px 20px 20px 20px;
+	margin-left:100px;
+	margin-right:20px;
+	padding-bottom:5px;
+
+	padding-left:50px;
+    text-align:justify;
+}
+h3.texte_carta
+{
+  font-size:14px;
+	line-height:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#ccc;
+	margin:20px 20px 20px 20px;
+  text-align:justify;
+  font-weight:normal;
+}
+span.marca {
+    color:#ccc;
+}

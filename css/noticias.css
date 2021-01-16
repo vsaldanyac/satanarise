@@ -1,0 +1,61 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#contenidor_noticies {
+	position:relative;
+	width: 700px;
+	height:auto;
+	overflow:hidden;
+	margin:10px 0 10px 0;
+}
+div.noticia  {
+	position:relative;
+	width:700px;
+	border-bottom:2p;
+	border-bottom-style : solid;
+	border-bottom-color:#999;
+	min-height:90px;
+	padding-bottom:10px;
+	overflow:hidden;
+}
+h1.tit {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:15px;
+	color:#ccc;
+	padding-top:5px;
+	padding-left:50px;
+	padding-bottom:5px;
+	padding-right:50px;
+}
+h1.tit_centrada {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:15px;
+	color:#ccc;
+	text-align:center;
+	padding-top:5px;
+	padding-left:50px;
+	padding-bottom:5px;
+	padding-right:50px;
+}
+div.data_not {
+	position:relative;
+	left:625px;
+	width:70px;
+	height:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;	
+	color:#666;
+    margin-top: 10px;
+	
+}
+div.noticia p {
+	font-size:14px;
+	line-height:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#ccc;
+	text-align:justify;
+	padding:10px 20px 5px 20px;
+}
+img.general {
+	margin:0 10px 0 10px;
+}

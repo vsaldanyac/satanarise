@@ -1,0 +1,166 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin:0;
+}
+
+div#titdisc {
+	margin:0;
+	position:relative;
+	width:100px;
+	height:25px;
+	background-color:#FF0;
+	background-image:url(../pics/ban_disc.jpg);
+
+	
+}
+div#titdisc p {
+	text-align:center;
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:15px;
+	margin:0;
+	padding-top:3px;
+	font-weight:bold;
+}
+div#contdisc {
+	position:relative;
+	width:94px;
+	height:auto;
+	margin:0;
+	padding-top:5px;
+	padding-right:3px;
+	padding-left:3px;
+	padding-bottom:5px;
+}
+div#contdisc p {
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	margin:0;
+	padding-top:3px;
+	font-weight:bold;
+	color:#999;
+}
+
+div#bannerradio {
+	position:relative;
+	width:170px;
+	height:95px;
+	overflow:hidden;
+	
+	
+}
+div#bannerradio p {
+	margin:0;
+	line-height:10px;
+	text-align:justify;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#CCC;
+	
+}
+span.blanc {
+	color:#FFF;
+	font-weight:bold;
+}
+div#cont_nov {
+	position:relative;
+	width:150px;
+	height:auto;
+	overflow:auto;
+}
+div.disc {
+	position:relative;
+	width:150px;
+	height:auto;
+	margin:5px 0 0 0; 
+	overflow:hidden;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#600;
+}
+div.disc img {
+	margin:0 25px 5px 25px;
+}
+div.disc h1 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	color:#CCC;
+	text-align:center;
+	margin:0 0 0 0;
+	padding:0;
+}
+div.disc h2 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#CCC;
+	text-align:center;
+	margin:0 0 2px 0;
+	padding:0;
+}
+div.disc h3 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:8px;
+	color:#ff0;
+	text-align:center;
+	margin:0 0 2px 0;
+	padding:0;
+}
+div.banner_3, div.banner_4, div.banner_5, div.banner_6 {
+	position:relative;
+	overflow:hidden;
+	margin:2px 0 0 0;
+	width:100px;
+	height:150px;
+	min-height:150px;
+}
+div.banner_3 {
+	background-color:#6F0;
+}
+div.banner_4 {
+	background-color:#33F;
+}
+div.banner_5 {
+	background-color:#C60;
+}
+div.banner_6 {
+	background-color:#CF0;
+}
+div.not {
+	float:left;
+	display: -webkit-flex;
+    -webkit-flex-direction: column;
+  	display: flex;
+  	flex-direction: row;
+	position:relative;
+	width:auto;
+	height: auto;
+	overflow:hidden;
+}
+div.contimgnot {
+	text-align:center;
+	align-items: center;
+	vertical-align: middle;
+	display: flex;
+	position: relative;
+	overflow: hidden;
+    height:150px;
+	width:175px;
+  	justify-content: center;
+}
+div.notind {
+	width: 175px;
+	height: 260px;
+	display: block;
+	overflow: hidden;
+}
+
+div#socials_2 {
+	position:relative;
+	width:150px;
+	height:25px;
+	text-align:center;
+	margin:0 0 10px 0;
+	overflow:hidden;
+}

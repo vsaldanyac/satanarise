@@ -1,0 +1,35 @@
+@charset "utf-8";
+/* CSS Document */
+
+div#off {
+	display:none;
+}
+div.banner_main {
+	clear:both;
+	position:relative;
+	width:700px;
+	height:100px;
+	margin-top:5px;
+	margin-bottom:5px;
+	overflow:hidden
+}
+div.navegador {
+	position:relative;
+	width:100%;
+	height:auto;
+	text-align:center;
+	overflow:hidden;
+}
+
+img.iconavegador {
+	margin:15px;
+}
+
+/* Noticias Index */
+p.p_noticia_index {
+	font-size:13px;
+	font-family:Verdana, Geneva, sans-serif;
+	color:#ccc;
+	text-align:justify;
+	
+}

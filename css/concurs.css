@@ -1,0 +1,120 @@
+@charset "utf-8";
+/* CSS Document */
+
+p.cc {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+	margin-top:30px;
+	margin-left:50px;
+	margin-right:50px;
+	text-indent:50px;
+	text-align:justify;
+}
+
+img.banners {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+div#cos {
+	position:relative;
+	margin-top:20px;
+}
+div.centrar {
+	text-align:center;
+}
+p.cita {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+	margin-top:30px;
+	margin-left:600px;
+	margin-right:50px;
+	font-style: oblique;
+	text-align:center;
+}
+p.xx {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+	margin-top:30px;
+	margin-left:50px;
+	margin-right:50px;
+
+	text-align:center;
+}
+div#formulari {
+	position:relative;
+	width:700px;
+	margin:20px 0 20px 0;
+}
+table.form {
+	table-layout:fixed;
+	margin:0 auto 0 auto;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+}
+td.celdadreta {
+	width:180px;
+	height:auto;
+	text-align:left;
+	
+	
+}
+td.celdaesq {
+	width:120px;
+	height:auto;
+	text-align:left;
+	vertical-align:top;
+}
+td.celdaesq1 {
+	width:200px;
+	height:auto;
+	text-align:left;
+	vertical-align:top;
+	
+	
+}
+td.doble {
+	width:270px;
+	height:auto;
+	padding-top:15px;
+	padding-bottom:15px;
+	text-align:left;
+	
+
+}
+td.doble span {
+	margin-left:100px;
+}
+span.descrip {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+}
+p.botons {
+	margin-left:190px;
+}
+p.band {
+	font-family:"Copperplate Gothic Light", Arial, Helvetica, sans-serif;
+	font-size:40px;
+	color:#FFF;
+}
+p.error {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;
+	color:#fff;
+	text-align:center;
+}
+p.link_sorteig {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:14px;
+	color:#fff;
+
+	text-align:center;
+}
+textarea {
+	width:250px;
+	height:100px;
+}

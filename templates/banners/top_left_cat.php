@@ -1,0 +1,1 @@
+<a href="http://www.facebook.com/satanarisemetal" target="_new" title="Satan Arise Facebook"><img src="../pics/banner/ban_face.jpg" width="170" height="90" alt="SatanArise en Facebook"/></a>
