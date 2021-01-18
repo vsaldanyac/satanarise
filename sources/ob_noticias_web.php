@@ -114,9 +114,7 @@
 		{
 			/* Demanar dades a bbdd ordenat per data, desde $desde fins a $desde+$quantitat */
 			$inici=$punter-1;
-			$query= "select news.idNews, descripcio, newscontent.Idioma, Title, Body, type, news.dateIn, ruta from news INNER JOIN newscontent LEFT JOIN newsdata
-			ON news.idNews = newscontent.idNews AND news.idNews = newsdata.idNews
-			WHERE newsdata.tipo = 1 AND newsdata.orden = 1 AND newscontent.Idioma = '".$idioma."' and news.idNews=newscontent.idNews order by news.dateIn desc limit ".$inici.", ".$quantitat;		
+			$query= "SELECT news.idNews, descripcio, newscontent.Idioma, Title, Body, type, news.dateIn, ruta FROM news INNER JOIN newscontent ON news.idNews = newscontent.idNews LEFT JOIN newsdata ON news.idNews = newsdata.idNews AND newsdata.tipo = 1 AND newsdata.orden = 1 WHERE newscontent.Idioma = '".$idioma."' AND news.idNews=newscontent.idNews ORDER BY news.dateIn desc limit ".$inici.", ".$quantitat;		
 			$this->resultat_consulta=$bd->query($query);
 			if ($this->resultat_consulta!=FALSE) 
 			{
