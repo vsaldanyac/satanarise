@@ -36,7 +36,6 @@
 			$inici=$punter-1;
 			
 			$query= "select reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.portada, estil.estil, reviews.tipus, reviews.nota, colaboradors.nom, banderes.pais, banderes.ruta from reviews left join colaboradors on reviews.idcolaboradors=colaboradors.idcolaboradors left join  banderes on reviews.idpais=banderes.idpais left join estil on reviews.idestil=estil.idestil order by reviews.data desc limit ".$inici.", ".$quantitat;
-            //$query= "select reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.portada, estil.estil, reviews.tipus, reviews.nota, colaboradors.nom, banderes.pais, banderes.ruta from reviews left join colaboradors on reviews.idcolaboradors=colaboradors.idcolaboradors left join  banderes on reviews.idpais=banderes.idpais left join estil on reviews.idestil=estil.idestil order by reviews.data desc";		
             $this->resultat_consulta=$bd->query($query);
             if ($this->resultat_consulta!=FALSE) 
 			{
@@ -270,7 +269,6 @@
 		public function inserir_sugerencies($bd,$review,$idioma) 
 		/* mostra les sugerencies de reviews que surten al final d'una review, per estil, per país i per mes visitades */
 		{
-			
 			/* per mes vistes */
 			
 			/* extreure metak i / de l'estil */ 
@@ -475,8 +473,6 @@
 			
 			/* per origen */
 			
-			
-			
 			$query="select reviews.link, reviews.banda, reviews.disc, reviews.portada, estil.estil from reviews left join estil on reviews.idestil=estil.idestil where reviews.idpais=".$review->idpais." and reviews.idreviews <> ".$review->id." order by reviews.data desc limit 0, 10";
 			
 			$this->resultat_consulta=$bd->query($query);
@@ -525,6 +521,7 @@
 			}
 			if ($this->numero_resultats>0) print '</div>';
 		}
+
    		public function afegir_visita ($bd,$id)
 		{
 			$query= "select vistes, banda, disc from reviews where idreviews = $id";	
@@ -744,108 +741,16 @@
             }
             if ($lletra_actual!='') print '</div>';
             
-			/*$lletres=array('#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-            /* recullim la primer sortida de bbdd */            
-            /*if ($this->numero_resultats>0)
-            {                
-                $resultat=$this->resultat_consulta->fetch_assoc();
-                $banda=$resultat['banda'];
-                $disc=$resultat['disc'];
-                $any=$resultat['any'];
-                $link=$resultat['link'];
-                $estil=$resultat['estil'];
-                $tipus=$resultat['tipus'];                                
-                $control_lletra=TRUE;
-                $banda_antiga='';                
-                $num_consulta=1;
-                for ($x=0;$x<count($lletres);$x++)
-                {
-                   
-                    print '<div class="letras">
-                    <p class="gran">';
-                    if ($lletres[$x]=='#')
-                    {
-                        print '<a id="num">#</a></p>';
-                    } else {
-                        print '<a id="'.strtolower($lletres[$x]).'">'.$lletres[$x].'</a></p>';
-                    }
-                    while ($control_lletra==TRUE)
-                    {                        
-                        if ($banda!=$banda_antiga) print '<p class="banda_hist">'.$banda.'</p>';                            
-                        print '<p class="disc_hist"><a class="list" href="';
-                        switch ($idioma)
-                        {
-                            case 'ES':
-                                print 'index.php?ln=ES&sec=criticas';
-                            break;
-                            case 'CAT':
-                                print 'index.php?ln=CAT&sec=critiques';
-                            break;
-                        }    
-                        print $link.'}" title="'.$banda.' - '.$disc.'">'.$disc.' ('.$any.' - '.$estil;
-                        switch ($tipus)
-                        {
-                            case 2:
-                                print ' EP';
-                            break;
-                            case 3:
-                                print 'Demo';
-                            break;
-                            
-                        }
-                        print ' )</a></p>';
-                        if ($num_consulta<$this->numero_resultats)
-                        {
-                            $resultat=$this->resultat_consulta->fetch_assoc();
-                            $num_consulta++;
-                            $banda_antiga=$banda;
-                            $banda=$resultat['banda'];
-                            print $banda.' - '.$banda_antiga;
-                            $disc=$resultat['disc'];
-                            print $disc;
-                            $any=$resultat['any'];
-                            print $any;
-                            $link=$resultat['link'];
-                            print $link;
-                            $estil=$resultat['estil'];
-                            print $estil;
-                            $tipus=$resultat['tipus'];
-                            print $tipus;    
-                        } else {
-                            $control_lletra=FALSE;                                
-                        }
-                        if ($lletres[$x]=='#')
-                        {
-                            if (!is_int(substr($banda,0,1))) 
-                            {                                
-                                $control_lletra=FALSE;
-                                
-                            }
-                        } else {
-                            if (strtoupper(substr($banda,0,1))!=$lletres[$x]) 
-                            {
-                                $control_lletra=FALSE;
-                                print '</div>';
-                            } 
-                        }
-                        if ($control_lletra)
-                        {
-                            print 'true';
-                        } else {
-                            print 'false';
-                        }
-                    }
-                    print '</div>';                    
-                }
-            }*/
             print '</div>';
 		}
+
 		public function preparar_texte($texte,$tags)
 		{
 			/* Prepara per ser posat a la web */
 			$texte=$this->tractar_tag_link(2,$texte,$tags);
 			return $texte;
 		}
+
 		public function tractar_tag_link($opcio,$texte,$tags)
 		/* Als textes busca el tag [link] www.xemple.es [link] on www.exemple.es es una adreça url completa sense els http i si opcio es 1 el converteix en un link class linkk i la resta del texte el tracta per caracterls especials html i si es 2 ignira els tags i els treu del texte i el filtra per caracters html */ 
 		{
@@ -948,4 +853,4 @@
 			return $taula['hora'].':'.$taula['min'];
 		}
 	}
-?>	
+?>
