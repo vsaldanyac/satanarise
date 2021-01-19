@@ -8,10 +8,11 @@ div.banner_main {
 	clear:both;
 	position:relative;
 	width:700px;
-	height:100px;
+	height:115px;
 	margin-top:5px;
-	margin-bottom:5px;
-	overflow:hidden
+	margin-bottom:0px;
+	overflow:hidden;
+	padding-top: 20px;
 }
 div.navegador {
 	position:relative;
