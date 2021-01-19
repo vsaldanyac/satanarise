@@ -74,7 +74,7 @@
                 }
 				/* mostrar dades */
     			print '<a class="linkk" href="index.php?'.$link.$review->link.'" title="'.$review->banda.' - '.$review->disc.' crítica"><div class="novedad">';
-                print '<img class="covermini" src="pics/covers/'.$review->portada.'" width="80" height="80" alt="'.$review->banda.' - '.$review->disc.'"/>';
+                print '<img class="covermini" src="pics/covers/'.$review->portada.'" width="140" height="140" alt="'.$review->banda.' - '.$review->disc.'"/>';
                 print '<div class="dades"><h1>'.$review->banda.'</h1>';
                 print '<h2>'.$review->disc.' ('.$review->any.')</h2>';
                 print '<h3>'.$review->estil.'<br />(';
@@ -88,7 +88,7 @@
                     break;
                 }
                 print $review->colaborador.')</h3>';
-                print '</div><div class="icos"><p>Puntuación<img src="pics/punt'.$review->nota.'.jpg" width="38" height="25" /><img src="pics/banderas/'.$review->bandera.'.png" height="25" alt = "'.$review->pais.'"/></p></div></div></a>';
+                print '</div><div class="icos"><p>Puntuación<div class="icos_img"><img src="pics/punt'.$review->nota.'.jpg" width="38" height="25" /><img src="pics/banderas/'.$review->bandera.'.png" height="35" alt = "'.$review->pais.'"/></p></div></div></div></a>';
 			}
 		}
 		
