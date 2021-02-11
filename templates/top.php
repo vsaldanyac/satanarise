@@ -10,7 +10,8 @@
 		case ('inicio'):
 			$page->description = 'Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
 			$page->title = 'Satan Arise - Novedades, discografias, entrevistas y mas, heavy, folk, power, gothic, death, trash... metal!';
-			$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');			
+			$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');	
+			$page->add_scripts("<script type=\"text/javascript\" src=\"css/cookies.js\"></script>");			
 		break;
 		case ('critiques'):
 			$page->description = $page->review_descripcio.'... - Satan Arise - Heavy Metal, crítiques, entrevistes i informació de tots els estils de metal.';
