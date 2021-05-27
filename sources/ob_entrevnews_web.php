@@ -291,9 +291,9 @@
           {
               if (($y==0) || ($y==2))
               {
-                  $link_img[$y]='<a href="pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title="'.$entrevista->banda.'"><img class="esq" src = "pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" width="400" alt="'.$entrevista->banda.'" /></a>';
+                  $link_img[$y]='<a href="pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title="'.$entrevista->banda.'"><img class="esq" src = "pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" alt="'.$entrevista->banda.'" /></a>';
               } else {
-                  $link_img[$y]='<a href="pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title="'.$entrevista->banda.'"><img class="dret" src = "pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" width="400" alt="'.$entrevista->banda.'" /></a>';
+                  $link_img[$y]='<a href="pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title="'.$entrevista->banda.'"><img class="dret" src = "pics/entrevistes_news_pics/'.$entrevista->imgs[$y].'" alt="'.$entrevista->banda.'" /></a>';
               }
           }
       }
