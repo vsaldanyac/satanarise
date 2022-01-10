@@ -714,12 +714,12 @@
 						
 				print 'Año <select name="any_'.$i.'">';
 				if ($this->formulari_1_ok) {
-					$contingut_camp=2021;
+					$contingut_camp=2022;
 				}else {
 					$contingut_camp=$this->dades->$nom->any;
 				}
 						
-				for ($y=2021;$y<=2022;$y++) {
+				for ($y=2022;$y<=2023;$y++) {
 					if ($contingut_camp==$y) {
 						print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 	
