@@ -1063,21 +1063,21 @@
 				
 <?php			if ($punter!=1) {
 ?>					
-                <a class="linkk" href="index_cp.php?sec=criticas&action=edit&punter=1"><img class="ico_navegador" src="../pics/containers/max_prev.jpg" width="43" height="43" /></a>
+                <a class="linkk" href="home_cp.php?sec=criticas&action=edit&punter=1"><img class="ico_navegador" src="../pics/containers/max_prev.jpg" width="43" height="43" /></a>
 <?php
 				}
 				if ($punter!=1) {
 						$punter_dir=$punter-10;
-					print '<a class="linkk" href="index_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/prev.jpg" width="43" height="43" /></a>';
+					print '<a class="linkk" href="home_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/prev.jpg" width="43" height="43" /></a>';
 				}
 
                 if ($numero>=($punter+10)) {
 						$punter_dir=$punter+10;
-					print '<a class="linkk" href="index_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/next.jpg" width="43" height="43" /></a>';
+					print '<a class="linkk" href="home_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/next.jpg" width="43" height="43" /></a>';
 				}                
                 if ($numero>=($punter+10)) {
 					$punter_dir=((number_format(($numero/$quantitat), 0)*$quantitat)+1)-10;
-					print '<a class="linkk" href="index_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/max_next.jpg" width="43" height="43" /></a>';
+					print '<a class="linkk" href="home_cp.php?sec=criticas&action='.$action.'&punter='.$punter_dir.'"><img class="ico_navegador" src="../pics/containers/max_next.jpg" width="43" height="43" /></a>';
 				}
 ?>
             </div>    

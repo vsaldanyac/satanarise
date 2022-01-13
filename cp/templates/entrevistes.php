@@ -74,7 +74,7 @@
 					print '<p class="terminal">Conexió OK!</p>';
 					$entrevista_add->consulta_entrevistes($basedades->bd,$page->punter,$page->num_a_mostrar);
 					$entrevista_add->presentar_entrevistes_formulari($basedades->bd,'editar',$entrevista);
-					$entrevista_add->navegador_entrades($basedades->contar_entrades('news'),$page->punter,$page->num_a_mostrar,$page->action);
+					$entrevista_add->navegador_entrades($basedades->contar_entrades('entrevistes'),$page->punter,$page->num_a_mostrar,$page->action);
 					$basedades->desconectar();
 				} else { 
 					print '<p class="terminal">Error de conexión a la base de datos</p>';
@@ -135,7 +135,7 @@
 					print '<p class="terminal">Conexió OK!</p>';
 					$entrevista_add->consulta_entrevistes($basedades->bd,$page->punter,$page->num_a_mostrar);
 					$entrevista_add->presentar_entrevistes_formulari($basedades->bd,'del',$entrevista);
-					$entrevista_add->navegador_entrades($basedades->contar_entrades('news'),$page->punter,$page->num_a_mostrar,$page->action);
+					$entrevista_add->navegador_entrades($basedades->contar_entrades('entrevistes'),$page->punter,$page->num_a_mostrar,$page->action);
 					$basedades->desconectar();
 				} else { 
 					print '<p class="terminal">Error de conexión a la base de datos</p>';
