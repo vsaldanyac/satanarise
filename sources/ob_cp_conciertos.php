@@ -1206,7 +1206,7 @@
 				
 <?php			if ($punter!=1) {
 ?>					
-                <a class="linkk" href="home_cp.php?sec=noticias&action=edit&punter=1"><img class="ico_navegador" src="../pics/containers/max_prev.jpg" width="43" height="43" /></a>
+                <a class="linkk" href="home_cp.php?sec=conciertos&action=edit&punter=1"><img class="ico_navegador" src="../pics/containers/max_prev.jpg" width="43" height="43" /></a>
 <?php
 				}
 				if ($punter!=1) {
