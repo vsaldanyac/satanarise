@@ -258,7 +258,7 @@
                 $titol=$resultat['titol_es'];
                 if (fmod($vistes, 250) == 0)        
                 {
-                    $tit="Nova a fita a una carta del lector: ".$titol;
+                    $tit="Nova fita a una carta del lector: ".$titol;
                     $mensaje="La carta del lector $titol ha arribat a $vistes vistes!\n\n Una birra pel redactor!";
                     $cab = 'From: info@satanarise.com';
                     mail('info@satanarise.com', $tit, $mensaje, $cab);

@@ -470,7 +470,7 @@
             $banda=$resultat['banda'];
                 if (fmod($vistes, 250) == 0)        
                 {
-                    $tit="Nova a fita a l'entrevista de ".$banda;
+                    $tit="Nova fita a l'entrevista de ".$banda;
                     $mensaje="L'entrevista a la banda $banda ha arribat a $vistes vistes!\n\n Una birra pel redactor!";
                     $cab = 'From: info@satanarise.com';
                     mail('info@satanarise.com', $tit, $mensaje, $cab);

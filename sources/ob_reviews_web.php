@@ -534,7 +534,7 @@
                 $disc=$resultat['disc'];
                 if (fmod($vistes, 250) == 0)        
                 {
-                    $tit="Nova a fita a la review : ".$banda." - ".$disc;
+                    $tit="Nova fita a la review : ".$banda." - ".$disc;
                     $mensaje="La review del disc $banda - $disc ha arribat a $vistes vistes!\n\n Una birra pel redactor!";
                     $cab = 'From: info@satanarise.com';
                     mail('info@satanarise.com', $tit, $mensaje, $cab);

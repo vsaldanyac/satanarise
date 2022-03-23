@@ -294,7 +294,7 @@
                 $titol=$resultat['titol_es'];
                 if (fmod($vistes, 250) == 0)        
                 {
-                    $tit="Nova a fita a l'article d'opinio: ".$titol;
+                    $tit="Nova fita a l'article d'opinio: ".$titol;
                     $mensaje="L'article d'opipnio $titol ha arribat a $vistes vistes!\n\n Una birra pel redactor!";
                     $cab = 'From: info@satanarise.com';
                     mail('info@satanarise.com', $tit, $mensaje, $cab);
