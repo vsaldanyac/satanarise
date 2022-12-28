@@ -606,7 +606,7 @@ Tema 1<br />Tema2<br />Tema 3<br />Tema 4</h5>').'<br />'.htmlspecialchars('</di
 			print'</select>';
 						
 			print 'Año <select name="anydata">';
-			for ($y=2022;$y<=2022;$y++) {
+			for ($y=2023;$y<=2023;$y++) {
 				if ($cronicas->anydata==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 

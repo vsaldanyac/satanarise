@@ -569,7 +569,7 @@
             
             print '<p class="contingut">Año: <br />';			
 			print '<select name="any">';
-			for ($y=2000;$y<=2022;$y++) {
+			for ($y=2000;$y<=2023;$y++) {
 				if ($review->any==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 
@@ -753,7 +753,7 @@
 			print'</select>';
 						
 			print 'Año <select name="anydata">';
-			for ($y=2022;$y<=2022;$y++) {
+			for ($y=2023;$y<=2023;$y++) {
 				if ($review->anydata==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 
