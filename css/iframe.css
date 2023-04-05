@@ -158,9 +158,9 @@ div.notind {
 
 div#socials_2 {
 	position:relative;
-	width:150px;
-	height:25px;
-	text-align:center;
-	margin:0 0 10px 0;
-	overflow:hidden;
+	width:160px;
+	height:33px;
+	text-align:left;
+	margin:0 0 0 -5px;
+	overflow: visible;
 }
