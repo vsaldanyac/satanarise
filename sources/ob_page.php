@@ -1095,12 +1095,12 @@ class banner_700
     {
         $query =
             'select id, img, link, texte, datafi from banners where tipo = 700';
-        $this->resultat_consulta = $bd->query($query);
-        if ($this->resultat_consulta != false) {
-            $this->numero_resultats = $this->resultat_consulta->num_rows;
-            if ($this->numero_resultats > 0) {
-                for ($x = 0; $x < $this->numero_resultats; $x++) {
-                    $resultat = $this->resultat_consulta->fetch_assoc();
+        $resultat_consulta = $bd->query($query);
+        if ($resultat_consulta != false) {
+            $numero_resultats = $resultat_consulta->num_rows;
+            if ($numero_resultats > 0) {
+                for ($x = 0; $x < $numero_resultats; $x++) {
+                    $resultat = $resultat_consulta->fetch_assoc();
                     if ($resultat['datafi'] > date('Ymd')) {
                         $this->banners[$x] = [
                             'ruta' => $resultat['img'],
@@ -1154,12 +1154,12 @@ class banner_100
     {
         $query =
             'select id, img, link, texte, datafi from banners where tipo = 100';
-        $this->resultat_consulta = $bd->query($query);
-        if ($this->resultat_consulta != false) {
-            $this->numero_resultats = $this->resultat_consulta->num_rows;
-            if ($this->numero_resultats > 0) {
-                for ($x = 0; $x < $this->numero_resultats; $x++) {
-                    $resultat = $this->resultat_consulta->fetch_assoc();
+        $resultat_consulta = $bd->query($query);
+        if ($resultat_consulta != false) {
+            $numero_resultats = $resultat_consulta->num_rows;
+            if ($numero_resultats > 0) {
+                for ($x = 0; $x < $numero_resultats; $x++) {
+                    $resultat = $resultat_consulta->fetch_assoc();
                     if ($resultat['datafi'] > date('Ymd')) {
                         $this->banners[$x] = [
                             'ruta' => $resultat['img'],

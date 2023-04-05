@@ -663,11 +663,9 @@
 					print $this->dades->concert1->link;		
 					print '">'.$texte[6].'</a>';
 				 }
-				 print '<!-- AddThis Button BEGIN -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4eb01bb17187f779"></script>
-            <div class="addthis_inline_share_toolbox"></div>
-
-<!-- AddThis Button END -->';
+				 print '<!-- ShareThis BEGIN -->
+				 <div class="sharethis-inline-share-buttons"></div>
+				 <!-- ShareThis END -->';
 			print '</div>';
 				 
 				 
@@ -759,17 +757,9 @@
 							print '">'.$texte[6].'</a><br /><br /><br />';
 				 		}
 				 }
-				 print '<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-<a class="addthis_button_preferred_1"></a>
-<a class="addthis_button_preferred_2"></a>
-<a class="addthis_button_preferred_3"></a>
-<a class="addthis_button_preferred_4"></a>
-<a class="addthis_button_compact"></a>
-<a class="addthis_counter addthis_bubble_style"></a>
-</div>
-
-<!-- AddThis Button END -->';
+				 print '<!-- ShareThis BEGIN -->
+				 <div class="sharethis-inline-share-buttons"></div>
+				 <!-- ShareThis END -->';
 			print '</div>';
 			print '</p>';
 			if (($idioma=='ES') && ($this->dades->texte!=''))
@@ -888,17 +878,9 @@
 								
 				print '">'.$texte[6].'</a>';		
 			}
-			print '<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-<a class="addthis_button_preferred_1"></a>
-<a class="addthis_button_preferred_2"></a>
-<a class="addthis_button_preferred_3"></a>
-<a class="addthis_button_preferred_4"></a>
-<a class="addthis_button_compact"></a>
-<a class="addthis_counter addthis_bubble_style"></a>
-</div>
-
-<!-- AddThis Button END -->';
+			print '<!-- ShareThis BEGIN -->
+			<div class="sharethis-inline-share-buttons"></div>
+			<!-- ShareThis END -->';
 			print '</div>';
 			print '</p>';
 			if (($idioma=='ES') && ($this->dades->texte!=''))
@@ -1138,4 +1120,3 @@
 			return $taula['hora'].':'.$taula['min'];
 		}
 	}
-?>	

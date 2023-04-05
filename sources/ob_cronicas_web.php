@@ -351,18 +351,9 @@
             }
 
             print '<br />'.$this->timestamp_a_data($cronica->timestamp).'</h1>';
-            print ' <!-- AddThis Button BEGIN -->
-            <div class="addthis_toolbox addthis_default_style ">
-            <a class="addthis_button_preferred_1"></a>
-            <a class="addthis_button_preferred_2"></a>
-            <a class="addthis_button_preferred_3"></a>
-            <a class="addthis_button_preferred_4"></a>
-            <a class="addthis_button_compact"></a>
-            <a class="addthis_counter addthis_bubble_style"></a>
-            <span style="margin-left:5px;"><g:plusone size="small"></g:plusone></span>
-            </div>
-            
-            <!-- AddThis Button END -->';
+            print '<!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-share-buttons"></div>
+            <!-- ShareThis END -->';
             print '</div>';
             $this->inserir_sugerencies($bd,$cronica,$idioma);
         } 
@@ -572,4 +563,3 @@
 			return $taula['hora'].':'.$taula['min'];
 		}
 	}
-?>	
