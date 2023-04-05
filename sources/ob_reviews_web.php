@@ -244,20 +244,9 @@
                 print $review->label;
             }
             print '<br />'.$review->any.'<br /><br /><br />';
-            print '<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style ">
-<a class="addthis_button_preferred_1"></a>
-<a class="addthis_button_preferred_2"></a>
-<a class="addthis_button_preferred_3"></a>
-<a class="addthis_button_preferred_4"></a>
-<a class="addthis_button_compact"></a>
-<a class="addthis_counter addthis_bubble_style"></a>
-<span style="margin-left:5px;"><g:plusone size="small"></g:plusone></span>
-
-</div>
-
-
-<!-- AddThis Button END -->
+            print '<!-- ShareThis BEGIN -->
+			<div class="sharethis-inline-share-buttons"></div>
+			<!-- ShareThis END -->
             	
             </p></div>';
             print '<div id="tit"><p>'.$temas.'</p></div><div id="tracklist"><p>'.nl2br(htmlspecialchars($review->tracklist)).'</p></div>';
