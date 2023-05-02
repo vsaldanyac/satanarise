@@ -435,10 +435,10 @@
 					switch ($idioma)
 					{
 						case 'ES':
-							print '<a class="linkk" href="index.php?ln=ES&sec=entrevistas&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
+							print '<a class="linkk" href="index.php?ln=ES&sec=entrevistasn&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
 						break;
 						case 'CAT':
-							print '<a class="linkk" href="index.php?ln=CAT&sec=entrevistes&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
+							print '<a class="linkk" href="index.php?ln=CAT&sec=entrevistesn&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
 						break;
 					}
 					print '<img class="coverent" src="pics/entrevistes_news_pics/'.$logo.'" width="100" alt="'.$banda.'" />';
