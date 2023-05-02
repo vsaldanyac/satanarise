@@ -78,7 +78,7 @@
         print '<div class="data">';
         print ($this->timestamp_a_data($entrevista->timestamp));
         print '</div>';
-        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="Entrevista con '.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
+        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
         switch ($leng)
         {
             case 'ES':
@@ -125,7 +125,7 @@
         print '<div class="data">';
         print ($this->timestamp_a_data($entrevista->timestamp));
         print '</div>';
-        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="Entrevista con '.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
+        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
         
         print '</a></div>';
 			}
@@ -247,10 +247,10 @@
       switch ($idioma)
       {
           case 'ES':
-              print '<div class="titdiscos"> <!-- Titol de discos --><p>Entrevista con ';
+              print '<div class="titdiscos"> <!-- Titol de discos --><p>';
           break;
           case 'CAT':
-              print '<div class="titdiscos"> <!-- Titol de discos --><p>Entrevista amb ';
+              print '<div class="titdiscos"> <!-- Titol de discos --><p>';
           break;
       }
       print  $entrevista->banda.'</p></div>';
@@ -325,12 +325,12 @@
       switch ($idioma)
       {
           case 'ES':
-              print '<p class="firma">Entrevista realizada por ';
+              print '<p class="firma">Realizada por ';
               $link_idioma='ln=ES&sec=contacto';
           break;
           
           case 'CAT';
-              print '<p class="firma">Entrevista realitzada per ';
+              print '<p class="firma">Realitzada per ';
               $link_idioma='ln=CAT&sec=contacte';
           break;
       }
@@ -435,10 +435,10 @@
 					switch ($idioma)
 					{
 						case 'ES':
-							print '<a class="linkk" href="index.php?ln=ES&sec=entrevistas&'.$link.'" title="Entrevista con '.$banda.' ><div class="recomend_item">';
+							print '<a class="linkk" href="index.php?ln=ES&sec=entrevistas&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
 						break;
 						case 'CAT':
-							print '<a class="linkk" href="index.php?ln=CAT&sec=entrevistes&'.$link.'" title="Entrevista con '.$banda.' ><div class="recomend_item">';
+							print '<a class="linkk" href="index.php?ln=CAT&sec=entrevistes&'.$link.'" title="'.$banda.' ><div class="recomend_item">';
 						break;
 					}
 					print '<img class="coverent" src="pics/entrevistes_news_pics/'.$logo.'" width="100" alt="'.$banda.'" />';

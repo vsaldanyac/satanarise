@@ -45,11 +45,11 @@ $basedades->desconectar();
       	print '<div class="titdiscos">'; //<!-- Titol de discos -->
       	if ($page->leng=='ES')
       	{
-      	    print '<p>Entrevistas</p>';
+      	    print '<p>Ruock en Ruoll Tales</p>';
       	}
       	else 
       	{
-      	    print '<p>Entrevistes</p>';
+      	    print '<p>Ruock en Ruoll Tales</p>';
       	}
       	print '</div>';
       	

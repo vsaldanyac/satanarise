@@ -454,7 +454,7 @@ $page->print_heads();
 								$texte = 'Entrevistas';
 								break;
 							case 'entrevistasn':
-								$tit = 'Entrevistas - Satan Arise';
+								$tit = 'Ruock en Ruoll - Satan Arise';
 								$texte = 'Entrevistas';
 								break;
 							case 'opinion':
