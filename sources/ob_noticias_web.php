@@ -32,33 +32,7 @@ class ob_noticias_web
             $noticia->mes = substr($noticia->timestamp, 5, 2);
             switch ($desti) {
                 case 'noticies':
-                    if ($noticia->tipus == 2) {
-                        $query =
-                            'select ruta from newsdata where idNews = ' .
-                            $noticia->id .
-                            ' and tipo = 2';
-                        $resultat2 = $bd->query($query);
-                        if ($resultat2 != false && $resultat2->num_rows == 1) {
-                            $resultat3 = $resultat2->fetch_assoc();
-                            $noticia->video = $resultat3['ruta'];
-                        }
-                    }
-                    $query =
-                        'select ruta from newsdata where idNews = ' .
-                        $noticia->id .
-                        ' and tipo = 1 order by orden asc';
-                    $resultat2 = $bd->query($query);
-                    if ($resultat2 != false) {
-                        for ($y = 0; $y < $resultat2->num_rows; $y++) {
-                            $num = $y + 1;
-                            $var = 'imatge' . $num;
-                            $resultat3 = $resultat2->fetch_assoc();
-                            $noticia->$var = $resultat3['ruta'];
-                            $noticia->control_imatges = 'si';
-                            $noticia->num_imatges = $noticia->num_imatges + 1;
-                        }
-                    }
-                    $this->mostrar_noticia($noticia);
+                    $this->mostrar_noticia_index($noticia, $i);
                     break;
                 case 'index':
                     $this->mostrar_noticia_index($noticia, $i);
