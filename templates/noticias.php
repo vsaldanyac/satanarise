@@ -72,7 +72,8 @@ $basedades->desconectar();
 			print '<p>Noticies</p>';
 		}         
 		print '</div>
-		<div id="contenidor_noticies">';    
+		<div id="contnot">';    
+	
 		
 		$basedades->conectar();
 		if (!$basedades->error_conexio) 
