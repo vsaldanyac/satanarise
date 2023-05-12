@@ -113,7 +113,7 @@ class ob_page
             'Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, progresive, progresivo';
         $this->scripts = [];
         $this->punter = 1;
-        $this->quantitat = 10;
+        $this->quantitat = 36;
         $this->quantitat_concerts_entrada = 20;
         $this->quantitat_concerts_data = 25;
         $this->quantitat_reviews = 20;
