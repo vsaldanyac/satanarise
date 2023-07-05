@@ -125,7 +125,7 @@
             }
             if ($tipus!=5)
             {
-               $query= "select nom, mail, $bio, ruta, $carreg from colaboradors where tipus = $tipus and actiu = $actiu";
+               $query= "select nom, mail, $bio, ruta, $carreg from colaboradors where tipus = $tipus and actiu = $actiu order by nom";
             } else {
                $query= "select nom from colaboradors where actiu = $actiu";
             }		
