@@ -37,7 +37,7 @@ Especialmente a los grupos jóvenes se les da la oportunidad de dar a conocer su
 			
 		</div>        
         <div class="titdiscos">
-        	<p>Staff</p>
+        	<p>Consejo de Redacción - Staff</p>
         </div>
         <div class="contenedorpersonal">
         <?php
@@ -105,7 +105,7 @@ Especialmente a los grupos jóvenes se les da la oportunidad de dar a conocer su
         ?>
 		</div>        
         <div class="titdiscos">
-        	<p>Staff</p>
+        	<p>Consell de Redacció - Staff</p>
         </div>
         <div class="contenedorpersonal">
 	    <?php

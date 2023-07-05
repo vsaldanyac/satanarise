@@ -189,25 +189,25 @@
 				break;
 				case '2':
 					print '<option value="1">Responsable</option>
-					<option value="2" selected="selected">Staff</option>
+					<option value="2" selected="selected">Consejo de Redacción - Staff</option>
 					<option value="3">Redactor</option>
                     <option value="4">Colaborador</option>';
 				break;
                 case '3':
 					print '<option value="1">Responsable</option>
-					<option value="2">Staff</option>
+					<option value="2">Consell de Redacció - Staff</option>
 					<option value="3" selected="selected">Redactor</option>
                     <option value="4">Colaborador</option>';
                 break;
                 case '4':
 					print '<option value="1">Responsable</option>
-					<option value="2">Staff</option>
+					<option value="2">Consejo de Redacción - Staff</option>
 					<option value="3">Redactor</option>
                     <option value="4" selected="selected">Colaborador</option>';
                 break;
                 default:
 					print '<option value="1">Responsable</option>
-					<option value="2">Staff</option>
+					<option value="2">Consell de Redacció - Staff</option>
 					<option value="3">Redactor</option>
                     <option value="4">Colaborador</option>';
                 break;                               
@@ -368,7 +368,7 @@
                                 print 'Responsable';
                             break;
                             case '2':
-                                print 'Staff';
+                                print 'Consejo de Redacción - Staff';
                             break;
                             case '3':
                                 print 'Redactor';
@@ -415,7 +415,7 @@
                                 print 'Responsable';
                             break;
                             case '2':
-                                print 'Staff';
+                                print 'Consell de Redacció - Staff';
                             break;
                             case '3':
                                 print 'Redactor';
@@ -465,7 +465,7 @@
                                 print 'Responsable';
                             break;
                             case '2':
-                                print 'Staff';
+                                print 'Consell de Redacció - Staff';
                             break;
                             case '3':
                                 print 'Redactor';

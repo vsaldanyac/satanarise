@@ -168,7 +168,7 @@ switch ($page->section) {
 		$page->add_css('<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />');
 		$page->add_scripts('<script type="text/javascript" src="css/lightbox.js"></script>');
 		$page->add_scripts('<script type="text/javascript" src="css/jquery-1.7.2.min.js"></script>');
-		$page->description = "Contacte Satan Arise - El nostre Staff, redactors i col·laboradors i la forma de contactar amb l'equip de  Satan Arise.";
+		$page->description = "Contacte Satan Arise - El nostre Staff, redactors i col·laboradors i la forma de contactar amb l'equip de Satan Arise.";
 		$page->words = 'contacto, ' . $page->words;
 		$page->title = 'Contacte Satan Arise';
 		break;
