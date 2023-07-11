@@ -595,7 +595,7 @@ class ob_conciertos_web
 				for ($i = 0; $i < $this->dades->num_bandes; $i++) {
 					$nom = 'banda' . ($i + 1);
 					if ($this->dades->concert1->$nom->video != '') {
-						print '<iframe width="350" height="197" src="http://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 					}
 				}
 				print '</p>';
@@ -681,7 +681,7 @@ class ob_conciertos_web
 									$coincidencia = TRUE;
 							}
 							if (!$coincidencia) {
-								print '<iframe width="350" height="197" src="http://www.youtube.com/embed/' . $this->dades->$nom->$nom2->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+								print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->$nom->$nom2->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 							}
 						}
 					}
@@ -770,7 +770,7 @@ class ob_conciertos_web
 				for ($i = 0; $i < $this->dades->num_bandes; $i++) {
 					$nom = 'banda' . ($i + 1);
 					if ($this->dades->concert1->$nom->video != '') {
-						print '<iframe width="350" height="197" src="http://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 					}
 				}
 				break;

@@ -199,7 +199,7 @@ class ob_noticias_web
         print '<p>' . $noticia->texte . '</p>';
         if ($noticia->tipus == 2) {
             print '<div class="centrar">
-   	         	<iframe width="600" height="338" src="http://www.youtube.com/embed/' .
+   	         	<iframe width="600" height="338" src="https://www.youtube.com/embed/' .
                 $noticia->video .
                 '?rel=0" frameborder="0" allowfullscreen></iframe>
 	            </div><br />';
@@ -288,7 +288,7 @@ class ob_noticias_web
         print '<p>' . $noticia->texte . '</p>';
         if ($noticia->tipus == 2) {
             print '<div class="centrar">
-   	         	<iframe width="600" height="338" src="http://www.youtube.com/embed/' .
+   	         	<iframe width="600" height="338" src="https://www.youtube.com/embed/' .
                 $noticia->video .
                 '?rel=0" frameborder="0" allowfullscreen></iframe>
 	            </div><br />';

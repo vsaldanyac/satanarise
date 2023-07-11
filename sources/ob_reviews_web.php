@@ -176,7 +176,7 @@
             {
                 case '1':
                 /* hi ha video */
-                    print '<div id="video"><iframe width="425" height="350" src="http://www.youtube.com/embed/'.$review->media.'?rel=0" frameborder="0" allowfullscreen></iframe></div>';
+                    print '<div id="video"><iframe width="425" height="350" src="https://www.youtube.com/embed/'.$review->media.'?rel=0" frameborder="0" allowfullscreen></iframe></div>';
                 break;
                 case '2':
                     $tamany=array();
