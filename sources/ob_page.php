@@ -1129,6 +1129,20 @@ class banner_700
             $this->banners[$this->publicar]['ruta'] .
             '" width="700" height="100" alt="' .
             $this->banners[$this->publicar]['title'] .
+            '" /></a><br /><br />';
+
+            $this->publicar++;
+
+            print '<a class="linkk" target="' .
+            $this->banners[$this->publicar]['target'] .
+            '" href="index.php?ln=ES&sec=link&id=' .
+            $this->banners[$this->publicar]['id'] .
+            '" tittle="' .
+            $this->banners[$this->publicar]['title'] .
+            '" ><img src="pics/banner/' .
+            $this->banners[$this->publicar]['ruta'] .
+            '" width="700" height="100" alt="' .
+            $this->banners[$this->publicar]['title'] .
             '" /></a>';
         $this->publicar++;
         if ($this->publicar == $this->total_banners) {
