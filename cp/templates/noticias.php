@@ -30,7 +30,7 @@
 			<?php
 
 			if (isset($_POST['enviat'])) { /* s'ha enviat rl formulari? */
-				if ($noticia_add->recull_parametres($_POST)) /* en principi si, comrobació i recull de dades Si TRUE les tracta en busca d'errors */{
+				if ($noticia_add->recull_parametres($_POST)) /* en principi si, comprobació i recull de dades Si TRUE les tracta en busca d'errors */{
 					if (!$noticia_add->validar_entrada($page)) {
 						print '<p class="terminal">' . $noticia_add->error . '</p>';
 					}
@@ -78,20 +78,18 @@
 				}
 			} else {
 				if (isset($_POST['enviat'])) { /* s'ha enviat el formulari? */
-					if ($noticia_add->recull_parametres($_POST)) /* en principi si, comrobació i recull de dades Si TRUE les tracta en busca d'errors */{
+					if ($noticia_add->recull_parametres($_POST)) /* en principi si, comprobació i recull de dades Si TRUE les tracta en busca d'errors */{
 						if (!$noticia_add->validar_entrada($page)) {
 							print '<p class="terminal">' . $noticia_add->error . '</p>';
-
 						}
 
 					} else {
 						print '<p class="terminal">Error al recollir el formulari de edició</p>';
-
 					}
 
 				} else {
 
-					/* no hi ha una noticia editada enviada pel formulari, tenim la id de la noticia a editar, extracció de la bbdd i crida al formulari per editar-la */
+					/* no hi ha una noticia editada enviada pel formulari, tenim la id de la crónica a editar, extracció de la bbdd i crida al formulari per editar-la */
 					$basedades->conectar();
 					if (!$basedades->error_conexio) {
 						print '<p class="terminal">Conexió OK!</p>';
