@@ -97,6 +97,8 @@ class cp_propers_concerts
 						$ext = '.jpg';
 					if (stristr($_FILES['cartell_generic']['name'], '.gif') != FALSE)
 						$ext = '.gif';
+					if (stristr($_FILES['cartell_generic']['name'], '.jpeg') != FALSE)
+						$ext = '.jpeg';
 					if (stristr($_FILES['cartell_generic']['name'], '.png') != FALSE)
 						$ext = '.png';
 					if ($ext == '') {
