@@ -159,8 +159,10 @@ div.notind {
 div#socials_2 {
 	position:relative;
 	width:160px;
-	height:33px;
-	text-align:left;
-	margin:0 0 0 -5px;
+	height:63px;
+	text-align:center;
+	margin:-15px 0 0 -5px;
 	overflow: visible;
+	color:lightgrey;
+	font-family: "Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
 }

@@ -1,5 +1,6 @@
 <div id="socials_2">
 	<!-- ShareThis BEGIN -->
+	<p>Suscríbete aquí!</p>
 	<div class="sharethis-inline-follow-buttons"></div>
 	<!-- ShareThis END -->
 </div>
