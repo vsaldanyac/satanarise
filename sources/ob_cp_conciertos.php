@@ -676,7 +676,7 @@ class cp_propers_concerts
 				$contingut_camp = $this->dades->$nom->any;
 			}
 
-			for ($y = 2023; $y <= 2024; $y++) {
+			for ($y = 2023; $y <= 2025; $y++) {
 				if ($contingut_camp == $y) {
 					print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 
