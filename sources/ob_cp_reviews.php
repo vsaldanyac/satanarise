@@ -67,11 +67,12 @@
     					} else {
     							$ext='';
     						if (stristr($_FILES['fitxer_logo']['name'],'.jpg')!=FALSE) $ext='.jpg';
+							if (stristr($_FILES['fitxer_logo']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
     						if (stristr($_FILES['fitxer_logo']['name'],'.gif')!=FALSE) $ext='.gif';
     						if (stristr($_FILES['fitxer_logo']['name'],'.png')!=FALSE) $ext='.png';
     						if ($ext=='') 
     						{
-    								$this->error=$this->error.'El archivo no es una imagen .<br />';
+    								$this->error=$this->error.'El archivo no es una imagen válida.<br />';
     							$this->formulari_ok=FALSE;
     						} else {
     							$directori='../pics/logos/'.convertir_cadena_arxiu($review->banda).$time_file.$ext;
@@ -98,6 +99,10 @@
                         if (file_exists('../pics/logos/'.$nom.$time_file.'.jpg')) {
                             $correcte=TRUE;
                             $review->logo=$nom.'.jpg';
+                        }
+						if (file_exists('../pics/logos/'.$nom.$time_file.'.jpeg')) {
+                            $correcte=TRUE;
+                            $review->logo=$nom.'.jpeg';
                         }
                         if (file_exists('../pics/logos/'.$nom.$time_file.'.gif')) {
                             $correcte=TRUE;
@@ -153,6 +158,7 @@
         					} else {
         							$ext='';
         						if (stristr($_FILES['fitxer_portada']['name'],'.jpg')!=FALSE) $ext='.jpg';
+								if (stristr($_FILES['fitxer_portada']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
         						if (stristr($_FILES['fitxer_portada']['name'],'.gif')!=FALSE) $ext='.gif';
         						if (stristr($_FILES['fitxer_portada']['name'],'.png')!=FALSE) $ext='.png';
         						if ($ext=='') 
@@ -184,6 +190,10 @@
                         if (file_exists('../pics/covers/'.$nom.'.jpg')) {
                             $correcte=TRUE;
                             $review->portada=$nom.'.jpg';
+                        }
+						if (file_exists('../pics/covers/'.$nom.'.jpeg')) {
+                            $correcte=TRUE;
+                            $review->portada=$nom.'.jpeg';
                         }
                         if (file_exists('../pics/covers/'.$nom.'.gif')) {
                             $correcte=TRUE;
@@ -243,6 +253,7 @@
         					} else {     					   
         							$ext='';
         						if (stristr($_FILES['fitxer_media']['name'],'.jpg')!=FALSE) $ext='.jpg';
+								if (stristr($_FILES['fitxer_media']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
         						if (stristr($_FILES['fitxer_media']['name'],'.gif')!=FALSE) $ext='.gif';
         						if (stristr($_FILES['fitxer_media']['name'],'.png')!=FALSE) $ext='.png';
         						if ($ext=='') 
@@ -275,6 +286,10 @@
                         if (file_exists('../pics/band/'.$nom.$review->any.'.jpg')) {
                             $correcte=TRUE;
                             $review->media_foto=$nom.'.jpg';
+                        }
+						if (file_exists('../pics/band/'.$nom.$review->any.'.jpeg')) {
+                            $correcte=TRUE;
+                            $review->media_foto=$nom.'.jpeg';
                         }
                         if (file_exists('../pics/band/'.$nom.$review->any.'.gif')) {
                             $correcte=TRUE;
@@ -569,7 +584,7 @@
             
             print '<p class="contingut">Año: <br />';			
 			print '<select name="any">';
-			for ($y=2000;$y<=2023;$y++) {
+			for ($y=2000;$y<=2024;$y++) {
 				if ($review->any==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 
@@ -753,7 +768,7 @@
 			print'</select>';
 						
 			print 'Año <select name="anydata">';
-			for ($y=2023;$y<=2023;$y++) {
+			for ($y=2024;$y<=2024;$y++) {
 				if ($review->anydata==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 

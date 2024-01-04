@@ -67,6 +67,7 @@
        					} else {
         					$ext='';
         					if (stristr($_FILES['fitxer_ruta']['name'],'.jpg')!=FALSE) $ext='.jpg';
+							if (stristr($_FILES['fitxer_ruta']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
         					if (stristr($_FILES['fitxer_ruta']['name'],'.gif')!=FALSE) $ext='.gif';
         					if (stristr($_FILES['fitxer_ruta']['name'],'.png')!=FALSE) $ext='.png';
         					if ($ext=='') 
@@ -265,7 +266,7 @@
 			print'</select>';
 						
 			print 'Año <select name="anydata">';
-			for ($y=2023;$y<=2023;$y++) {
+			for ($y=2024;$y<=2024;$y++) {
 				if ($opinio->anydata==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 
