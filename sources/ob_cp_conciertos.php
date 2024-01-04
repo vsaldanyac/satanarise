@@ -249,40 +249,24 @@ class cp_propers_concerts
 
 	public function introduir_concert($bs, $logica_id, $id)
 	{
-		if (!get_magic_quotes_gpc()) {
-			$this->dades->titol = addslashes($this->dades->titol);
-			$this->dades->texte = addslashes($this->dades->texte);
-			$this->dades->descripcio = addslashes($this->dades->descripcio);
-			$array_bandes = array();
-			for ($i = 1; $i <= $this->num_concerts; $i++) {
-				$nom = 'concert' . $i;
-				$this->dades->$nom->sala = addslashes($this->dades->$nom->sala);
-				$this->dades->$nom->localitat = addslashes($this->dades->$nom->localitat);
-				$this->dades->$nom->link = addslashes($this->dades->$nom->link);
+		$this->dades->titol = addslashes($this->dades->titol);
+		$this->dades->texte = addslashes($this->dades->texte);
+		$this->dades->descripcio = addslashes($this->dades->descripcio);
+		$array_bandes = array();
+		for ($i = 1; $i <= $this->num_concerts; $i++) {
+			$nom = 'concert' . $i;
+			$this->dades->$nom->sala = addslashes($this->dades->$nom->sala);
+			$this->dades->$nom->localitat = addslashes($this->dades->$nom->localitat);
+			$this->dades->$nom->link = addslashes($this->dades->$nom->link);
 
-				for ($y = 1; $y <= $this->num_bandes; $y++) {
-					$nom2 = 'banda' . $y;
-					if ($this->dades->$nom->$nom2->nom != '') {
-						$this->dades->$nom->$nom2->nom = addslashes($this->dades->$nom->$nom2->nom);
-						$array_bandes[] = $this->dades->$nom->$nom2->nom;
-					}
+			for ($y = 1; $y <= $this->num_bandes; $y++) {
+				$nom2 = 'banda' . $y;
+				if ($this->dades->$nom->$nom2->nom != '') {
+					$this->dades->$nom->$nom2->nom = addslashes($this->dades->$nom->$nom2->nom);
+					$array_bandes[] = $this->dades->$nom->$nom2->nom;
 				}
 			}
-			/*for ($i=0;$i<count($array_bandes);$i++)
-			{
-			if (strstr($this->dades->descripcio,$array_bandes[$i])==FALSE)
-			{
-			if ($this->dades->descripcio='') 
-			{
-			$this->dades->descripcio=$array_bandes[$i];
-			} else {
-			$this->dades->descripcio=$this->dades->descripcio.', '.$array_bandes[$i];
-			}
-			}
-			}*/
 		}
-
-
 
 		if ($logica_id) /* Insersio amb ID existent */{
 
@@ -345,7 +329,6 @@ class cp_propers_concerts
 					for ($i = 1; $i <= $this->num_concerts; $i++) {
 						$nom = 'concert' . $i;
 
-						/*$query[]="insert into concertsdata (idGig, idConcert, localitat, sala, preu, preu_ant, dateConcert, dateIn, cartell_concert, patrocinat) values ('".$this->dades->id."', '".$this->dades->id."_".$i."', '".$this->dades->$nom->localitat."', '".$this->dades->$nom->sala."', '".$this->dades->$nom->preu."', '".$this->dades->$nom->preu_ant."', '".$this->dades->$nom->data."', '".$this->dades->dateIn."', '".$this->dades->$nom->cartell_concert."', '".$this->dades->$nom->patrocinat."')";*/
 						$query[] = "insert into concertsdata (idGig, idConcert, link, localitat, sala, preu, preu_ant, dateConcert, dateIn, cartell_concert, patrocinat) values ('" . $this->dades->id . "', '" . $this->dades->id . "_" . $i . "', '" . $this->dades->$nom->link . "', '" . $this->dades->$nom->localitat . "', '" . $this->dades->$nom->sala . "', '" . $this->dades->$nom->preu . "', '" . $this->dades->$nom->preu_ant . "', '" . $this->dades->$nom->data . "', '" . $this->dades->dateIn . "', '" . $this->dades->$nom->cartell_concert . "', '" . $this->dades->$nom->patrocinat . "')";
 
 						for ($y = 1; $y <= $this->num_bandes; $y++) {
@@ -371,7 +354,7 @@ class cp_propers_concerts
 
 					for ($i = 0; $i < count($array_bandes); $i++) {
 						$nom = $this->convertir_cadena_arxiu($array_bandes[$i]);
-						if ((file_exists('pics/logos/' . $nom . '.jpg')) || ((file_exists('pics/logos/' . $nom . '.jpeg')) || (file_exists('pics/logos/' . $nom . '.gif')) || (file_exists('pics/logos/' . $nom . '.png'))) {
+						if ((file_exists('pics/logos/' . $nom . '.jpg')) || (file_exists('pics/logos/' . $nom . '.jpeg')) || (file_exists('pics/logos/' . $nom . '.gif')) || (file_exists('pics/logos/' . $nom . '.png'))) {
 							print '<p class="terminal">El logo de ' . $array_bandes[$i] . ' no está subido al servidor.</p>';
 						} else {
 							print '<p class="terminal">El logo de ' . $array_bandes[$i] . ' está subido al servidor.</p>';
@@ -527,12 +510,12 @@ class cp_propers_concerts
 		print '<p class="contingut">Nombre Concierto / Gira / Festival :<br /><br /><input class="titol_form"  type="text" name="titol" maxlength="256" value="' . $contingut_camp . '" /></p>';
 
 		/*if ($this->formulari_1_ok) {
-		$contingut_camp='';
-		} else {
-		$contingut_camp=$this->dades->cartell;
-		
-		
-		}*/
+					$contingut_camp='';
+					} else {
+					$contingut_camp=$this->dades->cartell;
+					
+					
+					}*/
 		print '<p class="contingut">Cartel del concierto / Festival / Gira (si es gira y hay un cartel por concierto, dejar en blanco) :<br />';
 		/*print '<input class="imgs_form" type="text" name="cartell_generic" maxlength="200" value="'.$contingut_camp.'" /></p>';*/
 		print '<input type="hidden" name="MAX_FILE_SIZE" value="1000000" />';
@@ -742,11 +725,11 @@ class cp_propers_concerts
 				}
 				print ' Nombre <input class="imgs_form" type="text" name="banda_' . $i . '_' . $y . '" maxlength="200" value="' . $contingut_camp . '" />';
 				/*if ($this->formulari_1_ok) {
-				$contingut_camp='';
-				}else {
-				$contingut_camp=$this->dades->$nom->$nom2->foto;
-				}
-				print ' Foto <input class="imgs_form" type="text" name="imatge_'.$i.'_'.$y.'" maxlength="200" value="'.$contingut_camp.'" />';*/
+										$contingut_camp='';
+										}else {
+										$contingut_camp=$this->dades->$nom->$nom2->foto;
+										}
+										print ' Foto <input class="imgs_form" type="text" name="imatge_'.$i.'_'.$y.'" maxlength="200" value="'.$contingut_camp.'" />';*/
 				if ($this->formulari_1_ok) {
 					$contingut_camp = '';
 				} else {
@@ -873,41 +856,41 @@ class cp_propers_concerts
 
 		}
 		/*print '<p class="contingut">';
-		print 'Tipo: '.$this->dades->tipus.'<br />';
-		print 'Título: '.$this->dades->titol.'<br />';
-		print 'Texte: '.$this->dades->texte.'<br />';
-		print 'Cartell: '.$this->dades->cartell.'<br />';
-		print 'DateIn: '.$this->dades->dateIn.'<br />';
-		for ($i=1;$i<=$this->num_concerts;$i++)
-		{
-		$nom='concert'.$i;
-		print '<br />Concert '.$i.'<br /><br />';
-		print 'Cartell concert: '.$this->dades->$nom->cartell_concert.'<br />';
-		print 'Sala: '.$this->dades->$nom->sala.'<br />';
-		print 'Localitat: '.$this->dades->$nom->localitat.'<br />';
-		print 'Preu: '.$this->dades->$nom->preu.'<br />';
-		print 'Preu anticipat: '.$this->dades->$nom->preu_ant.'<br />';
-		print 'Dia: '.$this->dades->$nom->dia.'<br />';
-		print 'Mes: '.$this->dades->$nom->mes.'<br />';
-		print 'Any: '.$this->dades->$nom->any.'<br />';
-		print 'Hora: '.$this->dades->$nom->hora.'<br />';
-		print 'Min: '.$this->dades->$nom->mins.'<br />';
-		print 'Timestamp: '.$this->dades->$nom->data.'<br />';
-		print 'Patrocinat: '.$this->dades->$nom->patrocinat.'<br />';
-		
-		for ($y=1;$y<=$this->num_bandes;$y++)
-		{
-		$nom2='banda'.$y;
-		print '<br />Banda '.$y.'<br /><br />';
-		print 'Banda: '.$this->dades->$nom->$nom2->nom.'<br />';
-		print 'Foto: '.$this->dades->$nom->$nom2->foto.'<br />';
-		print 'Codi video: '.$this->dades->$nom->$nom2->video.'<br />';
-		print 'Ordre: '.$this->dades->$nom->$nom2->ordre.'<br />';
-		
-		}
-		}
-		print '<br /><br />Paraules clau : '.$this->dades->descripcio;
-		print '</p>';*/
+					print 'Tipo: '.$this->dades->tipus.'<br />';
+					print 'Título: '.$this->dades->titol.'<br />';
+					print 'Texte: '.$this->dades->texte.'<br />';
+					print 'Cartell: '.$this->dades->cartell.'<br />';
+					print 'DateIn: '.$this->dades->dateIn.'<br />';
+					for ($i=1;$i<=$this->num_concerts;$i++)
+					{
+					$nom='concert'.$i;
+					print '<br />Concert '.$i.'<br /><br />';
+					print 'Cartell concert: '.$this->dades->$nom->cartell_concert.'<br />';
+					print 'Sala: '.$this->dades->$nom->sala.'<br />';
+					print 'Localitat: '.$this->dades->$nom->localitat.'<br />';
+					print 'Preu: '.$this->dades->$nom->preu.'<br />';
+					print 'Preu anticipat: '.$this->dades->$nom->preu_ant.'<br />';
+					print 'Dia: '.$this->dades->$nom->dia.'<br />';
+					print 'Mes: '.$this->dades->$nom->mes.'<br />';
+					print 'Any: '.$this->dades->$nom->any.'<br />';
+					print 'Hora: '.$this->dades->$nom->hora.'<br />';
+					print 'Min: '.$this->dades->$nom->mins.'<br />';
+					print 'Timestamp: '.$this->dades->$nom->data.'<br />';
+					print 'Patrocinat: '.$this->dades->$nom->patrocinat.'<br />';
+					
+					for ($y=1;$y<=$this->num_bandes;$y++)
+					{
+					$nom2='banda'.$y;
+					print '<br />Banda '.$y.'<br /><br />';
+					print 'Banda: '.$this->dades->$nom->$nom2->nom.'<br />';
+					print 'Foto: '.$this->dades->$nom->$nom2->foto.'<br />';
+					print 'Codi video: '.$this->dades->$nom->$nom2->video.'<br />';
+					print 'Ordre: '.$this->dades->$nom->$nom2->ordre.'<br />';
+					
+					}
+					}
+					print '<br /><br />Paraules clau : '.$this->dades->descripcio;
+					print '</p>';*/
 
 	}
 
@@ -1091,52 +1074,52 @@ class cp_propers_concerts
 
 							print "</div>";
 							/*print '<div class="noticia_curta">';
-							print '<fieldset><legend class="white">Id: '.$this->id.' - Fecha: '.$this->dia.' / '.$this->mes.' / '.$this->any.' Hora: '.$this->hora.':'.$this->mins.'</legend>';
-							print "<form action=\"home_cp.php?sec=noticias&action=edit&tasca=edit&id=$this->id&formulari=TRUE\" method=\"post\">";
-							print "<input type=\"hidden\" name=\"enviat_edit\" value=\"si\" \>\n";
-							print "<input class=\"esq\" type=\"submit"; 
-							print "\" value=\"";					
-							print 'Editar';
-							print "\" /></form>";
-							print "<form action=\"home_cp.php?sec=noticias&action=del&tasca=del&id=$this->id&formulari=TRUE\" method=\"post\">";
-							print "<input type=\"hidden\" name=\"enviat_edit\" value=\"si\" \>\n";
-							print "<input class=\"esq\" type=\"submit"; 
-							print "\" value=\"";
-							print 'Eliminar';
-							print "\" /></form>";
-							
-							switch ($this->tipus) {
-							case '1':
-							$nom='Noticia';
-							break;
-							case '2':
-							$nom='Video';
-							break;
-							}
-							switch ($this->idioma)
-							{
-							case 'ES':
-							print "<p class=\"titol\">Idioma: $this->idioma</p>
-							<p class=\"titol\">Tipo: $nom</p><br/>
-							<p class=\"titol\">Titulo ES: $this->titol_es</p><br />
-							<p class=\"texte\">Texto ES: $this->texte_es</p>\n";
-							break;
-							case 'CAT':
-							print "<p class=\"titol\">Idioma: $this->idioma</p>
-							<p class=\"titol\">Tipo: $nom</p><br />
-							<p class=\"titol\">Titulo CAT: $this->titol_cat</p><br />
-							<p class=\"texte\">Texto CAT: $this->texte_cat</p>\n";
-							break;							
-							case 'BOTH':
-							print "<p class=\"titol\">Idioma: $this->idioma</p>
-							<p class=\"titol\">Tipo: $nom</p><br />
-							<p class=\"titol\">Titulo ES: $this->titol_es</p><br />
-							<p class=\"texte\">Texto ES: $this->texte_es</p><br /><br />\n
-							<p class=\"titol\">Titulo CAT: $this->titol_cat</p><br />
-							<p class=\"texte\">Texto CAT: $this->texte_cat</p>\n";
-							break;				
-							}
-							print "</div>";*/
+																	  print '<fieldset><legend class="white">Id: '.$this->id.' - Fecha: '.$this->dia.' / '.$this->mes.' / '.$this->any.' Hora: '.$this->hora.':'.$this->mins.'</legend>';
+																	  print "<form action=\"home_cp.php?sec=noticias&action=edit&tasca=edit&id=$this->id&formulari=TRUE\" method=\"post\">";
+																	  print "<input type=\"hidden\" name=\"enviat_edit\" value=\"si\" \>\n";
+																	  print "<input class=\"esq\" type=\"submit"; 
+																	  print "\" value=\"";					
+																	  print 'Editar';
+																	  print "\" /></form>";
+																	  print "<form action=\"home_cp.php?sec=noticias&action=del&tasca=del&id=$this->id&formulari=TRUE\" method=\"post\">";
+																	  print "<input type=\"hidden\" name=\"enviat_edit\" value=\"si\" \>\n";
+																	  print "<input class=\"esq\" type=\"submit"; 
+																	  print "\" value=\"";
+																	  print 'Eliminar';
+																	  print "\" /></form>";
+																	  
+																	  switch ($this->tipus) {
+																	  case '1':
+																	  $nom='Noticia';
+																	  break;
+																	  case '2':
+																	  $nom='Video';
+																	  break;
+																	  }
+																	  switch ($this->idioma)
+																	  {
+																	  case 'ES':
+																	  print "<p class=\"titol\">Idioma: $this->idioma</p>
+																	  <p class=\"titol\">Tipo: $nom</p><br/>
+																	  <p class=\"titol\">Titulo ES: $this->titol_es</p><br />
+																	  <p class=\"texte\">Texto ES: $this->texte_es</p>\n";
+																	  break;
+																	  case 'CAT':
+																	  print "<p class=\"titol\">Idioma: $this->idioma</p>
+																	  <p class=\"titol\">Tipo: $nom</p><br />
+																	  <p class=\"titol\">Titulo CAT: $this->titol_cat</p><br />
+																	  <p class=\"texte\">Texto CAT: $this->texte_cat</p>\n";
+																	  break;							
+																	  case 'BOTH':
+																	  print "<p class=\"titol\">Idioma: $this->idioma</p>
+																	  <p class=\"titol\">Tipo: $nom</p><br />
+																	  <p class=\"titol\">Titulo ES: $this->titol_es</p><br />
+																	  <p class=\"texte\">Texto ES: $this->texte_es</p><br /><br />\n
+																	  <p class=\"titol\">Titulo CAT: $this->titol_cat</p><br />
+																	  <p class=\"texte\">Texto CAT: $this->texte_cat</p>\n";
+																	  break;				
+																	  }
+																	  print "</div>";*/
 
 							break;
 					}
