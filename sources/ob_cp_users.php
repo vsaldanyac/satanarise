@@ -70,11 +70,7 @@ class cp_users
 
 	public function inicialitzar_noticia($user) /* Inicialitza l'objecte*/
 	{
-
 		$user->reset_noticia();
-
-
-
 	}
 
 	public function formulari($user)
