@@ -332,10 +332,8 @@ class ob_cp_entrevnews
 		$cont = 1;
 		for ($i = 1; $i <= 3; $i++) {
 			if ($entrevista->imgs[($i - 1)] != '') {
-				if (!get_magic_quotes_gpc()) {
-					$entrevista->imgs[($i - 1)] = addslashes($entrevista->imgs[($i - 1)]);
+				$entrevista->imgs[($i - 1)] = addslashes($entrevista->imgs[($i - 1)]);
 
-				}
 				if ($logica_id) {
 					$contador = $contador + 1;
 					/* es mira si hi ha dades a la bbdd */
@@ -394,9 +392,7 @@ class ob_cp_entrevnews
 		}
 		if ($entrevista->tipus == '1') {
 			/* si hi ha video */
-			if (!get_magic_quotes_gpc()) {
 				$entrevista->ruta_audio = addslashes($entrevista->ruta_audio);
-			}
 			if ($logica_id) {
 				if (($cont != 0) || (isset($data[$i]))) {
 					if (isset($data[$i])) {
