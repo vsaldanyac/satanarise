@@ -64,11 +64,12 @@
     					} else {
     							$ext='';
     						if (stristr($_FILES['pic']['name'],'.jpg')!=FALSE) $ext='.jpg';
+							if (stristr($_FILES['pic']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
     						if (stristr($_FILES['pic']['name'],'.gif')!=FALSE) $ext='.gif';
     						if (stristr($_FILES['pic']['name'],'.png')!=FALSE) $ext='.png';
     						if ($ext=='') 
     						{
-    								$this->error=$this->error.'El archivo no es una imagen .<br />';
+    								$this->error=$this->error.'El archivo no es una imagen válida.<br />';
     							$this->formulari_ok=FALSE;
     						} else {
     							$directori='../pics/favoritos/'.convertir_cadena_arxiu($preferido->pic).$time_file.$ext;
@@ -95,6 +96,10 @@
                         if (file_exists('../pics/favoritos/'.$nom.$time_file.'.jpg')) {
                             $correcte=TRUE;
                             $preferido->pic=$nom.'.jpg';
+                        }
+						if (file_exists('../pics/favoritos/'.$nom.$time_file.'.jpeg')) {
+                            $correcte=TRUE;
+                            $preferido->pic=$nom.'.jpeg';
                         }
                         if (file_exists('../pics/favoritos/'.$nom.$time_file.'.gif')) {
                             $correcte=TRUE;

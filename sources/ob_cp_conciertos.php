@@ -95,6 +95,8 @@ class cp_propers_concerts
 					$ext = '';
 					if (stristr($_FILES['cartell_generic']['name'], '.jpg') != FALSE)
 						$ext = '.jpg';
+					if (stristr($_FILES['cartell_generic']['name'], '.jpeg') != FALSE)
+						$ext = '.jpeg';
 					if (stristr($_FILES['cartell_generic']['name'], '.gif') != FALSE)
 						$ext = '.gif';
 					if (stristr($_FILES['cartell_generic']['name'], '.png') != FALSE)
@@ -369,13 +371,13 @@ class cp_propers_concerts
 
 					for ($i = 0; $i < count($array_bandes); $i++) {
 						$nom = $this->convertir_cadena_arxiu($array_bandes[$i]);
-						if ((file_exists('pics/logos/' . $nom . '.jpg')) || (file_exists('pics/logos/' . $nom . '.gif')) || (file_exists('pics/logos/' . $nom . '.png'))) {
+						if ((file_exists('pics/logos/' . $nom . '.jpg')) || ((file_exists('pics/logos/' . $nom . '.jpeg')) || (file_exists('pics/logos/' . $nom . '.gif')) || (file_exists('pics/logos/' . $nom . '.png'))) {
 							print '<p class="terminal">El logo de ' . $array_bandes[$i] . ' no está subido al servidor.</p>';
 						} else {
 							print '<p class="terminal">El logo de ' . $array_bandes[$i] . ' está subido al servidor.</p>';
 						}
 
-						if ((file_exists('pics/band/' . $nom . '.jpg')) || (file_exists('pics/band/' . $nom . '.gif')) || (file_exists('pics/band/' . $nom . '.png'))) {
+						if ((file_exists('pics/band/' . $nom . '.jpg')) || (file_exists('pics/band/' . $nom . '.jpeg')) || (file_exists('pics/band/' . $nom . '.gif')) || (file_exists('pics/band/' . $nom . '.png'))) {
 							print '<p class="terminal">La imagen de ' . $array_bandes[$i] . ' no está subida al servidor.</p>';
 						} else {
 							print '<p class="terminal">La imagen de ' . $array_bandes[$i] . ' está subida al servidor.</p>';
@@ -671,12 +673,12 @@ class cp_propers_concerts
 
 			print 'Año <select name="any_' . $i . '">';
 			if ($this->formulari_1_ok) {
-				$contingut_camp = 2023;
+				$contingut_camp = 2024;
 			} else {
 				$contingut_camp = $this->dades->$nom->any;
 			}
 
-			for ($y = 2023; $y <= 2025; $y++) {
+			for ($y = 2024; $y <= 2025; $y++) {
 				if ($contingut_camp == $y) {
 					print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 

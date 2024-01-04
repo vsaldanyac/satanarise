@@ -93,6 +93,7 @@
 					} else {
 						$ext='';
 						if (stristr($_FILES[$arxius[$i]]['name'],'.jpg')!=FALSE) $ext='.jpg';
+						if (stristr($_FILES[$arxius[$i]]['name'],'.jpeg')!=FALSE) $ext='.jpeg';
 						if (stristr($_FILES[$arxius[$i]]['name'],'.gif')!=FALSE) $ext='.gif';
 						if (stristr($_FILES[$arxius[$i]]['name'],'.png')!=FALSE) $ext='.png';
 						if ($ext=='') 
@@ -119,91 +120,6 @@
 					}
 					
 				}
-				/* recollir imatges */
-				
-				/*for ($i=1;$i<(6-$this->contador_arxius_pujats);$i++)
-				{
-					if (isset($_FILES[$arxius[$i-1]]))
-					{
-						if ($_FILES[$arxius[$i-1]]['error'] > 0 )
-						
-						{
-							switch ($_FILES[$arxius[$i-1]]['error'])
-							{
-								case 1:
-									$this->error=$this->error.'El archivo '.$i.' excede del tamaño máximo.<br />';
-									$this->formulari_ok=FALSE;
-								break;
-								case 2:
-									$this->error=$this->error.'El archivo '.$i.' excede del tamaño máximo.<br />';
-									$this->formulari_ok=FALSE;
-								break;
-								case 4:
-								break;
-								default:
-									$this->error=$this->error.'Error al subir el archivo '.$i.'.<br />';
-									$this->formulari_ok=FALSE;
-								break;
-							}
-							
-						} else {
-							$ext='';
-							if (stristr($_FILES[$arxius[$i-1]]['name'],'.jpg')!=FALSE) $ext='.jpg';
-							if (stristr($_FILES[$arxius[$i-1]]['name'],'.gif')!=FALSE) $ext='.gif';
-							if (stristr($_FILES[$arxius[$i-1]]['name'],'.png')!=FALSE) $ext='.png';
-							if ($ext=='') 
-							{
-								$this->error=$this->error.'El archivo no es una imagen '.$i.'.<br />';
-								$this->formulari_ok=FALSE;
-							} else {
-								$directori='../pics/news/'.$noticia->timestamp.'_'.($i+$this->contador_arxius_pujats).$ext;
-								if (is_uploaded_file($_FILES[$arxius[$i-1]]['tmp_name']))
-								{
-									if (!move_uploaded_file($_FILES[$arxius[$i-1]]['tmp_name'],$directori))
-									{
-										$this->error=$this->error.'Error al subir la imagen '.$i.' a su carpeta.<br />';	
-										$this->formulari_ok=FALSE;
-									} else {
-										$noticia->imgs[]=$noticia->timestamp.'_'.($i+$this->contador_arxius_pujats).$ext;
-										
-									}
-								} else {
-									$this->error=$this->error.'Error al subir la imagen '.$i.'.<br />';
-									$this->formulari_ok=FALSE;
-								}
-							}
-						}
-					}
-				}*/
-                
-				
-				/*$this->dia=$_POST['dia'];
-				$this->mes=$_POST['mes'];
-				$this->any=$_POST['any'];
-				$this->hora=$_POST['hora'];
-				$this->mins=$_POST['mins']; */
-				/* Impresió pe rmonitoritzar */
-				/*print '<p class="contingut">';
-				print 'Titol ES: '.$this->titol_es.'<br />';
-				print 'Texte ES: '.$this->texte_es.'<br />';
-				print 'Titol CAT: '.$this->titol_cat.'<br />';
-				print 'Texte CAT: '.$this->texte_cat.'<br />';
-				print 'Idioma: '.$this->idioma.'<br />';
-				print 'Tipus: '.$this->tipus.'<br />';
-				print 'Video: '.$this->video.'<br />';
-				print 'Control Imatges: '.$this->control_imatges.'<br />';
-				print 'Imatge 1 : '.$this->imatge1.'<br />';
-				print 'Imatge 2 : '.$this->imatge2.'<br />';
-				print 'Imatge 3 : '.$this->imatge3.'<br />';
-				print 'Imatge 4 : '.$this->imatge4.'<br />';
-				print 'Imatge 5 : '.$this->imatge5.'<br />';
-				print 'Imatge 6 : '.$this->imatge6.'<br />';
-				print 'Imatge 7 : '.$this->imatge7.'<br />';
-				print 'Imatge 8 : '.$this->imatge8.'<br />';
-				print 'Imatge 9 : '.$this->imatge9.'<br />';
-				print 'Imatge 10 : '.$this->imatge10.'<br />';
-				print 'Descripcio : '.$this->descripcio;
-				print '</p>';*/
 			}
 			return($this->formulari_ok);
 		}

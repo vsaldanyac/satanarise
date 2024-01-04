@@ -93,11 +93,12 @@
 					} else {
 							$ext='';
 						if (stristr($_FILES['foto']['name'],'.jpg')!=FALSE) $ext='.jpg';
+						if (stristr($_FILES['foto']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
 						if (stristr($_FILES['foto']['name'],'.gif')!=FALSE) $ext='.gif';
 						if (stristr($_FILES['foto']['name'],'.png')!=FALSE) $ext='.png';
 						if ($ext=='') 
 						{
-								$this->error=$this->error.'El archivo no es una imagen .<br />';
+								$this->error=$this->error.'El archivo no es una imagen de formato válido.<br />';
 							$this->formulari_ok=FALSE;
 						} else {
 							$directori='../pics/staff/'.$_FILES['foto']['name'];

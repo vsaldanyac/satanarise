@@ -120,6 +120,7 @@
     					} else {
     							$ext='';
     						if (stristr($_FILES['fitxer_cartell']['name'],'.jpg')!=FALSE) $ext='.jpg';
+							if (stristr($_FILES['fitxer_cartell']['name'],'.jpeg')!=FALSE) $ext='.jpeg';
     						if (stristr($_FILES['fitxer_cartell']['name'],'.gif')!=FALSE) $ext='.gif';
     						if (stristr($_FILES['fitxer_cartell']['name'],'.png')!=FALSE) $ext='.png';
     						if ($ext=='') 
@@ -214,6 +215,7 @@
                     	} else {
                     		$ext='';
                     		if (stristr($_FILES[$arxius[($i-1)]]['name'],'.jpg')!=FALSE) $ext='.jpg';
+							if (stristr($_FILES[$arxius[($i-1)]]['name'],'.jpeg')!=FALSE) $ext='.jpeg';
                     		if (stristr($_FILES[$arxius[($i-1)]]['name'],'.gif')!=FALSE) $ext='.gif';
                     		if (stristr($_FILES[$arxius[($i-1)]]['name'],'.png')!=FALSE) $ext='.png';
                     		if ($ext=='') 
@@ -606,7 +608,7 @@ Tema 1<br />Tema2<br />Tema 3<br />Tema 4</h5>').'<br />'.htmlspecialchars('</di
 			print'</select>';
 						
 			print 'Año <select name="anydata">';
-			for ($y=2023;$y<=2023;$y++) {
+			for ($y=2024;$y<=2024;$y++) {
 				if ($cronicas->anydata==$y) {
 					print '<option selected="selected" value="'.$y.'">'.$y.'</option>';
 
