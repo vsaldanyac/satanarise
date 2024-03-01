@@ -63,6 +63,8 @@ class ob_cp_preferidos
 						$ext = '';
 						if (stristr($_FILES['pic']['name'], '.jpg') != FALSE)
 							$ext = '.jpg';
+						if (stristr($_FILES['pic']['name'], '.webp') != FALSE)
+							$ext = '.webp';
 						if (stristr($_FILES['pic']['name'], '.jpeg') != FALSE)
 							$ext = '.jpeg';
 						if (stristr($_FILES['pic']['name'], '.gif') != FALSE)
@@ -99,6 +101,10 @@ class ob_cp_preferidos
 					if (file_exists('../pics/favoritos/' . $nom . $time_file . '.jpeg')) {
 						$correcte = TRUE;
 						$preferido->pic = $nom . '.jpeg';
+					}
+					if (file_exists('../pics/favoritos/' . $nom . $time_file . '.webp')) {
+						$correcte = TRUE;
+						$preferido->pic = $nom . '.webp';
 					}
 					if (file_exists('../pics/favoritos/' . $nom . $time_file . '.gif')) {
 						$correcte = TRUE;

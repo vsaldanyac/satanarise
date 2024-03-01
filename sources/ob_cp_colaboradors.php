@@ -87,6 +87,8 @@ class cp_colaboradors
 					$ext = '';
 					if (stristr($_FILES['foto']['name'], '.jpg') != FALSE)
 						$ext = '.jpg';
+					if (stristr($_FILES['foto']['name'], '.webp') != FALSE)
+						$ext = '.webp';
 					if (stristr($_FILES['foto']['name'], '.jpeg') != FALSE)
 						$ext = '.jpeg';
 					if (stristr($_FILES['foto']['name'], '.gif') != FALSE)

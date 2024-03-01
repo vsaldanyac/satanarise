@@ -90,6 +90,8 @@ class cp_noticia
 
 				} else {
 					$ext = '';
+					if (stristr($_FILES[$arxius[$i]]['name'], '.webp') != FALSE)
+						$ext = '.webp';
 					if (stristr($_FILES[$arxius[$i]]['name'], '.jpg') != FALSE)
 						$ext = '.jpg';
 					if (stristr($_FILES[$arxius[$i]]['name'], '.jpeg') != FALSE)

@@ -114,6 +114,8 @@ class ob_cp_cronicas
 						$ext = '';
 						if (stristr($_FILES['fitxer_cartell']['name'], '.jpg') != FALSE)
 							$ext = '.jpg';
+						if (stristr($_FILES['fitxer_cartell']['name'], '.webp') != FALSE)
+							$ext = '.webp';
 						if (stristr($_FILES['fitxer_cartell']['name'], '.jpeg') != FALSE)
 							$ext = '.jpeg';
 						if (stristr($_FILES['fitxer_cartell']['name'], '.gif') != FALSE)

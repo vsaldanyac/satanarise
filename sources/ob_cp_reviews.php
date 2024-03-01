@@ -65,6 +65,8 @@ class ob_cp_reviews
 						$ext = '';
 						if (stristr($_FILES['fitxer_logo']['name'], '.jpg') != FALSE)
 							$ext = '.jpg';
+						if (stristr($_FILES['fitxer_logo']['name'], '.webp') != FALSE)
+							$ext = '.webp';
 						if (stristr($_FILES['fitxer_logo']['name'], '.jpeg') != FALSE)
 							$ext = '.jpeg';
 						if (stristr($_FILES['fitxer_logo']['name'], '.gif') != FALSE)
@@ -97,6 +99,10 @@ class ob_cp_reviews
 					if (file_exists('../pics/logos/' . $nom . $time_file . '.jpg')) {
 						$correcte = TRUE;
 						$review->logo = $nom . '.jpg';
+					}
+					if (file_exists('../pics/logos/' . $nom . $time_file . '.webp')) {
+						$correcte = TRUE;
+						$review->logo = $nom . '.webp';
 					}
 					if (file_exists('../pics/logos/' . $nom . $time_file . '.jpeg')) {
 						$correcte = TRUE;
@@ -153,6 +159,8 @@ class ob_cp_reviews
 							$ext = '';
 							if (stristr($_FILES['fitxer_portada']['name'], '.jpg') != FALSE)
 								$ext = '.jpg';
+							if (stristr($_FILES['fitxer_portada']['name'], '.webp') != FALSE)
+								$ext = '.webp';
 							if (stristr($_FILES['fitxer_portada']['name'], '.jpeg') != FALSE)
 								$ext = '.jpeg';
 							if (stristr($_FILES['fitxer_portada']['name'], '.gif') != FALSE)
@@ -185,6 +193,10 @@ class ob_cp_reviews
 					if (file_exists('../pics/covers/' . $nom . '.jpg')) {
 						$correcte = TRUE;
 						$review->portada = $nom . '.jpg';
+					}
+					if (file_exists('../pics/covers/' . $nom . '.webp')) {
+						$correcte = TRUE;
+						$review->portada = $nom . '.webp';
 					}
 					if (file_exists('../pics/covers/' . $nom . '.jpeg')) {
 						$correcte = TRUE;
@@ -245,6 +257,8 @@ class ob_cp_reviews
 							$ext = '';
 							if (stristr($_FILES['fitxer_media']['name'], '.jpg') != FALSE)
 								$ext = '.jpg';
+							if (stristr($_FILES['fitxer_media']['name'], '.webp') != FALSE)
+								$ext = '.webp';
 							if (stristr($_FILES['fitxer_media']['name'], '.jpeg') != FALSE)
 								$ext = '.jpeg';
 							if (stristr($_FILES['fitxer_media']['name'], '.gif') != FALSE)
