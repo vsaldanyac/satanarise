@@ -1,2 +1,2 @@
 <!--<a href="http://www.facebook.com/satanarisemetal" target="_new" title="Satan Arise Facebook"><img src="../pics/banner/ban_face.jpg" width="170" height="90" alt="SatanArise en Facebook"/></a>-->
-<a href="https://www.reviewbox.es/" target="_blank"><img src="https://badges.kaufberater.io/badge/reviewbox/site?type=png&amp;year=2022&amp;lang=es"  height="90"></a>
+<a href="http://www.facebook.com/satanarisemetal" target="_new" title="Satan Arise Facebook"><img src="../pics/banner/ban_face.jpg" width="170" height="90" alt="SatanArise en Facebook"/></a>
