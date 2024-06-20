@@ -320,6 +320,11 @@
       print '<!-- ShareThis BEGIN -->
       <div class="sharethis-inline-share-buttons"></div>
       <!-- ShareThis END -->';
+      print '
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-reaction-buttons"></div>
+            <!-- ShareThis END -->
+            ';
       
       
       switch ($idioma)

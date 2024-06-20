@@ -312,10 +312,13 @@ class ob_noticias_web
             print '</div>';
         }
         ?>
-<!-- ShareThis BEGIN -->
-<div class="sharethis-inline-share-buttons"></div>
-<!-- ShareThis END -->
-<?php print '</div>';
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-reaction-buttons"></div>
+            <!-- ShareThis END -->
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-share-buttons"></div>
+            <!-- ShareThis END -->
+            <?php print '</div>';
     }
 
     public function mostrar_noticia_index($noticia, $control_tags)
