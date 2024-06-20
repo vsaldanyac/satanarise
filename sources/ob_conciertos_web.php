@@ -580,6 +580,11 @@ class ob_conciertos_web
 					print $this->dades->concert1->link;
 					print '">' . $texte[6] . '</a>';
 				}
+				print '
+				<!-- ShareThis BEGIN -->
+				<div class="sharethis-inline-reaction-buttons"></div>
+				<!-- ShareThis END -->
+				';
 				print '<!-- ShareThis BEGIN -->
 				 <div class="sharethis-inline-share-buttons"></div>
 				 <!-- ShareThis END -->';
@@ -657,6 +662,11 @@ class ob_conciertos_web
 						print '">' . $texte[6] . '</a><br /><br /><br />';
 					}
 				}
+				print '
+				<!-- ShareThis BEGIN -->
+				<div class="sharethis-inline-reaction-buttons"></div>
+				<!-- ShareThis END -->
+				';
 				print '<!-- ShareThis BEGIN -->
 				 <div class="sharethis-inline-share-buttons"></div>
 				 <!-- ShareThis END -->';
@@ -756,9 +766,14 @@ class ob_conciertos_web
 
 					print '">' . $texte[6] . '</a>';
 				}
+				print '
+				<!-- ShareThis BEGIN -->
+				<div class="sharethis-inline-reaction-buttons"></div>
+				<!-- ShareThis END -->
+				';
 				print '<!-- ShareThis BEGIN -->
-			<div class="sharethis-inline-share-buttons"></div>
-			<!-- ShareThis END -->';
+				<div class="sharethis-inline-share-buttons"></div>
+				<!-- ShareThis END -->';
 				print '</div>';
 				print '</p>';
 				if (($idioma == 'ES') && ($this->dades->texte != '')) {

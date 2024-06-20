@@ -283,7 +283,7 @@
             
             print '<div class="titdiscos"> <!-- Titol de discos --><p>'.$cronica->titol.'</p></div>';
             print '<div id="critica">';
-	
+            
         	print '<div class="centrar"><img src="pics/cronicas_pics/'.$cronica->cartell.'" width="250" align="middle" alt = "'.$cronica->titol.'"/></div>';
             print $this->preparar_texte($texte,$tags);
             
@@ -351,6 +351,11 @@
             }
 
             print '<br />'.$this->timestamp_a_data($cronica->timestamp).'</h1>';
+            print '
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-reaction-buttons"></div>
+            <!-- ShareThis END -->
+            ';
             print '<!-- ShareThis BEGIN -->
             <div class="sharethis-inline-share-buttons"></div>
             <!-- ShareThis END -->';

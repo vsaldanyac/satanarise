@@ -172,7 +172,11 @@
             
             
             print '<h3 class="texte_opinio">'.$this->preparar_texte($opinio->texte,$tags).'</p>';
-
+			print '
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-reaction-buttons"></div>
+            <!-- ShareThis END -->
+            ';
             print '<!-- ShareThis BEGIN -->
 			<div class="sharethis-inline-share-buttons"></div>
 			<!-- ShareThis END -->';

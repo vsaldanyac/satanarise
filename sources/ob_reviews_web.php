@@ -252,7 +252,12 @@
             print '<div id="tit"><p>'.$temas.'</p></div><div id="tracklist"><p>'.nl2br(htmlspecialchars($review->tracklist)).'</p></div>';
             print '<div id="tit"><p>'.$formacio_tit.'</p></div><div id="lineup"><p>'.nl2br($formacio).'</p></div>';
             print '<div class="titdiscos"><p>Crítica</p></div><div id="critica"><p>'.$texte.'</p><h1><a class="linkk" href="index.php?'.$link_idioma.'#'.convertir_cadena_arxiu($review->colaborador).'" target="_blank">'.$review->colaborador.'</a><br />'.$this->timestamp_a_data($review->timestamp).'</h1></div>';
-            $this->inserir_sugerencies($bd,$review,$idioma);
+            print '
+            <!-- ShareThis BEGIN -->
+            <div class="sharethis-inline-reaction-buttons"></div>
+            <!-- ShareThis END -->
+            ';
+			$this->inserir_sugerencies($bd,$review,$idioma);
 		}
 		
 		public function inserir_sugerencies($bd,$review,$idioma) 
