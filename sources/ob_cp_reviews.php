@@ -750,7 +750,7 @@ class ob_cp_reviews
 		print '</select>';
 
 		print 'Año <select name="anydata">';
-		for ($y = 2024; $y <= 2025; $y++) {
+		for ($y = 2025; $y <= 2025; $y++) {
 			if ($review->anydata == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 

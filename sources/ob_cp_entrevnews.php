@@ -615,7 +615,7 @@ class ob_cp_entrevnews
 		print '</select>';
 
 		print 'Año <select name="anydata">';
-		for ($y = 2024; $y <= 2024; $y++) {
+		for ($y = 2025; $y <= 2025; $y++) {
 			if ($entrevista->anydata == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 
