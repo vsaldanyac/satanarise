@@ -361,8 +361,8 @@
 					$texte = 'Entrevistas';
 				break;
         case 'opinion':
-					$tit = 'Opinión - Satan Arise';
-					$texte = 'Opinión';
+					$tit = 'Metal Report - Satan Arise';
+					$texte = 'Metal Report';
 				break;
 				case 'contacto':
 					$tit = 'Contacto - Satan Arise';
