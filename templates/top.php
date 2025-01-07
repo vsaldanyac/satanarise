@@ -507,8 +507,8 @@ $page->print_heads();
 								$texte = 'Entrevistes';
 								break;
 							case 'opinio':
-								$tit = 'Opinió - Satan Arise';
-								$texte = 'Opinió';
+								$tit = 'Metal Report - Satan Arise';
+								$texte = 'Metal Report';
 								break;
 
 							case 'contacte':
@@ -590,7 +590,7 @@ $page->print_heads();
 							$tit = 'Contacte - Satan Arise';
 							break;
 						case 'opinion':
-							$tit = 'Opinio - Satan Arise';
+							$tit = 'Metal Report - Satan Arise';
 							break;
 						case 'carteslector':
 							$tit = 'Cartas Del Lector - Satan Arise';

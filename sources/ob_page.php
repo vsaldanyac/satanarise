@@ -672,11 +672,11 @@ class ob_page
 				$bd->desconectar();
 			} else {
 				if ($this->leng == 'ES') {
-					$this->opinio_descripcio = 'Últimos artículos';
-					$this->opinio_titol = 'Articulos de opinión';
+					$this->opinio_descripcio = 'Últimos reports';
+					$this->opinio_titol = 'Metal Report';
 				} else {
-					$this->opinio_descripcio = 'Darrers articles';
-					$this->opinio_titol = "Articles d'opinio";
+					$this->opinio_descripcio = 'Darrers reports';
+					$this->opinio_titol = "Metal Report";
 				}
 			}
 		}
