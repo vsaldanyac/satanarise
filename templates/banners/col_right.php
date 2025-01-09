@@ -20,6 +20,8 @@
     
 <?php
     }
+    $banner100->visualitzar();
+
     print '<a class="men" href="index.php?ln=ES&sec=entrevistasn"><img  src="pics/containers/tit_entr_news.jpg" width="100"/></a>'; 
     $entrevistes_web = new ob_entrevnews_web;
     $basedades->conectar();
@@ -44,7 +46,4 @@
         }
      }
 				$basedades->desconectar();  
-                
-                print '<br /><br /><br />';
-    $banner100->visualitzar();
 ?>
