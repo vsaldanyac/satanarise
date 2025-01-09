@@ -441,7 +441,7 @@
 					$tit = 'Contacto - Satan Arise';
 				break;
                 case 'opinio':
-					$tit = 'Opinion - Satan Arise';
+					$tit = 'Metal Report - Satan Arise';
 				break;
 				case 'inicio':
 					$tit = 'Metal, crítiques, concerts, cròniques i entrevistes - Satan Arise';

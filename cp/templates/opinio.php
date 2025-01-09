@@ -11,7 +11,7 @@
 
 		case 'main':
 ?>
-			<p class="titol_parcial">Articles actuales</p>
+			<p class="titol_parcial">Metal Reports</p>
          
 <?php			
 			$basedades->conectar();

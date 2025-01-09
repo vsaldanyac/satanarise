@@ -43,12 +43,9 @@ $basedades->desconectar();
 		{
 			case 'main':
                 print '<div class="titdiscos">'; //<!-- Titol de discos -->
-                if ($page->leng=='ES')
-                {
-                    print '<p>Articulos de opinion</p>';
-                } else {
-                    print "<p>Articles d'opinio</p>";
-                }
+                
+                print '<p>Metal Report</p>';
+                
                 print '</div>';
                 
                 $basedades->conectar();

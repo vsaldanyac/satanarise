@@ -51,7 +51,7 @@
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
 			$page->description = '';
 			$page->words = ''.$page->words;
-			$page->title = 'Opinion - Panel de Control de Satan Arise';
+			$page->title = 'Metal Report - Panel de Control de Satan Arise';
 		break;
         case ('carta'):
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
@@ -128,8 +128,8 @@
 					$texte = 'Crónicas';
 				break;
 				case 'opinion':
-					$tit = 'Opinion - Satan Arise';
-					$texte = 'Opinion';
+					$tit = 'Metal Report - Satan Arise';
+					$texte = 'Metal Report';
 				break;
                 case 'carta':
 					$tit = 'Cartas Del Lector - Satan Arise';

@@ -458,8 +458,8 @@ $page->print_heads();
 								$texte = 'Entrevistas';
 								break;
 							case 'opinion':
-								$tit = 'Opinión - Satan Arise';
-								$texte = 'Opinión';
+								$tit = 'Metal Report - Satan Arise';
+								$texte = 'Metal Report';
 								break;
 
 							case 'contacto':
@@ -507,8 +507,8 @@ $page->print_heads();
 								$texte = 'Entrevistes';
 								break;
 							case 'opinio':
-								$tit = 'Opinió - Satan Arise';
-								$texte = 'Opinió';
+								$tit = 'Metal Report - Satan Arise';
+								$texte = 'Metal Report';
 								break;
 
 							case 'contacte':
@@ -560,7 +560,7 @@ $page->print_heads();
 							$tit = 'Contacto - Satan Arise';
 							break;
 						case 'opinio':
-							$tit = 'Opinión - Satan Arise';
+							$tit = 'Metal Report - Satan Arise';
 							break;
 						case 'cartaslector':
 							$tit = 'Cartes Del Lector - Satan Arise';
@@ -590,7 +590,7 @@ $page->print_heads();
 							$tit = 'Contacte - Satan Arise';
 							break;
 						case 'opinion':
-							$tit = 'Opinio - Satan Arise';
+							$tit = 'Metal Report - Satan Arise';
 							break;
 						case 'carteslector':
 							$tit = 'Cartas Del Lector - Satan Arise';
