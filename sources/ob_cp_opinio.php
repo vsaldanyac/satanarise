@@ -66,8 +66,8 @@ class ob_cp_opinio
 						if (stristr($_FILES['fitxer_ruta']['name'], '.jpg') != FALSE)
 							$ext = '.jpg';
 						if (stristr($_FILES['fitxer_ruta']['name'], '.webp') != FALSE)
-							$ext = '.jpg';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.webp') != FALSE)
+							$ext = '.webp';
+						if (stristr($_FILES['fitxer_ruta']['name'], '.jpeg') != FALSE)
 							$ext = '.jpeg';
 						if (stristr($_FILES['fitxer_ruta']['name'], '.gif') != FALSE)
 							$ext = '.gif';
