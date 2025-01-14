@@ -244,12 +244,12 @@
       }
       $entrevista->texte=str_replace('[audio]',$link_audio,$entrevista->texte);
       /* generar links_imgs */
-      for ($y=0;$y<3;$y++)
+      for ($y=0;$y<5;$y++)
       {
           $link_img[$y]='';
           if ($entrevista->imgs[$y]!='')
           {
-              if (($y==0) || ($y==2))
+              if (($y==0) || ($y==2)  || ($y==4))
               {
                   $link_img[$y]='<a href="pics/entrevistes_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title="'.$entrevista->banda.'"><img class="esq" src = "pics/entrevistes_pics/'.$entrevista->imgs[$y].'" width="400" alt="'.$entrevista->banda.'" /></a>';
               } else {
@@ -260,10 +260,12 @@
       $entrevista->texte=str_replace('[img1]',$link_img[0],$entrevista->texte);
       $entrevista->texte=str_replace('[img2]',$link_img[1],$entrevista->texte);
       $entrevista->texte=str_replace('[img3]',$link_img[2],$entrevista->texte);
+      $entrevista->texte=str_replace('[img4]',$link_img[3],$entrevista->texte);
+      $entrevista->texte=str_replace('[img5]',$link_img[4],$entrevista->texte);
       
       /* img centrades */
       
-      for ($y=0;$y<3;$y++)
+      for ($y=0;$y<5;$y++)
       {
           $link_img[$y]='';
           if ($entrevista->imgs[$y]!='')
@@ -274,6 +276,8 @@
       $entrevista->texte=str_replace('[imgcentrada1]',$link_img[0],$entrevista->texte);
       $entrevista->texte=str_replace('[imgcentrada2]',$link_img[1],$entrevista->texte);
       $entrevista->texte=str_replace('[imgcentrada3]',$link_img[2],$entrevista->texte);
+      $entrevista->texte=str_replace('[imgcentrada4]',$link_img[4],$entrevista->texte);
+      $entrevista->texte=str_replace('[imgcentrada5]',$link_img[5],$entrevista->texte);
       
       print $this->preparar_texte($entrevista->texte,$tags);
 
