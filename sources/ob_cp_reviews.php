@@ -43,7 +43,7 @@ class ob_cp_reviews
 				/* recollir imatge de la banda */
 				if (isset($_FILES['fitxer_logo'])) {
 					if ($_FILES['fitxer_logo']['error'] > 0)
-					/* Comprovacio erros al pujar */{
+					/* Comprovacio erros al pujar */ {
 						switch ($_FILES['fitxer_logo']['error']) {
 							case 1:
 								$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -137,7 +137,7 @@ class ob_cp_reviews
 				} else {
 					if (isset($_FILES['fitxer_portada'])) {
 						if ($_FILES['fitxer_portada']['error'] > 0)
-						/* Comprovacio erros al pujar */{
+						/* Comprovacio erros al pujar */ {
 							switch ($_FILES['fitxer_portada']['error']) {
 								case 1:
 									$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -235,7 +235,7 @@ class ob_cp_reviews
 				} else {
 					if (isset($_FILES['fitxer_media'])) {
 						if ($_FILES['fitxer_media']['error'] > 0)
-						/* Comprovacio erros al pujar */{
+						/* Comprovacio erros al pujar */ {
 							switch ($_FILES['fitxer_media']['error']) {
 								case 1:
 									$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -359,6 +359,15 @@ class ob_cp_reviews
 				$review->dia = '0' . $review->dia;
 			$review->timestamp = $review->anydata . $review->mes . $review->dia . $hora . $minut . '00';
 
+
+			/* Data mínima de visualització */
+			$review->release_any = $formulari['release_any'];
+			$review->release_mes = $formulari['release_mes'];
+			if (($review->release_mes) < 10)
+				$review->release_mes = '0' . $review->release_mes;
+			$review->dia = $formulari['release_dia'];
+			if (($review->release_dia) < 10)
+				$review->release_dia = '0' . $review->release_dia;
 
 
 
@@ -730,9 +739,14 @@ class ob_cp_reviews
 		print '<p class="contingut">Fecha: <br /><br />';
 
 		print 'Día <select name="dia">';
+		$day = date('d');
+		$month = date('n');
 		for ($y = 1; $y <= 31; $y++) {
 			if ($review->dia == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			}
+			else if ($review->dia == 0 && $y == $day) {
+				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
@@ -743,6 +757,8 @@ class ob_cp_reviews
 		for ($y = 1; $y <= 12; $y++) {
 			if ($review->mes == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->mes == 0 && $y == $month) {
+				print '<option selected="selected" value="' . $month . '">' . $month . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
@@ -761,7 +777,45 @@ class ob_cp_reviews
 		print '</select>';
 		print '</p>';
 
+		print '<p class="contingut">Fecha visibilidad: <br /><br />';
+		print 'Día <select name="release_dia">';
+		for ($y = 1; $y <= 31; $y++) {
+			if ($review->release_dia == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->release_dia == 0 && $y == $day) {
+				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
 
+		print '</select>';
+
+		print 'Mes <select name="release_mes">';
+		for ($y = 1; $y <= 12; $y++) {
+			if ($review->release_mes == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->release_mes == 0 && $y == $month) {
+				print '<option selected="selected" value="' . $month . '">' . $month . '</option>';
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
+
+
+		print '</select>';
+
+		print 'Año <select name="release_any">';
+		for ($y = 2025; $y <= 2025; $y++) {
+			if ($review->release_any == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
+		print '</select>';
+		print '</p>';
 
 
 
@@ -927,6 +981,9 @@ class ob_cp_reviews
 			$review->dia = substr($review->timestamp, 8, 2);
 			$review->anydata = substr($review->timestamp, 0, 4);
 			$review->mes = substr($review->timestamp, 5, 2);
+			$review->release_dia = substr($review->timestamp, 8, 2);
+			$review->release_any = substr($review->timestamp, 0, 4);
+			$review->release_mes = substr($review->timestamp, 5, 2);
 
 
 		}

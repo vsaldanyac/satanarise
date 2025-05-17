@@ -31,9 +31,12 @@
         public $label;
         public $link_label;
         public $timestamp;
-        public $dia;
-        public $mes;
-        public $anydata;
+        public $dia = 0;
+        public $mes = 0;
+        public $anydata = 0;
+        public $release_dia = 0;
+        public $release_mes = 0;
+        public $release_any = 0;
 		
 	
 		public function reset_reviews()
@@ -71,6 +74,9 @@
             $this->dia=0;
             $this->mes=0;
             $this->anydata=0;
+            $this->release_dia=0;
+            $this->release_mes=0;
+            $this->release_any=0;
 		}
 	}
 	
