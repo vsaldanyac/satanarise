@@ -35,7 +35,7 @@
 			/* Demanar dades a bbdd ordenat per data, desde $desde fins a $desde+$quantitat */
 			$inici=$punter-1;
 			
-			$query= "select reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.portada, estil.estil, reviews.tipus, reviews.nota, colaboradors.nom, banderes.pais, banderes.ruta from reviews left join colaboradors on reviews.idcolaboradors=colaboradors.idcolaboradors left join banderes on reviews.idpais=banderes.idpais left join estil on reviews.idestil=estil.idestil where release_date < CURDATE() order by reviews.data desc limit ".$inici.", ".$quantitat;
+			$query= "select reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.portada, estil.estil, reviews.tipus, reviews.nota, colaboradors.nom, banderes.pais, banderes.ruta from reviews left join colaboradors on reviews.idcolaboradors=colaboradors.idcolaboradors left join banderes on reviews.idpais=banderes.idpais left join estil on reviews.idestil=estil.idestil where release_date <= NOW() order by reviews.data desc limit ".$inici.", ".$quantitat;
             $this->resultat_consulta=$bd->query($query);
             if ($this->resultat_consulta!=FALSE) 
 			{
