@@ -43,7 +43,7 @@ class ob_cp_reviews
 				/* recollir imatge de la banda */
 				if (isset($_FILES['fitxer_logo'])) {
 					if ($_FILES['fitxer_logo']['error'] > 0)
-					/* Comprovacio erros al pujar */{
+					/* Comprovacio erros al pujar */ {
 						switch ($_FILES['fitxer_logo']['error']) {
 							case 1:
 								$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -137,7 +137,7 @@ class ob_cp_reviews
 				} else {
 					if (isset($_FILES['fitxer_portada'])) {
 						if ($_FILES['fitxer_portada']['error'] > 0)
-						/* Comprovacio erros al pujar */{
+						/* Comprovacio erros al pujar */ {
 							switch ($_FILES['fitxer_portada']['error']) {
 								case 1:
 									$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -235,7 +235,7 @@ class ob_cp_reviews
 				} else {
 					if (isset($_FILES['fitxer_media'])) {
 						if ($_FILES['fitxer_media']['error'] > 0)
-						/* Comprovacio erros al pujar */{
+						/* Comprovacio erros al pujar */ {
 							switch ($_FILES['fitxer_media']['error']) {
 								case 1:
 									$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
@@ -360,8 +360,15 @@ class ob_cp_reviews
 			$review->timestamp = $review->anydata . $review->mes . $review->dia . $hora . $minut . '00';
 
 
-
-
+			/* Data mínima de visualització */
+			$review->release_any = $formulari['release_any'];
+			$review->release_mes = $formulari['release_mes'];
+			if (($review->release_mes) < 10)
+				$review->release_mes = '0' . $review->release_mes;
+			$review->release_dia = $formulari['release_dia'];
+			if (($review->release_dia) < 10)
+				$review->release_dia = '0' . $review->release_dia;
+			$review->release_timestamp = $review->release_any . $review->release_mes . $review->release_dia . '090000';
 
 		}
 		return ($this->formulari_ok);
@@ -456,12 +463,13 @@ class ob_cp_reviews
 		print 'Año: ' . $review->any . '<br />';
 		print 'Tipo: ' . $review->tipus . '<br />';
 		print 'Fecha: ' . $review->timestamp . '<br />';
+		print 'Fecha publicación: ' . $review->release_timestamp . '<br />';
 		print 'Link: ' . $review->link . '<br />';
 
 		if ($logica_id) {
-			$query1 = "update reviews set data='" . $review->timestamp . "', banda='" . $review->banda . "', disc='" . $review->disc . "', portada='" . $review->portada . "', logo='" . $review->logo . "', video='" . $review->video . "', media='" . $review->media . "', tracklist='" . $review->tracklist . "', formacio_es='" . $review->formacio_es . "', formacio_cat='" . $review->formacio_cat . "', texte_es='" . $review->texte_es . "', texte_cat='" . $review->texte_cat . "', idcolaboradors='" . $review->idcolaboradors . "', nota='" . $review->nota . "', idpais='" . $review->idpais . "', any='" . $review->any . "', idestil='" . $review->idestil . "', idlabel='" . $review->idlabel . "', tipus='" . $review->tipus . "', link='" . $review->link . "' where idreviews='" . $review->id . "'";
+			$query1 = "update reviews set release_date = '"  . $review->release_timestamp . "', data='" . $review->timestamp . "', banda='" . $review->banda . "', disc='" . $review->disc . "', portada='" . $review->portada . "', logo='" . $review->logo . "', video='" . $review->video . "', media='" . $review->media . "', tracklist='" . $review->tracklist . "', formacio_es='" . $review->formacio_es . "', formacio_cat='" . $review->formacio_cat . "', texte_es='" . $review->texte_es . "', texte_cat='" . $review->texte_cat . "', idcolaboradors='" . $review->idcolaboradors . "', nota='" . $review->nota . "', idpais='" . $review->idpais . "', any='" . $review->any . "', idestil='" . $review->idestil . "', idlabel='" . $review->idlabel . "', tipus='" . $review->tipus . "', link='" . $review->link . "' where idreviews='" . $review->id . "'";
 		} else {
-			$query1 = "insert into reviews (data, banda, disc, portada, logo, video, media, tracklist, formacio_es, formacio_cat, texte_es, texte_cat, idcolaboradors, nota, idpais, any, idestil, idlabel, tipus) values ('" . $review->timestamp . "', '" . $review->banda . "', '" . $review->disc . "', '" . $review->portada . "', '" . $review->logo . "', '" . $review->video . "', '" . $review->media . "', '" . $review->tracklist . "', '" . $review->formacio_es . "', '" . $review->formacio_cat . "', '" . $review->texte_es . "', '" . $review->texte_cat . "', '" . $review->idcolaboradors . "', '" . $review->nota . "', '" . $review->idpais . "', '" . $review->any . "', '" . $review->idestil . "', '" . $review->idlabel . "', '" . $review->tipus . "')";
+			$query1 = "insert into reviews (data, banda, disc, portada, logo, video, media, tracklist, formacio_es, formacio_cat, texte_es, texte_cat, idcolaboradors, nota, idpais, any, idestil, idlabel, tipus, release_date) values ('" . $review->timestamp . "', '" . $review->banda . "', '" . $review->disc . "', '" . $review->portada . "', '" . $review->logo . "', '" . $review->video . "', '" . $review->media . "', '" . $review->tracklist . "', '" . $review->formacio_es . "', '" . $review->formacio_cat . "', '" . $review->texte_es . "', '" . $review->texte_cat . "', '" . $review->idcolaboradors . "', '" . $review->nota . "', '" . $review->idpais . "', '" . $review->any . "', '" . $review->idestil . "', '" . $review->idlabel . "', '" . $review->tipus . "', '" . $review->release_timestamp . "')";
 			$query2 = "select idreviews from reviews order by idreviews desc limit 1";
 		}
 		print $query1;
@@ -730,9 +738,14 @@ class ob_cp_reviews
 		print '<p class="contingut">Fecha: <br /><br />';
 
 		print 'Día <select name="dia">';
+		$day = date('d');
+		$month = date('n');
 		for ($y = 1; $y <= 31; $y++) {
 			if ($review->dia == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			}
+			else if ($review->dia == 0 && $y == $day) {
+				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
@@ -743,6 +756,8 @@ class ob_cp_reviews
 		for ($y = 1; $y <= 12; $y++) {
 			if ($review->mes == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->mes == 0 && $y == $month) {
+				print '<option selected="selected" value="' . $month . '">' . $month . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
@@ -761,7 +776,45 @@ class ob_cp_reviews
 		print '</select>';
 		print '</p>';
 
+		print '<p class="contingut">Fecha visibilidad: <br /><br />';
+		print 'Día <select name="release_dia">';
+		for ($y = 1; $y <= 31; $y++) {
+			if ($review->release_dia == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->release_dia == 0 && $y == $day) {
+				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
 
+		print '</select>';
+
+		print 'Mes <select name="release_mes">';
+		for ($y = 1; $y <= 12; $y++) {
+			if ($review->release_mes == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+			} else if ($review->release_mes == 0 && $y == $month) {
+				print '<option selected="selected" value="' . $month . '">' . $month . '</option>';
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
+
+
+		print '</select>';
+
+		print 'Año <select name="release_any">';
+		for ($y = 2025; $y <= 2025; $y++) {
+			if ($review->release_any == $y) {
+				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
+
+			} else {
+				print '<option value="' . $y . '">' . $y . '</option>';
+			}
+		}
+		print '</select>';
+		print '</p>';
 
 
 
@@ -897,6 +950,7 @@ class ob_cp_reviews
 			$resultat = $this->resultat_consulta->fetch_assoc();
 			$review->id = $resultat['idreviews'];
 			$review->timestamp = $resultat['data'];
+			$review->release_timestamp = $resultat['release_date'];
 			$review->disc = $resultat['disc'];
 			$review->banda = $resultat['banda'];
 			$review->portada = $resultat['portada'];
@@ -927,6 +981,10 @@ class ob_cp_reviews
 			$review->dia = substr($review->timestamp, 8, 2);
 			$review->anydata = substr($review->timestamp, 0, 4);
 			$review->mes = substr($review->timestamp, 5, 2);
+
+			$review->release_dia = substr($review->release_timestamp, 8, 2);
+			$review->release_any = substr($review->release_timestamp, 0, 4);
+			$review->release_mes = substr($review->release_timestamp, 5, 2);
 
 
 		}
@@ -961,9 +1019,13 @@ class ob_cp_reviews
 					$review->banda = $row['banda'];
 					$review->disc = $row['disc'];
 					$review->timestamp = $row['data'];
+					$review->release_timestamp = $row['release_date'];
 					$review->dia = substr($review->timestamp, 8, 2);
 					$review->anydata = substr($review->timestamp, 0, 4);
 					$review->mes = substr($review->timestamp, 5, 2);
+					$review->release_dia = substr($review->release_timestamp, 8, 2);
+					$review->release_any = substr($review->release_timestamp, 0, 4);
+					$review->release_mes = substr($review->release_timestamp, 5, 2);
 
 					print '<div class="noticia_curta">';
 					switch ($tasca) {
