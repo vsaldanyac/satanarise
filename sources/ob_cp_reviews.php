@@ -739,13 +739,14 @@ class ob_cp_reviews
 
 		print 'Día <select name="dia">';
 		$day = date('d');
+		$day_without0 = date('j');
 		$month = date('n');
 		for ($y = 1; $y <= 31; $y++) {
 			if ($review->dia == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 			}
 			else if ($review->dia == 0 && $y == $day) {
-				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
+				print '<option selected="selected" value="' . $day_without0 . '">' . $day_without0 . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
@@ -782,7 +783,7 @@ class ob_cp_reviews
 			if ($review->release_dia == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 			} else if ($review->release_dia == 0 && $y == $day) {
-				print '<option selected="selected" value="' . $day . '">' . $day . '</option>';
+				print '<option selected="selected" value="' . $day_without0 . '">' . $day_without0 . '</option>';
 			} else {
 				print '<option value="' . $y . '">' . $y . '</option>';
 			}
