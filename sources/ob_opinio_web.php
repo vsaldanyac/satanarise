@@ -40,18 +40,49 @@
 			}
 		}
 
-				public function extreure_opinio_per_data_entrada_special($bd,$punter,$quantitat,$leng) 
+		public function extreure_opinio_per_data_entrada_special($bd,$punter,$quantitat,$leng) 
 		/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
 		{
 			/* Demanar dades a bbdd ordenat per data, desde $desde fins a $desde+$quantitat */
 			$inici=$punter-1;
 			
-			$query= "select idopinio, ruta, texte_es, texte_cat, titol_es, titol_cat, data from opinio where special = true and idioma = '".$leng."' or idioma = 'BOTH' order by data desc limit ".$inici.", ".$quantitat;
+			$query= "select idopinio, ruta, texte_es, texte_cat, titol_es, titol_cat, data, special from opinio where special = 1 and (idioma = '".$leng."' or idioma = 'BOTH') order by data desc limit ".$inici.", ".$quantitat;
             //$query= "select reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.portada, estil.estil, reviews.tipus, reviews.nota, colaboradors.nom, banderes.pais, banderes.ruta from reviews left join colaboradors on reviews.idcolaboradors=colaboradors.idcolaboradors left join  banderes on reviews.idpais=banderes.idpais left join estil on reviews.idestil=estil.idestil order by reviews.data desc";	
             $this->resultat_consulta=$bd->query($query);
             if ($this->resultat_consulta!=FALSE) 
 			{
 				$this->numero_resultats=$this->resultat_consulta->num_rows;
+			}
+		}
+
+		public function mostrar_opinio_per_data_entrada_lateral_special($bd,$leng)
+		{
+			$opinio  = new ob_opinio;
+			for ($i=0;$i<$this->numero_resultats;$i++)
+			{
+				$opinio->reset_opinio();
+				$resultat=$this->resultat_consulta->fetch_assoc();
+				$opinio->titol_es=$resultat['titol_es'];
+				$opinio->titol_cat=$resultat['titol_cat'];
+				$opinio->ruta=$resultat['ruta'];
+        		$opinio->dia=$resultat['dia'];
+				$opinio->mes=$resultat['mes'];
+				$opinio->any=$resultat['any'];
+				$opinio->id=$resultat['idopinio'];
+				
+				switch ($leng)
+				{
+					case 'ES':
+					$link='ln=ES&sec=opinion&type=entrada&id='; /* per canviar */
+				break;
+				case 'CAT':
+					$link='ln=CAT&sec=opinio&type=entrada&id='; /* per canviar */
+				break;                         
+				}
+				print '<div class="contimgop">';
+				print '<a class="linkk" href="index.php?'.$link.$opinio->id.'" title="'.$opinio->titol_es.'"><img class="coverent" src="pics/opinio_pics/'.$opinio->id.'.jpg" width="100" alt="'.$opinio->titol_es.'"/><br/>';
+				print '<h3 class="tit_op_lat">'.$opinio->titol_es.'</h3>';
+				print '</a></div>';
 			}
 		}
 		
