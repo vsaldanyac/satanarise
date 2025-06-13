@@ -15,7 +15,7 @@
 			$this->id='';
 			$this->numero_resultats=0;
 			$this->punter=1;
-			$this->quantitat=10;
+			$this->quantitat=5;
 			$this->noticia_individual=FALSE;
 		}
 		public  function __get($nom) /* crea parametres */
@@ -56,39 +56,39 @@
 				$entrevista->titol_es=$resultat['titol_es'];
 				$entrevista->titol_cat=$resultat['titol_cat'];
 				$entrevista->link=$resultat['link'];
-        $entrevista->timestamp=$resultat['data'];
+                $entrevista->timestamp=$resultat['data'];
 				$entrevista->id=$resultat['identrevistes'];
 				$query="select ruta from entrevnewsdata where identrevistes=".$entrevista->id." and tipus=1 and ordre=1";
-        $this->resultat_consulta2=$bd->query($query);
-        if ($this->resultat_consulta2!=FALSE) 
-			  {
-             $row=$this->resultat_consulta2->fetch_assoc();
-             $entrevista->logo=$row['ruta'];                    
-			  }
-        print '<div class="entrevista">';
-        switch ($leng)
-        {
-        	case 'ES':
-            $link='ln=ES&sec=entrevistasn&'; /* per canviar */
-          break;
-          case 'CAT':
-          	$link='ln=CAT&sec=entrevistesn&'; /* per canviar */
-          break;                         
-        }
-        print '<div class="data">';
-        print ($this->timestamp_a_data($entrevista->timestamp));
-        print '</div>';
-        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
-        switch ($leng)
-        {
-            case 'ES':
-                $texte=$entrevista->titol_es;
-            break;
-            case 'CAT':
-                $texte=$entrevista->titol_cat;
-            break;
-        }
-        print '<p>'.$texte.'</p></a></div>';
+                $this->resultat_consulta2=$bd->query($query);
+                if ($this->resultat_consulta2!=FALSE) 
+			    {
+                    $row=$this->resultat_consulta2->fetch_assoc();
+                    $entrevista->logo=$row['ruta'];                    
+			    }
+                print '<div class="entrevista">';
+                switch ($leng)
+                {
+                    case 'ES':
+                         $link='ln=ES&sec=entrevistasn&'; /* per canviar */
+                    break;
+                    case 'CAT':
+                          $link='ln=CAT&sec=entrevistesn&'; /* per canviar */
+                     break;                         
+                }
+                print '<div class="data">';
+                print ($this->timestamp_a_data($entrevista->timestamp));
+                print '</div>';
+                print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
+                switch ($leng)
+                {
+                    case 'ES':
+                        $texte=$entrevista->titol_es;
+                    break;
+                    case 'CAT':
+                        $texte=$entrevista->titol_cat;
+                    break;
+                }
+                print '<p>'.$texte.'</p></a></div>';
 			}
 		}
 		
@@ -103,31 +103,31 @@
 				$entrevista->titol_es=$resultat['titol_es'];
 				$entrevista->titol_cat=$resultat['titol_cat'];
 				$entrevista->link=$resultat['link'];
-        $entrevista->timestamp=$resultat['data'];
+                $entrevista->timestamp=$resultat['data'];
 				$entrevista->id=$resultat['identrevistes'];
 				$query="select ruta from entrevnewsdata where identrevistes=".$entrevista->id." and tipus=1 and ordre=1";
-        $this->resultat_consulta2=$bd->query($query);
-        if ($this->resultat_consulta2!=FALSE) 
-			  {
-             $row=$this->resultat_consulta2->fetch_assoc();
-             $entrevista->logo=$row['ruta'];                    
-			  }
-        print '<div class="entrevistalateral">';
-        switch ($leng)
-        {
-        	case 'ES':
-            $link='ln=ES&sec=entrevistasn&'; /* per canviar */
-          break;
-          case 'CAT':
-          	$link='ln=CAT&sec=entrevistesn&'; /* per canviar */
-          break;                         
-        }
-        print '<div class="data">';
-        print ($this->timestamp_a_data($entrevista->timestamp));
-        print '</div>';
-        print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
-        
-        print '</a></div>';
+                $this->resultat_consulta2=$bd->query($query);
+                if ($this->resultat_consulta2!=FALSE) 
+                {
+                    $row=$this->resultat_consulta2->fetch_assoc();
+                    $entrevista->logo=$row['ruta'];                    
+                }
+                print '<div class="entrevistalateral">';
+                switch ($leng)
+                {
+                    case 'ES':
+                        $link='ln=ES&sec=entrevistasn&'; /* per canviar */
+                    break;
+                    case 'CAT':
+                        $link='ln=CAT&sec=entrevistesn&'; /* per canviar */
+                    break;                         
+                }
+                print '<div class="data">';
+                print ($this->timestamp_a_data($entrevista->timestamp));
+                print '</div>';
+                print '<a class="linkk" href="index.php?'.$link.$entrevista->link.'" title="'.$entrevista->banda.'"><img class="coverent" src="pics/entrevistes_news_pics/'.$entrevista->logo.'" width="100" alt="'.$entrevista->banda.'"/>';
+                
+                print '</a></div>';
 			}
 		}
         
