@@ -1195,7 +1195,8 @@ class banner_100
 
 	public function visualitzar()
 	{
-		$total = count($this->banners);
+		$total = (isset($this->banners) && is_array($this->banners)) ? count($this->banners) : 0;
+		
 		for ($i = 0; $i < $total; $i++) {
 			print '<a class="linkk" target="' .
 				$this->banners[$i]['target'] .
