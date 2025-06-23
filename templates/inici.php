@@ -13,9 +13,9 @@
             
 <?php
     if ($page->leng=='ES') {
-        print '<p><a class="men" href="index.php?ln=ES&sec=noticias">Noticias</a></p>';
+        print '<p><a class="men" href="index.php?ln=ES&sec=noticias#noticias-marker">Más noticias...</a></p>';
     } else {
-        print '<p><a class="men" href="index.php?ln=CAT&sec=noticies">Noticies</a></p>';
+        print '<p><a class="men" href="index.php?ln=CAT&sec=noticies#noticias-marker">Més noticies...</a></p>';
     }   
 ?>   
         </div>
