@@ -67,9 +67,9 @@ $basedades->desconectar();
 
 		print '<div class="titdiscos"> <!-- Titol de discos -->';
 		if ($page->leng=='ES') {
-			print '<p>Noticias</p>';
+			print '<p id="noticias-marker">Noticias</p>';
 		} else {
-			print '<p>Noticies</p>';
+			print '<p id="noticias-marker">Noticies</p>';
 		}         
 		print '</div>
 		<div id="contnot">';    

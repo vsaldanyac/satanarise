@@ -16,6 +16,8 @@
         public $dia;
         public $mes;
         public $any;
+        public $special;
+        
 		
 	
 		public function reset_opinio()
@@ -36,6 +38,7 @@
             $this->dia=0;
             $this->mes=0;
             $this->any=0;
+            $this->special=0;
 		}
 	}
 	

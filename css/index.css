@@ -801,3 +801,20 @@ div.dades_novs {
 span.yellow {
 	color: #FF0;
 }
+
+h3.tit_op_lat
+{
+	margin-top: 5px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	text-align: center;
+	color:#999;
+}
+
+div#contimgop {
+	text-align: center;
+	position: relative;
+    height: 100px;
+	width: 100px;
+  	justify-content: center;
+}
