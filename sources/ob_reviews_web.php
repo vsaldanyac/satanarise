@@ -416,8 +416,8 @@
 				if ($this->numero_resultats>0) print '</div>';
 			}
 			/* per mes vistes aquest any' */
-			$any=2021;
-			$any2=2020;
+			$any=2025;
+			$any2=2024;
 			$query="select reviews.link, reviews.banda, reviews.disc, reviews.portada, estil.estil from reviews left join estil on reviews.idestil=estil.idestil where reviews.idreviews <> ".$review->id." and (reviews.any='".$any."' or reviews.any='".$any2."') order by reviews.vistes desc limit 0, 10";
 			$this->resultat_consulta=$bd->query($query);
             
