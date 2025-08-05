@@ -45,9 +45,9 @@ $basedades->desconectar();
                 print '<div class="titdiscos">'; //<!-- Titol de discos -->
                 if ($page->leng=='ES')
                 {
-                    print '<p>Críticas</p>';
+                    print '<p id="criticas-marker">Críticas</p>';
                 } else {
-                    print '<p>Crítiques</p>';
+                    print '<p id="criticas-marker">Crítiques</p>';
                 }
                 print '</div>';
                 $basedades->conectar();
