@@ -38,9 +38,9 @@
     		
 <?php
 	if ($page->leng=='ES') {
-		print '<p><a class="men" href="index.php?ln=ES&sec=criticas">Críticas</a></p>';
+		print '<p><a class="men" href="index.php?ln=ES&sec=criticas#criticas-marker">Más Críticas...</a></p>';
 	} else {
-		print '<p><a class="men" href="index.php?ln=CAT&sec=critiques">Crítiques</a></p>';
+		print '<p><a class="men" href="index.php?ln=CAT&sec=critiques#criticas-marker">Més Crítiques...</a></p>';
 	}            
 ?>        	
         </div>
