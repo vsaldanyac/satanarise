@@ -80,7 +80,7 @@
 				break;                         
 				}
 				print '<div class="contimgop">';
-				print '<a class="linkk" href="index.php?'.$link.$opinio->id.'" title="'.$opinio->titol_es.'"><img class="coverent" src="pics/opinio_pics/'.$opinio->id.'.jpg" width="100" alt="'.$opinio->titol_es.'"/><br/>';
+				print '<a class="linkk" href="index.php?'.$link.$opinio->id.'" title="'.$opinio->titol_es.'"><img class="coverent" src="pics/opinio_pics/'.$opinio->id.'.png" width="100" alt="'.$opinio->titol_es.'"/><br/>';
 				print '<h3 class="tit_op_lat">'.$opinio->titol_es.'</h3>';
 				print '</a></div>';
 			}
