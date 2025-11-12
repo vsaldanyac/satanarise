@@ -833,21 +833,45 @@ p.texte_concerts {
     font-size: 13px !important;
 }
 
-/* Concert cards on index page */
+/* Concert cards on index page - Próximos conciertos */
 div#propers_concerts_index {
     width: 100% !important;
+    padding: 0 5px !important;
+    box-sizing: border-box;
 }
 
 div.proper_concert {
     width: 48% !important;
     height: auto !important;
+    min-height: 140px !important;
     margin: 1% !important;
+    padding: 5px !important;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 div.proper_concert img {
-    max-width: 100% !important;
+    width: 60px !important;
     height: auto !important;
+    max-width: 60px !important;
+    max-height: 90px !important;
+    object-fit: contain !important;
+    float: left !important;
+    margin: 2px 8px 5px 2px !important;
+}
+
+div.proper_concert h1 {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    margin: 2px 0 !important;
+    padding: 2px !important;
+}
+
+div.proper_concert p {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    margin: 2px 0 !important;
+    padding: 2px !important;
 }
 
 /* Footer responsive */
