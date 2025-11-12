@@ -188,10 +188,31 @@ div#banner,
 div#banner_down_index,
 div#banner_more_down_index,
 div#banner_middle_index,
-div#banner_top_index {
+div#banner_top_index,
+.banner_main {
     width: 100% !important;
     height: auto !important;
     margin-bottom: 10px;
+    overflow: hidden;
+}
+
+/* Banner images responsive */
+div#banner img,
+div#banner_down_index img,
+div#banner_more_down_index img,
+div#banner_middle_index img,
+div#banner_top_index img,
+.banner_main img,
+div#banner iframe,
+div#banner_down_index iframe,
+div#banner_more_down_index iframe,
+div#banner_middle_index iframe,
+div#banner_top_index iframe,
+.banner_main iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block;
 }
 
 /* ================================================

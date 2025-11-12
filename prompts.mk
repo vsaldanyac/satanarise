@@ -1,4 +1,4 @@
-Prompt: "I want to make my SatanArise Heavy Metal webzine website fully responsive and mobile-ready. The site is built with PHP and currently has a fixed 1000px width layout with sidebars. Overall Requirements:
+Prompt: "You are a senior PHP and web frontend developer with expertise in responsive design and legacy codebase modernization. I want to make my SatanArise Heavy Metal webzine website fully responsive and mobile-ready. The site is built with PHP and currently has a fixed 1000px width layout with sidebars. Overall Requirements:
 Mobile-first responsive approach
 Hamburger menu on mobile (hide horizontal menu)
 Hide left and right sidebars on mobile
@@ -76,12 +76,3 @@ Don't create any new documentation files
 Use !important where needed to override existing fixed-width CSS
 Test that all content types work across breakpoints
 Images should scale properly on all devices"
-This comprehensive prompt includes:
-Overall goals and approach
-Specific technical architecture details
-Each section broken down with requirements
-Exact breakpoints and measurements
-File paths and class names
-Mobile vs desktop distinctions
-Git branch context
-All the specific functionality we implemented
