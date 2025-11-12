@@ -1,0 +1,1190 @@
+/* ================================================
+   Responsive Styles for SatanArise.com
+   Mobile-First Approach
+   ================================================ */
+
+/* ================================================
+   Base Mobile Styles (320px and up)
+   ================================================ */
+
+/* Apply mobile styles only below desktop breakpoint */
+@media (max-width: 1023px) {
+
+/* Override fixed width container */
+div#contenedor {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    box-sizing: border-box;
+}
+
+/* Responsive images and media */
+img, iframe, video {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive typography */
+body {
+    font-size: 14px;
+    line-height: 1.5;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Make tables scroll horizontally on small screens */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ================================================
+   Mobile Header Components
+   ================================================ */
+
+/* Hide top banners on mobile */
+div#top_left,
+div#top_right {
+    display: none !important;
+}
+
+/* Center and resize logo on mobile */
+div#logo {
+    width: 100% !important;
+    max-width: 300px !important;
+    height: auto !important;
+    float: none !important;
+    margin: 10px auto !important;
+    text-align: center;
+}
+
+div#logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================================================
+   Hamburger Menu Implementation
+   ================================================ */
+
+/* Menu bar responsive */
+div#barramanu {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    position: relative;
+}
+
+/* Hamburger button */
+.mobile-menu-toggle {
+    display: block;
+    background: #600;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-family: "Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+}
+
+.mobile-menu-toggle::before {
+    content: "☰";
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.mobile-menu-toggle.active::before {
+    content: "✕";
+}
+
+/* Hide desktop menu on mobile */
+div#menu {
+    display: none;
+    width: 100% !important;
+    position: static !important;
+    margin: 0 !important;
+    background: #600;
+    overflow: visible !important;
+    height: auto !important;
+}
+
+div#menu.active {
+    display: block !important;
+}
+
+/* Mobile menu items - Force vertical stacking */
+div#menu p.linkmenu {
+    display: block !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    border-bottom: 1px solid #800;
+    text-align: left !important;
+    float: none !important;
+    clear: both !important;
+    height: auto !important;
+    box-sizing: border-box;
+}
+
+div#menu p.linkmenu a.men {
+    font-size: 16px !important;
+    padding: 10px 0 !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Language flags position on mobile */
+div#banderes {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    left: auto !important;
+    width: 35px !important;
+    z-index: 10;
+}
+
+div#banderes img {
+    max-width: 30px;
+    height: auto;
+}
+
+/* Hide Facebook like on mobile */
+div#ilike {
+    display: none !important;
+}
+
+/* ================================================
+   Mobile Content Layout - Full Width Sections
+   ================================================ */
+
+/* Hide sidebars on mobile */
+div#col_left,
+div#col_right {
+    display: none !important;
+}
+
+/* Full width content */
+div#col_center {
+    width: 100% !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+div#content {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+/* Banner areas full width on mobile */
+div#banner,
+div#banner_down_index,
+div#banner_more_down_index,
+div#banner_middle_index,
+div#banner_top_index {
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 10px;
+}
+
+/* ================================================
+   Mobile Content Components
+   ================================================ */
+
+/* News section responsive */
+div.titdiscos {
+    width: 100% !important;
+}
+
+div#contdiscos,
+div#contdiscos_nov,
+div#cont_novs {
+    width: 100% !important;
+}
+
+/* Review/News cards - Single column on mobile */
+div.novedad {
+    width: 100% !important;
+    float: none !important;
+    margin: 10px 0 !important;
+    height: auto !important;
+    min-height: 150px;
+}
+
+div.novs {
+    width: 100% !important;
+    float: none !important;
+    margin: 10px 0 !important;
+    height: auto !important;
+    box-sizing: border-box;
+}
+
+/* News items (noticias) - 2 columns on mobile */
+div.notind {
+    width: 48% !important;
+    height: auto !important;
+    margin: 1% !important;
+    float: left !important;
+    box-sizing: border-box;
+}
+
+div.contimgnot {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 200px;
+}
+
+div.contimgnot img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+div.not {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+}
+
+/* ================================================
+   Content Pages - Noticias, Reviews, Interviews, etc.
+   ================================================ */
+
+/* NOTICIAS (News) Content */
+div#contenidor_noticies {
+    width: 100% !important;
+    padding: 0 10px !important;
+    box-sizing: border-box;
+}
+
+div.noticia {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.noticia h1.tit,
+div.noticia h1.tit_centrada {
+    padding: 10px 15px !important;
+    font-size: 16px !important;
+}
+
+div.noticia p {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+div.data_not {
+    position: static !important;
+    left: auto !important;
+    width: 100% !important;
+    text-align: right !important;
+    padding-right: 15px !important;
+}
+
+img.general {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 10px 0 !important;
+    display: block;
+}
+
+/* REVIEWS (Críticas) Content */
+div#cover {
+    position: static !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    height: auto !important;
+    left: auto !important;
+    margin: 10px auto !important;
+    display: block;
+}
+
+div#cover img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+div#logoband {
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 10px !important;
+}
+
+div#logoband img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+div#dadesdisc {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div#tit {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+div#tracklist,
+div#lineup {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div#icosdisc {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 10px 0 !important;
+}
+
+/* Review text content */
+div.review p,
+div.critica p {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+/* INTERVIEWS (Entrevistas) Content */
+div.entrevista {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.entrevista p {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+}
+
+h1.ent {
+    padding: 15px !important;
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+}
+
+h2.preg,
+h2.resp,
+h2.resp2,
+h2.resp3,
+h2.resp4 {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    text-indent: 0 !important;
+}
+
+p.firma {
+    margin: 20px 15px !important;
+    text-align: right !important;
+}
+
+img.esq,
+img.dret {
+    float: none !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 10px 0 !important;
+    display: block;
+}
+
+img.coverent {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 10px 0 !important;
+    float: none !important;
+}
+
+/* CRÓNICAS (Chronicles) Content */
+/* Chronicle list items on main page */
+div.cronica {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.cronica p {
+    margin: 10px 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+div.cronica img.cartell_cronica {
+    float: none !important;
+    max-width: 100% !important;
+    width: 80px !important;
+    height: auto !important;
+    margin: 10px auto !important;
+    display: block;
+}
+
+div.cronica span {
+    display: block !important;
+    margin: 10px 0 !important;
+    font-size: 16px !important;
+    text-align: center !important;
+}
+
+/* Single chronicle page content */
+div#critica {
+    width: 100% !important;
+    padding: 15px !important;
+    box-sizing: border-box;
+}
+
+div#critica p,
+p.texte {
+    width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    text-align: justify !important;
+    text-indent: 0 !important;
+    box-sizing: border-box;
+}
+
+div#critica h1 {
+    width: 100% !important;
+    margin: 20px 0 20px 0 !important;
+    padding: 0 15px !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    box-sizing: border-box;
+}
+
+/* Chronicle images - remove floats on mobile */
+img.esq,
+img.dret {
+    float: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 15px 0 !important;
+    display: block;
+}
+
+/* Centered image galleries in chronicles */
+div.centrar {
+    width: 100% !important;
+    text-align: center !important;
+    margin: 15px 0 !important;
+    padding: 0 !important;
+}
+
+div.centrar img {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    max-height: 300px !important;
+    margin: 5px auto !important;
+    display: inline-block !important;
+}
+
+div.centrar a {
+    display: inline-block !important;
+    margin: 5px !important;
+}
+
+/* Chronicle poster image at top */
+div.centrar img[width="250"] {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Setlist section */
+div#setlists {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div#setlists p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    padding: 5px 10px !important;
+}
+
+/* OPINIÓN (Metal Report) Content */
+div.opinio,
+div.opinion {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.opinio p,
+div.opinion p {
+    padding: 10px 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+/* Opinion page specific elements */
+div#entrevista {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div#logoent {
+    width: 100% !important;
+    text-align: center !important;
+    margin: 15px 0 !important;
+}
+
+div#logoent img {
+    max-width: 100% !important;
+    width: auto !important;
+    max-height: 300px !important;
+    height: auto !important;
+}
+
+h3.texte_opinio {
+    width: 100% !important;
+    margin: 15px 0 !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    text-align: justify !important;
+    box-sizing: border-box;
+}
+
+h3.titol_op {
+    width: 100% !important;
+    margin: 15px 0 5px 0 !important;
+    padding: 0 15px !important;
+    font-size: 16px !important;
+    text-align: left !important;
+}
+
+h3.texte_op {
+    width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 0 15px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    text-align: justify !important;
+}
+
+/* Recommendations section (shared by opinions and chronicles) */
+div.recomended {
+    width: 100% !important;
+    margin: 20px 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+    clear: both !important;
+}
+
+div.recomended p {
+    margin: 10px 0 !important;
+    padding: 0 10px !important;
+    font-size: 16px !important;
+}
+
+/* Recommendation items within chronicles/opinions */
+div.recomended div.cronica {
+    width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 10px !important;
+    border-bottom: 1px solid #600 !important;
+}
+
+div.recomended div.cronica img.cartell_cronica {
+    width: 60px !important;
+    height: auto !important;
+    margin: 5px auto !important;
+}
+
+div.recomended div.cronica p {
+    margin: 5px 10px !important;
+    font-size: 13px !important;
+}
+
+div.recomend_item {
+    width: 48% !important;
+    float: left !important;
+    margin: 1% !important;
+    height: auto !important;
+    box-sizing: border-box;
+}
+
+div.recomend_item img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+div.recomend_item h1,
+div.recomend_item h2,
+div.recomend_item h3 {
+    font-size: 11px !important;
+    margin: 5px 0 !important;
+}
+
+/* ShareThis social sharing buttons */
+.sharethis-inline-share-buttons,
+.sharethis-inline-reaction-buttons {
+    max-width: 100% !important;
+    margin: 20px auto !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+
+div.op_rec {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.op_rec p {
+    margin: 10px 0 !important;
+    padding: 0 15px !important;
+    font-size: 14px !important;
+}
+
+div.data_rec {
+    position: static !important;
+    left: auto !important;
+    width: 100% !important;
+    text-align: right !important;
+    padding: 5px 15px !important;
+}
+
+/* General content images */
+img.esq_not,
+img.dret_not {
+    float: none !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 10px 0 !important;
+    display: block;
+}
+
+/* Video embeds and iframes */
+iframe {
+    max-width: 100% !important;
+}
+
+/* Tables */
+table {
+    width: 100% !important;
+    display: block;
+    overflow-x: auto;
+}
+
+/* Concert cards */
+div.concert {
+    width: 48% !important;
+    margin: 1% !important;
+}
+
+div.cronica {
+    width: 100% !important;
+}
+
+/* CONCERTS/CONCIERTOS Page */
+/* Hide the left column (Conciertos) - show only Agenda */
+div#concerts_left {
+    display: none !important;
+}
+
+/* Agenda column full width on mobile */
+div#concerts_right {
+    width: 100% !important;
+    float: none !important;
+    min-height: auto !important;
+}
+
+div#contenidor_concerts {
+    width: 100% !important;
+}
+
+div.tit300 {
+    width: 100% !important;
+}
+
+/* Agenda items now use entrada_concert structure - mobile responsive */
+div#concerts_right div.entrada_concert {
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 10px 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div#concerts_right div.entrada_concert img {
+    max-width: 80px !important;
+    width: auto !important;
+    height: auto !important;
+    max-height: 120px !important;
+    margin: 0 10px 10px 0 !important;
+    float: left !important;
+}
+
+div#concerts_right div.entrada_concert h1 {
+    margin-left: 0 !important;
+    padding: 5px 10px !important;
+    font-size: 14px !important;
+}
+
+div#concerts_right div.entrada_concert p {
+    margin-left: 0 !important;
+    padding: 5px 10px !important;
+    font-size: 13px !important;
+}
+
+div#concerts_right div.data_con {
+    position: static !important;
+    float: right !important;
+    margin: 5px 10px !important;
+    text-align: right !important;
+    width: auto !important;
+}
+
+/* Concert entry items in other contexts (not agenda) */
+div.entrada_concert_ample {
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 10px 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+div.entrada_concert_ample img {
+    max-width: 100px !important;
+    height: auto !important;
+    margin: 0 10px 10px 0 !important;
+}
+
+div.entrada_concert_ample h1 {
+    margin-left: 0 !important;
+    padding: 5px 10px !important;
+    font-size: 14px !important;
+}
+
+div.entrada_concert_ample p {
+    margin-left: 0 !important;
+    padding: 5px 10px !important;
+    font-size: 13px !important;
+}
+
+/* Single concert page */
+div#entrada_concerts {
+    width: 100% !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+}
+
+img.cartell_concert {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 10px auto !important;
+    display: block;
+}
+
+h1.titol_concert,
+h1.titol_gira,
+h1.titol_gira_grups {
+    padding: 10px 15px !important;
+    font-size: 16px !important;
+    margin-bottom: 20px !important;
+}
+
+p.texte_concerts {
+    width: 100% !important;
+    padding: 10px 15px !important;
+    font-size: 13px !important;
+}
+
+/* Concert cards on index page */
+div#propers_concerts_index {
+    width: 100% !important;
+}
+
+div.proper_concert {
+    width: 48% !important;
+    height: auto !important;
+    margin: 1% !important;
+    box-sizing: border-box;
+}
+
+div.proper_concert img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Footer responsive */
+div#final {
+    width: 100% !important;
+    padding: 20px 10px;
+    box-sizing: border-box;
+}
+
+/* ================================================
+   Utility Classes
+   ================================================ */
+
+.mobile-hide {
+    display: none !important;
+}
+
+.mobile-show {
+    display: block !important;
+}
+
+.padding-mobile {
+    padding: 10px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+} /* End of mobile styles @media (max-width: 1023px) */
+
+/* ================================================
+   Tablet Breakpoint (768px to 1023px)
+   ================================================ */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Restore some desktop elements */
+    body {
+        font-size: 15px;
+    }
+
+    /* Container grows but still responsive */
+    div#contenedor {
+        max-width: 750px !important;
+        margin: 0 auto !important;
+        padding: 0 15px !important;
+    }
+
+    /* Logo can be bigger */
+    div#logo {
+        max-width: 400px !important;
+    }
+
+    /* Concert cards can be 3 columns */
+    div.concert {
+        width: 31% !important;
+    }
+
+    /* Review/News cards - 2 columns on tablet */
+    div.novedad {
+        width: 48% !important;
+        float: left !important;
+        margin: 1% !important;
+        height: auto !important;
+    }
+
+    div.novs {
+        width: 48% !important;
+        float: left !important;
+        margin: 1% !important;
+        height: auto !important;
+        box-sizing: border-box;
+    }
+
+}
+
+/* ================================================
+   Desktop Breakpoint (1024px and up)
+   ================================================ */
+@media (min-width: 1024px) {
+    /* Show hamburger menu until 1024px */
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+
+    /* Restore desktop layout */
+    div#contenedor {
+        width: 1000px !important;
+        max-width: 1000px !important;
+        margin: 2px auto 0 auto !important;
+        padding: 0 !important;
+    }
+
+    /* Show top banners */
+    div#top_left,
+    div#top_right {
+        display: block !important;
+        float: left;
+    }
+
+    /* Restore logo size */
+    div#logo {
+        width: 600px !important;
+        max-width: 600px !important;
+        float: left !important;
+        margin: 0 !important;
+    }
+
+    /* Restore desktop menu */
+    div#barramanu {
+        width: 980px !important;
+        height: 25px !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
+        margin-bottom: 10px !important;
+        clear: left;
+    }
+
+    div#menu {
+        display: block !important;
+        position: absolute !important;
+        width: 838px !important;
+        height: 25px !important;
+        margin: 3px 0px 0px 40px !important;
+    }
+
+    div#menu p.linkmenu {
+        display: inline !important;
+        padding: 3px 6px !important;
+        border: none !important;
+        text-align: center !important;
+    }
+
+    div#menu p.linkmenu a.men {
+        font-size: 14px;
+    }
+
+    /* Restore Facebook like */
+    div#ilike {
+        display: block !important;
+    }
+
+    /* Restore flags position */
+    div#banderes {
+        position: absolute !important;
+        left: 940px !important;
+        top: auto !important;
+        right: auto !important;
+        width: 65px !important;
+    }
+
+    /* Show sidebars */
+    div#col_left {
+        display: block !important;
+        float: left !important;
+        width: 150px !important;
+        margin-left: 10px !important;
+        margin-right: 15px !important;
+    }
+
+    div#col_right {
+        display: block !important;
+        float: left !important;
+        width: 100px !important;
+        margin-left: 15px !important;
+        margin-right: 10px !important;
+    }
+
+    /* Restore center column */
+    div#col_center {
+        float: left !important;
+        width: 700px !important;
+    }
+
+    div#content {
+        width: 700px !important;
+        padding: 0 !important;
+    }
+
+    /* Restore original widths */
+    div#banner,
+    div#banner_down_index,
+    div#banner_more_down_index,
+    div#banner_middle_index,
+    div#banner_top_index {
+        width: 700px !important;
+        height: 100px !important;
+    }
+
+    div.titdiscos {
+        width: 700px !important;
+    }
+
+    div#contdiscos,
+    div#contdiscos_nov {
+        width: 700px !important;
+    }
+
+    div#cont_novs {
+        width: 698px !important;
+    }
+
+    /* Desktop layout - 2 columns for review/news cards */
+    div.novedad {
+        width: 345px !important;
+        float: left !important;
+        margin-top: 2px !important;
+        margin-left: 2px !important;
+        height: auto !important;
+        min-height: 150px;
+    }
+
+    div.novs {
+        width: 345px !important; /* Changed from 228px to 345px for 2 columns */
+        float: left !important;
+        margin-top: 2px !important;
+        margin-left: 2px !important;
+        height: auto !important;
+        min-height: 90px;
+        box-sizing: border-box;
+    }
+
+    /* Restore interview layout */
+    div.entrevista {
+        width: 690px !important;
+    }
+
+    div.entrevista p {
+        margin-left: 100px !important;
+        margin-right: 60px !important;
+        padding-left: 50px !important;
+    }
+
+    /* Restore concert layout */
+    div.concert {
+        width: 100px !important;
+        margin: 0 !important;
+        margin-bottom: 10px !important;
+    }
+
+    div.cronica {
+        width: 700px !important;
+    }
+
+    /* Restore chronicle/review content container */
+    div#critica {
+        width: 600px !important;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+        padding-top: 20px !important;
+    }
+
+    div#critica p,
+    p.texte {
+        padding: 0 !important;
+        text-indent: 20px !important;
+    }
+
+    div#critica h1 {
+        padding-left: 300px !important;
+        margin-bottom: 60px !important;
+    }
+
+    /* Restore floating images on desktop */
+    img.esq {
+        float: left !important;
+        width: auto !important;
+        margin-right: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+    }
+
+    img.dret {
+        float: right !important;
+        width: auto !important;
+        margin-left: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* Restore recommendations section */
+    div.recomended {
+        width: 700px !important;
+        margin: 10px 10px 10px 10px !important;
+    }
+
+    div.recomend_item {
+        width: 100px !important;
+        height: 200px !important;
+        margin-right: 40px !important;
+    }
+
+    /* Concerts page - Restore original desktop layout (no changes) */
+    /* All concerts styling reverted to original CSS */
+
+    /* Footer */
+    div#final {
+        padding: 0 !important;
+    }
+}
+
+/* ================================================
+   Responsive iframes and embeds
+   ================================================ */
+.embed-responsive {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+
+.embed-responsive::before {
+    display: block;
+    content: "";
+}
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.embed-responsive-16by9::before {
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.embed-responsive-4by3::before {
+    padding-top: 75%; /* 4:3 Aspect Ratio */
+}
+
+/* ================================================
+   Print Styles
+   ================================================ */
+@media print {
+    .no-print,
+    div#menu,
+    div#banderes,
+    div#ilike,
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.3;
+        background: white;
+        color: black;
+    }
+
+    div#contenedor {
+        width: 100% !important;
+    }
+}

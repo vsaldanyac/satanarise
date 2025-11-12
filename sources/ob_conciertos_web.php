@@ -250,7 +250,7 @@ class ob_conciertos_web
 		}
 		$data_actual = $this->timestamp_actual();
 		$data_actual = str_replace(' ', '', str_replace(':', '', str_replace('-', '', $data_actual)));
-		$query = "select concerts.idGig, concerts.cartell, concerts.Nom,  concerts.num_bandes, concerts.dateIn, concerts.tipus, concertsdata.idConcert, concertsdata.dateConcert from concertsdata, concerts where concertsdata.dateConcert >= " . $data_actual . " and concerts.idGig = concertsdata.idGig order by concertsdata.dateConcert asc limit " . $inici . ", " . $quantitat;
+		$query = "select concerts.idGig, concerts.cartell, concerts.Nom,  concerts.num_bandes, concerts.dateIn, concerts.tipus, concertsdata.idConcert, concertsdata.dateConcert, concertsdata.cartell_concert from concertsdata, concerts where concertsdata.dateConcert >= " . $data_actual . " and concerts.idGig = concertsdata.idGig order by concertsdata.dateConcert asc limit " . $inici . ", " . $quantitat;
 
 		$this->resultat_consulta = $bd->query($query);
 		if ($this->resultat_consulta != FALSE) {
@@ -382,12 +382,15 @@ class ob_conciertos_web
 				$this->concert_data->reset_data();
 				$resultat = $this->resultat_consulta->fetch_assoc();
 				$this->concert_data->id = $resultat['idGig'];
+				$this->concert_data->cartell = $resultat['cartell'];
 				$this->concert_data->id_concert = $resultat['idConcert'];
 				$this->concert_data->num_bandes = $resultat['num_bandes'];
 				$this->concert_data->dateIn = $resultat['dateIn'];
 				$this->concert_data->dateConcert = $resultat['dateConcert'];
 				$this->concert_data->tipus = $resultat['tipus'];
 				$this->concert_data->nom = $resultat['Nom'];
+				$cartell_concert = $resultat['cartell_concert'];
+
 				/* Concierto único*/
 				$query = "select localitat, sala from concertsdata where idConcert = '" . $this->concert_data->id_concert . "'";
 				$resultat_consulta2 = $bd->query($query);
@@ -420,32 +423,56 @@ class ob_conciertos_web
 						break;
 				}
 				print $this->concert_data->grups . ' ' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')">';
-				$this->concert_data->data = $this->timestamp_a_data($this->concert_data->dateConcert);
-				print '<p class="agenda_data">' . $this->concert_data->data . '</p><p class="entrada_agenda"><span class="agenda_nom">';
+
+				/* Wrap in entrada_concert div to match conciertos column style */
+				print '<div class="entrada_concert">';
+
+				/* Determine which image to use - prefer specific concert poster, fallback to general */
+				$cartell_to_use = '';
+				if ($cartell_concert != '') {
+					$cartell_to_use = $cartell_concert;
+				} else if ($this->concert_data->cartell != '') {
+					$cartell_to_use = $this->concert_data->cartell;
+				}
+
+				/* Display image if available - same size as conciertos column */
+				if ($cartell_to_use != '') {
+					$tamany = array();
+					$tamany = getimagesize('pics/conc/' . $cartell_to_use);
+					/* Same sizing logic as conciertos column */
+					$ample = floor((150 * $tamany[0]) / $tamany[1]);
+					if ($ample > 106) {
+						/* mes ample me alt */
+						$tam_imp = 'width="106"';
+					} else {
+						/* mes alt que llarg */
+						$tam_imp = 'height="150"';
+					}
+					print '<img src="pics/conc/' . $cartell_to_use . '" ' . $tam_imp . ' alt="' . $this->concert_data->grups . '" />';
+				}
+
+				$this->concert_data->dataIn = $this->timestamp_a_data($this->concert_data->dateIn);
+				print '<div class="data_con">' . $this->concert_data->dataIn . '</div>';
+				print '<h1>';
 				switch ($this->concert_data->tipus) {
 					case '1':
 						if ($this->concert_data->nom != '') {
 							print $this->concert_data->nom . ' <br />';
 						}
 						print $this->concert_data->grups;
-						print '</span><br />' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')</p>';
 						break;
 					case '2':
 						print $this->concert_data->grups;
-						print '</span><br />' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')</p>';
 						break;
 					case '3':
 						if ($this->concert_data->nom != '') {
-							print $this->concert_data->nom . '';
+							print $this->concert_data->nom;
 						}
-
-						print '</span><br />' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')</p>';
-
 						break;
 				}
-
-				print '</p>';
-				print '</a>';
+				print '</h1>';
+				print '<p>' . $this->concert_data->data . '<br />' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')</p>';
+				print '</div></a>';
 			}
 		}
 	}
