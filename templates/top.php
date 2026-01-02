@@ -418,7 +418,7 @@ $page->print_heads();
 		<div id="barramanu"> <!-- -------------------------------------------------- M E N U --------------------------------------------------- -->
 			<!-- Mobile Menu Toggle Button -->
 			<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
-				<?php echo ($page->leng == 'ES') ? 'MENÚ' : 'MENÚ'; ?>
+				<?php echo 'MENÚ'; ?>
 			</button>
 
 			<div id="menu">
