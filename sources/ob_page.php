@@ -83,6 +83,8 @@ class ob_page
 	{
 		print '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' .
 			"\n" .
+			'<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />' .
+			"\n" .
 			'<meta name="google-site-verification" content="3cpdckPZBddxzniOJ2ryh-yFVqQwxRmw4kuu2TuCaLc" />' .
 			"\n" .
 			'<meta property="og:type" content="Metal webzine" />' .
@@ -108,10 +110,13 @@ class ob_page
 			'<link type="text/css" rel="stylesheet" media="all" href="css/main.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/index.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/iframe.css" />',
+			'<link type="text/css" rel="stylesheet" media="all" href="css/responsive.css" />',
 		];
 		$this->words =
 			'Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, progresive, progresivo';
-		$this->scripts = [];
+		$this->scripts = [
+			'<script type="text/javascript" src="js/responsive-menu.js"></script>'
+		];
 		$this->punter = 1;
 		$this->quantitat = 36;
 		$this->quantitat_concerts_entrada = 20;
