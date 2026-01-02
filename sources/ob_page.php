@@ -115,7 +115,7 @@ class ob_page
 		$this->words =
 			'Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, progresive, progresivo';
 		$this->scripts = [
-			'<script type="text/javascript" src="css/responsive-menu.js"></script>'
+			'<script type="text/javascript" src="js/responsive-menu.js"></script>'
 		];
 		$this->punter = 1;
 		$this->quantitat = 36;
