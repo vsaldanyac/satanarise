@@ -655,12 +655,12 @@ class cp_propers_concerts
 
 			print 'Año <select name="any_' . $i . '">';
 			if ($this->formulari_1_ok) {
-				$contingut_camp = 2025;
+				$contingut_camp = 2026;
 			} else {
 				$contingut_camp = $this->dades->$nom->any;
 			}
 
-			for ($y = 2025; $y <= 2026; $y++) {
+			for ($y = 2026; $y <= 2027; $y++) {
 				if ($contingut_camp == $y) {
 					print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 
