@@ -1239,6 +1239,47 @@ div#final {
 }
 
 /* ================================================
+   Filtro agenda — mobile
+   ================================================ */
+@media (max-width: 1023px) {
+    div#filtres_agenda_mobile_toggle {
+        display: block;
+        margin-bottom: 8px;
+    }
+    div#filtres_agenda_mobile_toggle button {
+        width: 100%;
+        background: #660000;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 13px;
+        text-align: left;
+    }
+    div#filtres_agenda_form {
+        display: none;
+    }
+    div#filtres_agenda_form.filtres_open {
+        display: block !important;
+    }
+    div#filtres_agenda_form form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    div#filtres_agenda_form input[type="text"],
+    div#filtres_agenda_form input[type="date"] {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    div#filtres_agenda_form button[type="submit"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 13px;
+    }
+}
+
+/* ================================================
    Print Styles
    ================================================ */
 @media print {

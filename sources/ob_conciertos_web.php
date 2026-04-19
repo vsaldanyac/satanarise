@@ -128,19 +128,38 @@ class ob_conciertos_web
 					break;
 				case '2':
 					/* Gira */
-					$query = "select localitat, sala, dateConcert, cartell_concert from concertsdata where concertsdata.idGig = '" . $this->concert_data->id . "'";
+					$query = "select idConcert, localitat, sala, dateConcert, cartell_concert from concertsdata where concertsdata.idGig = '" . $this->concert_data->id . "' order by idConcert asc";
 					$resultat_consulta2 = $bd->query($query);
+					$primer_id_concert = null;
 					if ($resultat_consulta2 != FALSE) {
 						$numero_resultats = $resultat_consulta2->num_rows;
 						$array_dates = array();
 						for ($y = 0; $y < $numero_resultats; $y++) {
 							$resultat2 = $resultat_consulta2->fetch_assoc();
+							if ($primer_id_concert === null) {
+								$primer_id_concert = $resultat2['idConcert'];
+							}
 							$this->concert_data->sala = $resultat2['sala'];
 							$this->concert_data->localitat = $resultat2['localitat'];
 							$this->concert_data->cartell_concert = $resultat2['cartell_concert'];
 							$this->concert_data->dateConcert = $resultat2['dateConcert'];
 							$this->concert_data->data = $this->timestamp_a_data($this->concert_data->dateConcert);
 							$array_dates[] = $this->concert_data->data . '<br />' . $this->concert_data->sala . '  (' . $this->concert_data->localitat . ')';
+						}
+						if ($primer_id_concert !== null) {
+							$query_grups = "select Grup from concertsgrups where idConcert = '" . $primer_id_concert . "' order by ordre";
+							$resultat_grups = $bd->query($query_grups);
+							if ($resultat_grups != FALSE) {
+								$num_grups = $resultat_grups->num_rows;
+								for ($y = 0; $y < $num_grups; $y++) {
+									$fila_grup = $resultat_grups->fetch_assoc();
+									if ($this->concert_data->grups != '') {
+										$this->concert_data->grups = $this->concert_data->grups . ' + ' . $fila_grup['Grup'];
+									} else {
+										$this->concert_data->grups = $fila_grup['Grup'];
+									}
+								}
+							}
 						}
 					}
 					$this->concert_data->data = $this->timestamp_a_data($this->concert_data->dateConcert);
@@ -176,11 +195,14 @@ class ob_conciertos_web
 					print '<div class="data_con">' . $this->concert_data->dataIn . '</div>';
 
 					print '<h1>';
-					print $this->concert_data->nom . '</h1><p>';
+					print $this->concert_data->nom . '</h1>';
+					if ($this->concert_data->grups != '') {
+						print '<p>' . $this->concert_data->grups . '</p>';
+					}
+					print '<p>';
 					for ($y = 0; $y < $numero_resultats; $y++) {
 						print $array_dates[$y] . '<br /><br />';
 					}
-
 					print '</p></div></a>';
 					break;
 				case '3':
@@ -238,10 +260,58 @@ class ob_conciertos_web
 
 		}
 	}
-	public function extreure_concerts_per_data_concert($bd, $punter, $quantitat, $tipo)
-	/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
+	private function construir_filtres_agenda_sql($bd, $filtres)
 	{
-		/* Demanar dades a bbdd ordenat per data, desde $desde fins a $desde+$quantitat */
+		$where_extra = '';
+		if (!empty($filtres['banda'])) {
+			$banda_esc = $bd->real_escape_string($filtres['banda']);
+			$where_extra .= " AND EXISTS (SELECT 1 FROM concertsgrups WHERE concertsgrups.idConcert = concertsdata.idConcert AND concertsgrups.Grup LIKE '%" . $banda_esc . "%')";
+		}
+		if (!empty($filtres['ciudad'])) {
+			$ciudad_esc = $bd->real_escape_string($filtres['ciudad']);
+			$where_extra .= " AND concertsdata.localitat LIKE '%" . $ciudad_esc . "%'";
+		}
+		$fecha_tipo = isset($filtres['fecha_tipo']) ? $filtres['fecha_tipo'] : '';
+		$fecha_libre = isset($filtres['fecha_libre']) ? $filtres['fecha_libre'] : '';
+		if ($fecha_tipo === 'hoy') {
+			$hoy = date('Ymd') . '000000';
+			$manana = date('Ymd', strtotime('+1 day')) . '000000';
+			$where_extra .= " AND concertsdata.dateConcert >= $hoy AND concertsdata.dateConcert < $manana";
+		} elseif ($fecha_tipo === 'semana') {
+			$hoy = date('Ymd') . '000000';
+			$next_monday = date('Ymd', strtotime('next monday')) . '000000';
+			$where_extra .= " AND concertsdata.dateConcert >= $hoy AND concertsdata.dateConcert < $next_monday";
+		} elseif ($fecha_tipo === 'mes') {
+			$hoy = date('Ymd') . '000000';
+			$primer_sig = date('Ymd', strtotime('first day of next month')) . '000000';
+			$where_extra .= " AND concertsdata.dateConcert >= $hoy AND concertsdata.dateConcert < $primer_sig";
+		} elseif ($fecha_tipo === 'libre' && $fecha_libre !== '') {
+			$fecha_dt = DateTime::createFromFormat('Y-m-d', $fecha_libre);
+			if ($fecha_dt && $fecha_dt->format('Y-m-d') === $fecha_libre) {
+				$inicio = $fecha_dt->format('Ymd') . '000000';
+				$fecha_dt->modify('+1 day');
+				$fin = $fecha_dt->format('Ymd') . '000000';
+				$where_extra .= " AND concertsdata.dateConcert >= $inicio AND concertsdata.dateConcert < $fin";
+			}
+		}
+		return $where_extra;
+	}
+
+	public function get_agenda_count($bd, $filtres = [])
+	{
+		$data_actual = $this->timestamp_actual();
+		$data_actual = str_replace(' ', '', str_replace(':', '', str_replace('-', '', $data_actual)));
+		$where_extra = $this->construir_filtres_agenda_sql($bd, $filtres);
+		$query = "SELECT concertsdata.idGig FROM concertsdata, concerts WHERE concertsdata.dateConcert >= " . $data_actual . " AND concerts.idGig = concertsdata.idGig" . $where_extra;
+		$resultat = $bd->query($query);
+		if ($resultat !== FALSE) {
+			return $resultat->num_rows;
+		}
+		return 0;
+	}
+
+	public function extreure_concerts_per_data_concert($bd, $punter, $quantitat, $tipo, $filtres = [])
+	{
 		if ($tipo == 'normal') {
 			$inici = 0;
 			$quantitat = 25;
@@ -250,7 +320,9 @@ class ob_conciertos_web
 		}
 		$data_actual = $this->timestamp_actual();
 		$data_actual = str_replace(' ', '', str_replace(':', '', str_replace('-', '', $data_actual)));
-		$query = "select concerts.idGig, concerts.cartell, concerts.Nom,  concerts.num_bandes, concerts.dateIn, concerts.tipus, concertsdata.idConcert, concertsdata.dateConcert, concertsdata.cartell_concert from concertsdata, concerts where concertsdata.dateConcert >= " . $data_actual . " and concerts.idGig = concertsdata.idGig order by concertsdata.dateConcert asc limit " . $inici . ", " . $quantitat;
+		$where_extra = $this->construir_filtres_agenda_sql($bd, $filtres);
+		$this->filtres_agenda = $filtres;
+		$query = "select concerts.idGig, concerts.cartell, concerts.Nom,  concerts.num_bandes, concerts.dateIn, concerts.tipus, concertsdata.idConcert, concertsdata.dateConcert, concertsdata.cartell_concert from concertsdata, concerts where concertsdata.dateConcert >= " . $data_actual . " and concerts.idGig = concertsdata.idGig" . $where_extra . " order by concertsdata.dateConcert asc limit " . $inici . ", " . $quantitat;
 
 		$this->resultat_consulta = $bd->query($query);
 		if ($this->resultat_consulta != FALSE) {
@@ -398,7 +470,10 @@ class ob_conciertos_web
 					$resultat2 = $resultat_consulta2->fetch_assoc();
 					$this->concert_data->sala = $resultat2['sala'];
 					$this->concert_data->localitat = $resultat2['localitat'];
-					$query = "select Grup from concertsgrups where idConcert = '" . $this->concert_data->id_concert . "' order by ordre";
+					$id_grups = ($this->concert_data->tipus == '2')
+						? "(SELECT MIN(idConcert) FROM concertsdata WHERE idGig = '" . $this->concert_data->id . "')"
+						: "'" . $this->concert_data->id_concert . "'";
+					$query = "select Grup from concertsgrups where idConcert = " . $id_grups . " order by ordre";
 					$resultat_consulta2 = $bd->query($query);
 					if ($this->resultat_consulta != FALSE) {
 						$numero_resultats = $resultat_consulta2->num_rows;
@@ -462,6 +537,9 @@ class ob_conciertos_web
 						print $this->concert_data->grups;
 						break;
 					case '2':
+						if ($this->concert_data->nom != '') {
+							print $this->concert_data->nom . '<br />';
+						}
 						print $this->concert_data->grups;
 						break;
 					case '3':
@@ -473,6 +551,13 @@ class ob_conciertos_web
 				print '</h1>';
 				print '<p>' . $this->concert_data->data . '<br />' . $this->concert_data->sala . ' (' . $this->concert_data->localitat . ')</p>';
 				print '</div></a>';
+			}
+			if ($this->numero_resultats == 0 && $tipo == 'agenda' && !empty($this->filtres_agenda)) {
+				if ($page->leng == 'ES') {
+					print '<p class="filtres_sin_resultados">No se encontraron conciertos con estos filtros.</p>';
+				} else {
+					print '<p class="filtres_sin_resultados">No s\'han trobat concerts amb aquests filtres.</p>';
+				}
 			}
 		}
 	}
