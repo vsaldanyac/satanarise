@@ -128,19 +128,38 @@ class ob_conciertos_web
 					break;
 				case '2':
 					/* Gira */
-					$query = "select localitat, sala, dateConcert, cartell_concert from concertsdata where concertsdata.idGig = '" . $this->concert_data->id . "'";
+					$query = "select idConcert, localitat, sala, dateConcert, cartell_concert from concertsdata where concertsdata.idGig = '" . $this->concert_data->id . "' order by idConcert asc";
 					$resultat_consulta2 = $bd->query($query);
+					$primer_id_concert = null;
 					if ($resultat_consulta2 != FALSE) {
 						$numero_resultats = $resultat_consulta2->num_rows;
 						$array_dates = array();
 						for ($y = 0; $y < $numero_resultats; $y++) {
 							$resultat2 = $resultat_consulta2->fetch_assoc();
+							if ($primer_id_concert === null) {
+								$primer_id_concert = $resultat2['idConcert'];
+							}
 							$this->concert_data->sala = $resultat2['sala'];
 							$this->concert_data->localitat = $resultat2['localitat'];
 							$this->concert_data->cartell_concert = $resultat2['cartell_concert'];
 							$this->concert_data->dateConcert = $resultat2['dateConcert'];
 							$this->concert_data->data = $this->timestamp_a_data($this->concert_data->dateConcert);
 							$array_dates[] = $this->concert_data->data . '<br />' . $this->concert_data->sala . '  (' . $this->concert_data->localitat . ')';
+						}
+						if ($primer_id_concert !== null) {
+							$query_grups = "select Grup from concertsgrups where idConcert = '" . $primer_id_concert . "' order by ordre";
+							$resultat_grups = $bd->query($query_grups);
+							if ($resultat_grups != FALSE) {
+								$num_grups = $resultat_grups->num_rows;
+								for ($y = 0; $y < $num_grups; $y++) {
+									$fila_grup = $resultat_grups->fetch_assoc();
+									if ($this->concert_data->grups != '') {
+										$this->concert_data->grups = $this->concert_data->grups . ' + ' . $fila_grup['Grup'];
+									} else {
+										$this->concert_data->grups = $fila_grup['Grup'];
+									}
+								}
+							}
 						}
 					}
 					$this->concert_data->data = $this->timestamp_a_data($this->concert_data->dateConcert);
@@ -176,11 +195,14 @@ class ob_conciertos_web
 					print '<div class="data_con">' . $this->concert_data->dataIn . '</div>';
 
 					print '<h1>';
-					print $this->concert_data->nom . '</h1><p>';
+					print $this->concert_data->nom . '</h1>';
+					if ($this->concert_data->grups != '') {
+						print '<p>' . $this->concert_data->grups . '</p>';
+					}
+					print '<p>';
 					for ($y = 0; $y < $numero_resultats; $y++) {
 						print $array_dates[$y] . '<br /><br />';
 					}
-
 					print '</p></div></a>';
 					break;
 				case '3':
@@ -448,7 +470,10 @@ class ob_conciertos_web
 					$resultat2 = $resultat_consulta2->fetch_assoc();
 					$this->concert_data->sala = $resultat2['sala'];
 					$this->concert_data->localitat = $resultat2['localitat'];
-					$query = "select Grup from concertsgrups where idConcert = '" . $this->concert_data->id_concert . "' order by ordre";
+					$id_grups = ($this->concert_data->tipus == '2')
+						? "(SELECT MIN(idConcert) FROM concertsdata WHERE idGig = '" . $this->concert_data->id . "')"
+						: "'" . $this->concert_data->id_concert . "'";
+					$query = "select Grup from concertsgrups where idConcert = " . $id_grups . " order by ordre";
 					$resultat_consulta2 = $bd->query($query);
 					if ($this->resultat_consulta != FALSE) {
 						$numero_resultats = $resultat_consulta2->num_rows;
@@ -512,6 +537,9 @@ class ob_conciertos_web
 						print $this->concert_data->grups;
 						break;
 					case '2':
+						if ($this->concert_data->nom != '') {
+							print $this->concert_data->nom . '<br />';
+						}
 						print $this->concert_data->grups;
 						break;
 					case '3':
