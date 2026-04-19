@@ -5,13 +5,13 @@ switch ($page->section) {
 		$page->description = 'Satan Arise - Heavy Metal, crítiques, entrevistes i informació de tots els estils de metal.';
 		$page->title = 'Satan Arise - Novetats, discografies, entrevistes i molt més, heavy, folk, power, gothic, death, trash, black... metal!';
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');
+		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css?v=2" />');
 		break;
 	case ('inicio'):
 		$page->description = 'Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
 		$page->title = 'Satan Arise - Novedades, discografias, entrevistas y mas, heavy, folk, power, gothic, death, trash... metal!';
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');
+		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css?v=2" />');
 		break;
 	case ('critiques'):
 		$page->description = $page->review_descripcio . '... - Satan Arise - Heavy Metal, crítiques, entrevistes i informació de tots els estils de metal.';
@@ -31,7 +31,7 @@ switch ($page->section) {
 		break;
 	case ('concerts'):
 		$page->words = 'conciertos, ' . $page->words;
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');
+		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css?v=2" />');
 		$page->add_css('<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />');
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
 		$page->add_scripts('<script type="text/javascript" src="js/prototype.js"></script>', '<script type="text/javascript" src="js/scriptaculous.js?load=effects,builder"></script>', '<script type="text/javascript" src="js/lightbox.js"></script>');
@@ -45,7 +45,7 @@ switch ($page->section) {
 		break;
 	case ('conciertos'):
 		$page->words = 'concerts, gigs, ' . $page->words;
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css" />');
+		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/conciertos.css?v=2" />');
 		$page->add_css('<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />');
 		$page->add_scripts('<script type="text/javascript" src="js/prototype.js"></script>', '<script type="text/javascript" src="js/scriptaculous.js?load=effects,builder"></script>', '<script type="text/javascript" src="js/lightbox.js"></script>');
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
@@ -425,9 +425,9 @@ $page->print_heads();
 				<?php
 
 				if ($page->leng == 'ES') {
-					$cad_menu = array('inicio', 'noticias', 'conciertos', 'criticas', 'cronicas', 'entrevistas', 'opinion', 'contacto'); /* afegir concerts!!! */
+					$cad_menu = array('inicio', 'noticias', 'conciertos_entradas', 'conciertos_agenda', 'criticas', 'cronicas', 'entrevistas', 'opinion', 'contacto');
 				} else {
-					$cad_menu = array('inici', 'noticies', 'concerts', 'critiques', 'croniques', 'entrevistes', 'opinio', 'contacte');
+					$cad_menu = array('inici', 'noticies', 'concerts_entrades', 'concerts_agenda', 'critiques', 'croniques', 'entrevistes', 'opinio', 'contacte');
 				}
 				$contmax = count($cad_menu);
 				$cont = 0;
@@ -446,9 +446,13 @@ $page->print_heads();
 								$tit = 'Críticas, reviews, novedades metal, discos, critica y tracklist - Satan Arise';
 								$texte = 'Críticas';
 								break;
-							case 'conciertos':
+							case 'conciertos_entradas':
 								$tit = 'Conciertos, fechas, salas, bandas y carteles - Satan Arise';
 								$texte = 'Conciertos';
+								break;
+							case 'conciertos_agenda':
+								$tit = 'Agenda de conciertos de metal - Satan Arise';
+								$texte = 'Agenda';
 								break;
 							case 'cronicas':
 								$tit = 'Crónicas de conciertos - Satan Arise';
@@ -473,10 +477,20 @@ $page->print_heads();
 								break;
 						}
 
-						print '<p class="linkmenu"><a class="men" href="index.php?ln=' . $page->leng . '&sec=' . $cad_menu[$cont] . '" title="' . $tit . '">';
-						if ($page->section == $cad_menu[$cont]) print '<span class="on">';
+						if ($cad_menu[$cont] == 'conciertos_entradas') {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=conciertos&type=entradas';
+							$menu_active = ($page->section == 'conciertos' && $page->concert_tipus != 'agenda');
+						} elseif ($cad_menu[$cont] == 'conciertos_agenda') {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=conciertos&type=agenda';
+							$menu_active = ($page->section == 'conciertos' && $page->concert_tipus == 'agenda');
+						} else {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=' . $cad_menu[$cont];
+							$menu_active = ($page->section == $cad_menu[$cont]);
+						}
+						print '<p class="linkmenu"><a class="men" href="' . $menu_url . '" title="' . $tit . '">';
+						if ($menu_active) print '<span class="on">';
 						print $texte;
-						if ($page->section == $cad_menu[$cont]) print '</span>';
+						if ($menu_active) print '</span>';
 						print '</a></p>' . "\n";
 						$cont = $cont + 1;
 					}
@@ -495,9 +509,13 @@ $page->print_heads();
 								$tit = 'Crítiques, reviews, novetats de metal, discos, crítica i tracklist - Satan Arise';
 								$texte = 'Crítiques';
 								break;
-							case 'concerts':
+							case 'concerts_entrades':
 								$tit = 'Concerts, datas, sales, bandes i cartells - Satan Arise';
 								$texte = 'Concerts';
+								break;
+							case 'concerts_agenda':
+								$tit = 'Agenda de concerts de metal - Satan Arise';
+								$texte = 'Agenda';
 								break;
 							case 'croniques':
 								$tit = 'Cròniques de concerts - Satan Arise';
@@ -521,10 +539,20 @@ $page->print_heads();
 								$texte = 'Satan Arise';
 								break;
 						}
-						print '<p class="linkmenu"><a class="men" href="index.php?ln=' . $page->leng . '&sec=' . $cad_menu[$cont] . '" title="' . $tit . '">';
-						if ($page->section == $cad_menu[$cont]) print '<span class="on">';
+						if ($cad_menu[$cont] == 'concerts_entrades') {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=concerts&type=entradas';
+							$menu_active = ($page->section == 'concerts' && $page->concert_tipus != 'agenda');
+						} elseif ($cad_menu[$cont] == 'concerts_agenda') {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=concerts&type=agenda';
+							$menu_active = ($page->section == 'concerts' && $page->concert_tipus == 'agenda');
+						} else {
+							$menu_url = 'index.php?ln=' . $page->leng . '&sec=' . $cad_menu[$cont];
+							$menu_active = ($page->section == $cad_menu[$cont]);
+						}
+						print '<p class="linkmenu"><a class="men" href="' . $menu_url . '" title="' . $tit . '">';
+						if ($menu_active) print '<span class="on">';
 						print $texte;
-						if ($page->section == $cad_menu[$cont]) print '</span>';
+						if ($menu_active) print '</span>';
 						print '</a></p>' . "\n";
 						$cont = $cont + 1;
 					}

@@ -261,6 +261,69 @@ div.proper_concert h1 {
 }
 div.proper_concert p{
 	font-family:Verdana, Geneva, sans-serif;
-	font-size:12px;	
+	font-size:12px;
 	color:#666;
+}
+
+/* Filtro agenda */
+div#filtres_agenda {
+	width: 100%;
+	margin-bottom: 12px;
+	padding: 8px 6px;
+	background: #1a0000;
+	border: 1px solid #660000;
+	box-sizing: border-box;
+}
+@media (min-width: 1024px) {
+	div#filtres_agenda_mobile_toggle {
+		display: none;
+	}
+}
+div#filtres_agenda_form form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 10px;
+	align-items: center;
+}
+div#filtres_agenda_form label {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	color: #cccccc;
+}
+div#filtres_agenda_form input[type="text"],
+div#filtres_agenda_form input[type="date"] {
+	background: #2a0000;
+	color: #cccccc;
+	border: 1px solid #660000;
+	padding: 2px 5px;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	width: 120px;
+}
+div#filtres_agenda_form input[type="radio"] {
+	margin-right: 2px;
+}
+div#filtres_agenda_form button[type="submit"] {
+	background: #660000;
+	color: #ffffff;
+	border: none;
+	padding: 4px 10px;
+	cursor: pointer;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
+div#filtres_agenda_form button[type="submit"]:hover {
+	background: #880000;
+}
+a.filtres_reset {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #999999;
+	text-decoration: underline;
+}
+p.filtres_sin_resultados {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	color: #999999;
+	padding: 10px 5px;
 }

@@ -110,7 +110,7 @@ class ob_page
 			'<link type="text/css" rel="stylesheet" media="all" href="css/main.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/index.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/iframe.css" />',
-			'<link type="text/css" rel="stylesheet" media="all" href="css/responsive.css" />',
+			'<link type="text/css" rel="stylesheet" media="all" href="css/responsive.css?v=2" />',
 		];
 		$this->words =
 			'Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, progresive, progresivo';
@@ -352,6 +352,20 @@ class ob_page
 				$this->concert_tipus != 'agenda'
 			) {
 				$this->concert_tipus = 'normal';
+			}
+			if ($this->concert_tipus == 'agenda') {
+				$this->filtro_banda = isset($param['banda']) ? trim(substr($param['banda'], 0, 100)) : '';
+				$this->filtro_ciudad = isset($param['ciudad']) ? trim(substr($param['ciudad'], 0, 100)) : '';
+				$valid_fecha_tipos = ['hoy', 'semana', 'mes', 'libre'];
+				$this->filtro_fecha_tipo = (isset($param['fecha_tipo']) && in_array($param['fecha_tipo'], $valid_fecha_tipos)) ? $param['fecha_tipo'] : '';
+				$fecha_libre_raw = isset($param['fecha_libre']) ? $param['fecha_libre'] : '';
+				$fecha_parsed = DateTime::createFromFormat('Y-m-d', $fecha_libre_raw);
+				$this->filtro_fecha_libre = ($fecha_parsed && $fecha_parsed->format('Y-m-d') === $fecha_libre_raw) ? $fecha_libre_raw : '';
+			} else {
+				$this->filtro_banda = '';
+				$this->filtro_ciudad = '';
+				$this->filtro_fecha_tipo = '';
+				$this->filtro_fecha_libre = '';
 			}
 			if (isset($param['id'])) {
 				$this->id = $param['id'];
@@ -894,6 +908,12 @@ class ob_page
 				$this->section == 'conciertos'
 			) {
 				print '&type=' . $this->concert_tipus;
+				if ($this->concert_tipus == 'agenda') {
+					if ($this->filtro_banda != '') print '&banda=' . urlencode($this->filtro_banda);
+					if ($this->filtro_ciudad != '') print '&ciudad=' . urlencode($this->filtro_ciudad);
+					if ($this->filtro_fecha_tipo != '') print '&fecha_tipo=' . $this->filtro_fecha_tipo;
+					if ($this->filtro_fecha_tipo == 'libre' && $this->filtro_fecha_libre != '') print '&fecha_libre=' . $this->filtro_fecha_libre;
+				}
 			}
 			if ($this->section == 'crticas' || $this->section == 'critiques') {
 				print '&type=' . $this->review_tipus;
@@ -941,6 +961,12 @@ class ob_page
 				$this->section == 'conciertos'
 			) {
 				print '&type=' . $this->concert_tipus;
+				if ($this->concert_tipus == 'agenda') {
+					if ($this->filtro_banda != '') print '&banda=' . urlencode($this->filtro_banda);
+					if ($this->filtro_ciudad != '') print '&ciudad=' . urlencode($this->filtro_ciudad);
+					if ($this->filtro_fecha_tipo != '') print '&fecha_tipo=' . $this->filtro_fecha_tipo;
+					if ($this->filtro_fecha_tipo == 'libre' && $this->filtro_fecha_libre != '') print '&fecha_libre=' . $this->filtro_fecha_libre;
+				}
 			}
 			if ($this->section == 'crticas' || $this->section == 'critiques') {
 				print '&type=' . $this->review_tipus;
@@ -991,6 +1017,12 @@ class ob_page
 				$this->section == 'conciertos'
 			) {
 				print '&type=' . $this->concert_tipus;
+				if ($this->concert_tipus == 'agenda') {
+					if ($this->filtro_banda != '') print '&banda=' . urlencode($this->filtro_banda);
+					if ($this->filtro_ciudad != '') print '&ciudad=' . urlencode($this->filtro_ciudad);
+					if ($this->filtro_fecha_tipo != '') print '&fecha_tipo=' . $this->filtro_fecha_tipo;
+					if ($this->filtro_fecha_tipo == 'libre' && $this->filtro_fecha_libre != '') print '&fecha_libre=' . $this->filtro_fecha_libre;
+				}
 			}
 			if ($this->section == 'crticas' || $this->section == 'critiques') {
 				print '&type=' . $this->review_tipus;
@@ -1039,6 +1071,12 @@ class ob_page
 				$this->section == 'conciertos'
 			) {
 				print '&type=' . $this->concert_tipus;
+				if ($this->concert_tipus == 'agenda') {
+					if ($this->filtro_banda != '') print '&banda=' . urlencode($this->filtro_banda);
+					if ($this->filtro_ciudad != '') print '&ciudad=' . urlencode($this->filtro_ciudad);
+					if ($this->filtro_fecha_tipo != '') print '&fecha_tipo=' . $this->filtro_fecha_tipo;
+					if ($this->filtro_fecha_tipo == 'libre' && $this->filtro_fecha_libre != '') print '&fecha_libre=' . $this->filtro_fecha_libre;
+				}
 			}
 			if ($this->section == 'crticas' || $this->section == 'critiques') {
 				print '&type=' . $this->review_tipus;

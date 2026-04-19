@@ -145,22 +145,76 @@ switch ($page->__get('concert_tipus')) {
 		} else {
 			print '<p>Agenda</p>';
 		}
-		/* Mostra 20 entrades endreçades per tipus i dateIn */
-
 		print '</div>';
+
+		$filtres_agenda = [
+			'banda'      => $page->filtro_banda,
+			'ciudad'     => $page->filtro_ciudad,
+			'fecha_tipo' => $page->filtro_fecha_tipo,
+			'fecha_libre' => $page->filtro_fecha_libre,
+		];
+		$sec_agenda = ($page->leng == 'ES') ? 'conciertos' : 'concerts';
+		$filtres_actius = ($page->filtro_banda != '' || $page->filtro_ciudad != '' || $page->filtro_fecha_tipo != '');
+
+		print '<div id="filtres_agenda">';
+		print '<div id="filtres_agenda_mobile_toggle">';
+		if ($page->leng == 'ES') {
+			print '<button type="button" onclick="var f=document.getElementById(\'filtres_agenda_form\');f.classList.toggle(\'filtres_open\');">Filtrar conciertos</button>';
+		} else {
+			print '<button type="button" onclick="var f=document.getElementById(\'filtres_agenda_form\');f.classList.toggle(\'filtres_open\');">Filtrar concerts</button>';
+		}
+		print '</div>';
+
+		print '<div id="filtres_agenda_form">';
+		print '<form method="GET" action="index.php">';
+		print '<input type="hidden" name="ln" value="' . htmlspecialchars($page->leng) . '" />';
+		print '<input type="hidden" name="sec" value="' . htmlspecialchars($sec_agenda) . '" />';
+		print '<input type="hidden" name="type" value="agenda" />';
+
+		if ($page->leng == 'ES') {
+			print '<label>Banda: <input type="text" name="banda" value="' . htmlspecialchars($page->filtro_banda) . '" maxlength="100" /></label>';
+			print '<label>Ciudad: <input type="text" name="ciudad" value="' . htmlspecialchars($page->filtro_ciudad) . '" maxlength="100" /></label>';
+			print '<label>Fecha:</label>';
+			$fecha_opts = ['' => 'Cualquier fecha', 'hoy' => 'Hoy', 'semana' => 'Esta semana', 'mes' => 'Este mes', 'libre' => 'Fecha:'];
+		} else {
+			print '<label>Banda: <input type="text" name="banda" value="' . htmlspecialchars($page->filtro_banda) . '" maxlength="100" /></label>';
+			print '<label>Ciutat: <input type="text" name="ciudad" value="' . htmlspecialchars($page->filtro_ciudad) . '" maxlength="100" /></label>';
+			print '<label>Data:</label>';
+			$fecha_opts = ['' => 'Qualsevol data', 'hoy' => 'Avui', 'semana' => 'Aquesta setmana', 'mes' => 'Aquest mes', 'libre' => 'Data:'];
+		}
+		foreach ($fecha_opts as $val => $label) {
+			$checked = ($page->filtro_fecha_tipo === $val) ? ' checked' : '';
+			print '<label><input type="radio" name="fecha_tipo" value="' . $val . '"' . $checked . ' /> ' . $label . '</label>';
+			if ($val === 'libre') {
+				print '<input type="date" name="fecha_libre" value="' . htmlspecialchars($page->filtro_fecha_libre) . '" />';
+			}
+		}
+
+		if ($page->leng == 'ES') {
+			print '<button type="submit">Aplicar</button>';
+			if ($filtres_actius) {
+				print ' <a class="filtres_reset" href="index.php?ln=ES&sec=conciertos&type=agenda">Ver todos</a>';
+			}
+		} else {
+			print '<button type="submit">Aplicar</button>';
+			if ($filtres_actius) {
+				print ' <a class="filtres_reset" href="index.php?ln=CAT&sec=concerts&type=agenda">Veure tots</a>';
+			}
+		}
+		print '</form>';
+		print '</div>';
+		print '</div>';
+
 		$basedades->conectar();
 		if (!$basedades->error_conexio) {
-			$concerts->extreure_concerts_per_data_concert($basedades->__get('bd'), $page->__get('punter'), $page->__get('quantitat_concerts_data'), $page->__get('concert_tipus'));
+			$concerts->extreure_concerts_per_data_concert($basedades->__get('bd'), $page->__get('punter'), $page->__get('quantitat_concerts_data'), $page->__get('concert_tipus'), $filtres_agenda);
 			$concerts->mostrar_resultats_per_data_concert($basedades->__get('bd'), $page->__get('concert_tipus'), $page);
-		}
-		$query = "select idGig from concertsdata";
-		$resultat = $basedades->bd->query($query);
-		if ($resultat != FALSE) {
-			$numero = $resultat->num_rows;
-			$page->navegador($numero, $page->quantitat_concerts_data);
+			$numero = $concerts->get_agenda_count($basedades->__get('bd'), $filtres_agenda);
+			if ($numero > 0) {
+				$page->navegador($numero, $page->quantitat_concerts_data);
+			}
 		}
 		$basedades->desconectar();
-
 
 		break;
 
