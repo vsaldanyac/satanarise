@@ -263,7 +263,7 @@ class ob_cp_opinio
 		print '</select>';
 
 		print 'Año <select name="anydata">';
-		for ($y = 2025; $y <= 2025; $y++) {
+		for ($y = 2026; $y <= 2026; $y++) {
 			if ($opinio->anydata == $y) {
 				print '<option selected="selected" value="' . $y . '">' . $y . '</option>';
 
