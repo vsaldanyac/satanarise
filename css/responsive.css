@@ -755,8 +755,8 @@ div.tit300 {
     width: 100% !important;
 }
 
-/* Agenda items now use entrada_concert structure - mobile responsive */
-div#concerts_right div.entrada_concert {
+/* Concert entry items - normalise to small format on mobile */
+div.entrada_concert {
     width: 100% !important;
     min-height: auto !important;
     margin: 10px 0 !important;
@@ -764,7 +764,7 @@ div#concerts_right div.entrada_concert {
     box-sizing: border-box;
 }
 
-div#concerts_right div.entrada_concert img {
+div.entrada_concert img {
     max-width: 80px !important;
     width: auto !important;
     height: auto !important;
@@ -773,18 +773,19 @@ div#concerts_right div.entrada_concert img {
     float: left !important;
 }
 
-div#concerts_right div.entrada_concert h1 {
+div.entrada_concert h1 {
     margin-left: 0 !important;
     padding: 5px 10px !important;
     font-size: 14px !important;
 }
 
-div#concerts_right div.entrada_concert p {
+div.entrada_concert p {
     margin-left: 0 !important;
     padding: 5px 10px !important;
     font-size: 13px !important;
 }
 
+div.entrada_concert div.data_con,
 div#concerts_right div.data_con {
     position: static !important;
     float: right !important;
