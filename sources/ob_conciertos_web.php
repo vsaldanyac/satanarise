@@ -195,10 +195,10 @@ class ob_conciertos_web
 					print '<div class="data_con">' . $this->concert_data->dataIn . '</div>';
 
 					print '<h1>';
-					print $this->concert_data->nom . '</h1>';
-					if ($this->concert_data->grups != '') {
-						print '<p>' . $this->concert_data->grups . '</p>';
+					if ($this->concert_data->nom != '') {
+						print $this->concert_data->nom . '<br />';
 					}
+					print $this->concert_data->grups . '</h1>';
 					print '<p>';
 					for ($y = 0; $y < $numero_resultats; $y++) {
 						print $array_dates[$y] . '<br /><br />';
