@@ -92,11 +92,13 @@
         }
 
         function renderResults(results, q) {
+            var cat = getLang() === 'CAT';
             var sections = {
-                noticias:    'Noticias',
-                conciertos:  'Conciertos',
-                criticas:    'Críticas',
-                entrevistas: 'Entrevistas'
+                noticias:    cat ? 'Notícies'   : 'Noticias',
+                conciertos:  cat ? 'Concerts'   : 'Conciertos',
+                criticas:    cat ? 'Crítiques'  : 'Críticas',
+                cronicas:    cat ? 'Cròniques'  : 'Crónicas',
+                entrevistas: cat ? 'Entrevistes' : 'Entrevistas'
             };
             var html  = '';
             var total = 0;

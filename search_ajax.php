@@ -7,7 +7,7 @@ header('X-Content-Type-Options: nosniff');
 $q  = isset($_GET['q'])  ? trim($_GET['q'])  : '';
 $ln = (isset($_GET['ln']) && $_GET['ln'] === 'CAT') ? 'CAT' : 'ES';
 
-$empty = ['noticias' => [], 'conciertos' => [], 'criticas' => [], 'entrevistas' => []];
+$empty = ['noticias' => [], 'conciertos' => [], 'criticas' => [], 'cronicas' => [], 'entrevistas' => []];
 
 if (mb_strlen($q) < 3) {
     echo json_encode(['results' => $empty]);
@@ -46,7 +46,7 @@ $r = $bd->query(
      FROM news
      INNER JOIN newscontent ON news.idNews = newscontent.idNews
      WHERE newscontent.Idioma = '$idioma'
-       AND newscontent.Title LIKE '%$term%'
+       AND (newscontent.Title LIKE '%$term%' OR news.descripcio LIKE '%$term%')
      ORDER BY news.dateIn DESC
      LIMIT 5"
 );
@@ -113,6 +113,27 @@ if ($r && $r->num_rows > 0) {
         $results['criticas'][] = [
             'title' => clean($row['banda']) . ' – ' . clean($row['disc']) . ' (' . $row['any'] . ')',
             'url'   => 'index.php?ln=' . $ln . '&sec=' . $sec_criticas . '&' . $row['link'],
+        ];
+    }
+}
+
+/* ---- Crónicas (last 12 months, search in titol) ---- */
+$sec_cronicas  = ($ln === 'CAT') ? 'croniques' : 'cronicas';
+$idioma_filter = ($ln === 'CAT') ? "idioma = 'CAT' OR idioma = 'BOTH'" : "idioma = 'ES' OR idioma = 'BOTH'";
+$r = $bd->query(
+    "SELECT cronicas.link, cronicas.titol
+     FROM cronicas
+     WHERE cronicas.titol LIKE '%$term%'
+       AND ($idioma_filter)
+       AND cronicas.data >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+     ORDER BY cronicas.data DESC
+     LIMIT 5"
+);
+if ($r && $r->num_rows > 0) {
+    while ($row = $r->fetch_assoc()) {
+        $results['cronicas'][] = [
+            'title' => clean($row['titol']),
+            'url'   => 'index.php?ln=' . $ln . '&sec=' . $sec_cronicas . '&' . $row['link'],
         ];
     }
 }
