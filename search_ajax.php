@@ -48,7 +48,7 @@ $r = $bd->query(
      WHERE newscontent.Idioma = '$idioma'
        AND (newscontent.Title LIKE '%$term%' OR news.descripcio LIKE '%$term%')
      ORDER BY news.dateIn DESC
-     LIMIT 5"
+     LIMIT 20"
 );
 if ($r && $r->num_rows > 0) {
     while ($row = $r->fetch_assoc()) {
@@ -75,7 +75,7 @@ $r = $bd->query(
      INNER JOIN concertsgrups ON concertsdata.idConcert  = concertsgrups.idConcert
      WHERE concertsgrups.Grup LIKE '%$term%'
         OR concerts.Nom       LIKE '%$term%'
-     ORDER BY concerts.dateIn DESC, concertsdata.dateConcert ASC
+     ORDER BY concertsdata.dateConcert ASC, concerts.dateIn DESC
      LIMIT 20"
 );
 if ($r && $r->num_rows > 0) {
@@ -113,7 +113,7 @@ $r = $bd->query(
      WHERE (reviews.banda LIKE '%$term%' $formacio_clause)
        AND release_date <= NOW()
      ORDER BY reviews.release_date DESC
-     LIMIT 5"
+     LIMIT 10"
 );
 if ($r && $r->num_rows > 0) {
     while ($row = $r->fetch_assoc()) {
