@@ -100,10 +100,17 @@ if ($r && $r->num_rows > 0) {
 
 /* ---- Críticas / Reviews ---- */
 $sec_criticas = ($ln === 'CAT') ? 'critiques' : 'criticas';
+
+$instruments = ['batería','guitarra','guitarras','bajo','flauta','voz','voces',
+                'coros','teclados','sintetizadores','gaitas','danza'];
+$formacio_clause = in_array(mb_strtolower($q), $instruments)
+    ? ''
+    : "OR reviews.formacio_es LIKE '%$term%'";
+
 $r = $bd->query(
-    "SELECT reviews.link, reviews.banda, reviews.disc, reviews.any
+    "SELECT DISTINCT reviews.link, reviews.banda, reviews.disc, reviews.any
      FROM reviews
-     WHERE reviews.banda LIKE '%$term%'
+     WHERE (reviews.banda LIKE '%$term%' $formacio_clause)
        AND release_date <= NOW()
      ORDER BY reviews.release_date DESC
      LIMIT 5"
