@@ -111,11 +111,13 @@ class ob_page
 			'<link type="text/css" rel="stylesheet" media="all" href="css/index.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/iframe.css" />',
 			'<link type="text/css" rel="stylesheet" media="all" href="css/responsive.css?v=2" />',
+			'<link type="text/css" rel="stylesheet" media="all" href="css/search.css" />',
 		];
 		$this->words =
 			'Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, progresive, progresivo';
 		$this->scripts = [
-			'<script type="text/javascript" src="js/responsive-menu.js"></script>'
+			'<script type="text/javascript" src="js/responsive-menu.js"></script>',
+			'<script type="text/javascript" src="js/search.js"></script>',
 		];
 		$this->punter = 1;
 		$this->quantitat = 36;

@@ -1302,3 +1302,78 @@ div#final {
         width: 100% !important;
     }
 }
+
+/* ================================================
+   Search Bar — Responsive Overrides
+   ================================================ */
+
+/* Desktop: hide the mobile control wrapper (buttons are inside it) */
+@media (min-width: 1024px) {
+    #mobile-bar-controls {
+        display: none;
+    }
+}
+
+/* Mobile: side-by-side MENÚ + 🔍 buttons */
+@media (max-width: 1023px) {
+    /* Shift language flag left so it doesn't overlap the search button (54px wide) */
+    div#banderes {
+        right: 62px !important;
+    }
+    #mobile-bar-controls {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    /* Let the menu button grow, but not force full width */
+    #mobile-bar-controls .mobile-menu-toggle {
+        flex: 1;
+        width: auto !important;
+    }
+
+    /* Search icon button */
+    #searchMobileToggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #800000;
+        border: none;
+        border-left: 1px solid #400000;
+        color: #fff;
+        font-size: 20px;
+        width: 54px;
+        min-width: 54px;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    #searchMobileToggle.active {
+        background: #600;
+    }
+
+    /* Search bar hidden by default; shown when JS adds .search-open */
+    #search-bar {
+        display: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 8px 10px !important;
+        box-sizing: border-box;
+    }
+
+    #search-bar.search-open {
+        display: flex !important;
+    }
+
+    /* Prevent iOS zoom on focus */
+    #search-input {
+        font-size: 16px !important;
+    }
+
+    /* Overlay stretches full width on mobile */
+    #search-overlay {
+        left: 0 !important;
+        width: 100% !important;
+        max-height: 65vh;
+    }
+}

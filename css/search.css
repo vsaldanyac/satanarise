@@ -1,0 +1,165 @@
+/* ============================================================
+   Search Bar + Overlay — SatanArise.com
+   ============================================================ */
+
+/* ----- Search bar (below #barramanu, always visible on desktop) ----- */
+#search-bar {
+    clear: left;
+    width: 980px;
+    margin: 0 10px 6px 10px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    background: #1a0000;
+    border-bottom: 2px solid #600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ddd;
+    font-family: "Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    outline: none;
+    padding: 3px 0;
+    min-width: 0;
+}
+
+#search-input::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+/* Clear button — hidden until input has text (JS adds .has-text to #search-bar) */
+#search-clear {
+    display: none;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+    flex-shrink: 0;
+}
+
+#search-clear:hover {
+    color: #fff;
+}
+
+#search-bar.has-text #search-clear {
+    display: block;
+}
+
+/* Mobile search toggle: hidden on desktop, shown on mobile via responsive.css */
+#searchMobileToggle {
+    display: none;
+}
+
+/* ----- Overlay (fixed, positioned by JS) ----- */
+#search-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    background: #0d0000;
+    border: 1px solid #600;
+    border-top: none;
+    max-height: 480px;
+    overflow-y: auto;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.85);
+}
+
+#search-overlay-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    background: #600;
+    color: #fff;
+    font-family: "Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+}
+
+#search-close {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 2px;
+    opacity: 0.8;
+}
+
+#search-close:hover {
+    opacity: 1;
+    color: #faa;
+}
+
+#search-results {
+    padding: 10px 14px 14px;
+}
+
+.search-section {
+    margin-bottom: 14px;
+}
+
+.search-section:last-child {
+    margin-bottom: 0;
+}
+
+.search-section h3 {
+    color: #cc2200;
+    font-family: "Copperplate Gothic Light", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 6px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #330000;
+}
+
+.search-section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-section li {
+    border-bottom: 1px solid #1a0000;
+}
+
+.search-section li:last-child {
+    border-bottom: none;
+}
+
+.search-section a {
+    display: block;
+    padding: 5px 4px;
+    color: #bbb;
+    text-decoration: none;
+    font-size: 12px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    line-height: 1.4;
+}
+
+.search-section a:hover {
+    color: #fff;
+    background: #2a0000;
+}
+
+.search-noresults {
+    color: #777;
+    font-size: 12px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 6px 0;
+    margin: 0;
+}
