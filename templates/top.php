@@ -416,10 +416,13 @@ $page->print_heads();
 		</div>
 
 		<div id="barramanu"> <!-- -------------------------------------------------- M E N U --------------------------------------------------- -->
-			<!-- Mobile Menu Toggle Button -->
-			<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
-				<?php echo 'MENÚ'; ?>
-			</button>
+			<!-- Mobile controls: hamburger + search icon -->
+			<div id="mobile-bar-controls">
+				<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+					<?php echo 'MENÚ'; ?>
+				</button>
+				<button id="searchMobileToggle" aria-label="Buscar banda">&#128269;</button>
+			</div>
 
 			<div id="menu">
 				<?php
@@ -643,6 +646,24 @@ $page->print_heads();
 
 			</div>
 		</div>
+
+		<!-- ---- SEARCH BAR ---- -->
+		<div id="search-bar">
+			<input type="text" id="search-input"
+				placeholder="<?php echo ($page->leng === 'CAT') ? '🔍 escriu la banda que vols buscar ...' : '🔍 escribe la banda que quieres buscar ...'; ?>"
+				autocomplete="off" spellcheck="false" />
+			<button id="search-clear" aria-label="Borrar búsqueda">&#10005;</button>
+		</div>
+
+		<!-- ---- SEARCH OVERLAY (positioned by JS) ---- -->
+		<div id="search-overlay">
+			<div id="search-overlay-header">
+				<span><?php echo ($page->leng === 'CAT') ? 'Resultats de la cerca' : 'Resultados de búsqueda'; ?></span>
+				<button id="search-close" aria-label="Cerrar">&#10005;</button>
+			</div>
+			<div id="search-results"></div>
+		</div>
+
 		<div id="col_left"> <!-- Columan de discografies -->
 			<?php
 			require('templates/banners/col_left.php');
