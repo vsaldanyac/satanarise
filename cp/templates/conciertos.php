@@ -4,16 +4,34 @@
 	require('../sources/ob_concerts.php');
 	$cp_concert = new cp_propers_concerts();
 
+	$buscar_banda = isset($_GET['buscar_banda']) ? $_GET['buscar_banda'] : '';
+	$buscar_data  = isset($_GET['buscar_data'])  ? $_GET['buscar_data']  : '';
+	$filtros_activos = (trim($buscar_banda) != '' || trim($buscar_data) != '');
+
 	switch ($page->action) {
 		case 'main':
 			?>
 			<p class="titol_parcial">Conciertos actuales</p>
+			<form method="get" action="home_cp.php">
+				<input type="hidden" name="sec" value="conciertos" />
+				<input type="hidden" name="action" value="main" />
+				<p class="contingut">
+					Banda: <input type="text" name="buscar_banda" value="<?php echo htmlspecialchars($buscar_banda); ?>" />
+					&nbsp;&nbsp;
+					Fecha: <input type="text" name="buscar_data" value="<?php echo htmlspecialchars($buscar_data); ?>" />
+					&nbsp;&nbsp;
+					<input type="submit" value="Buscar" />
+					<?php if ($filtros_activos) { ?>&nbsp;<a class="linkk" href="home_cp.php?sec=conciertos&action=main">Limpiar filtros</a><?php } ?><br>
+					<span style="font-size: 11px; color: #666; margin-left: 280px;">Formato: YYYY-MM-DD, YYYY-MM, YYYY, DD, o MM</span>
+				</p>
+			</form>
 			<?php
 			$basedades->conectar();
 			if (!$basedades->error_conexio) {
 				print '<p class="terminal">Conexió OK!</p>';
-				$cp_concert->presentar_concerts_formulari($basedades->bd, 'edit_del', $page->punter, $page->num_a_mostrar);
-				$cp_concert->navegador_entrades($basedades->contar_entrades('concertsdata'), $page->punter, $page->num_a_mostrar, $page->action);
+				$cp_concert->presentar_concerts_formulari($basedades->bd, 'edit_del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
+				$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+				$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 				$basedades->desconectar();
 			} else {
 				print '<p class="terminal">Error de conexión a la base de datos</p>';
@@ -66,12 +84,27 @@
 			<p class="titol_parcial">Elije el concierto a editar</p>
 			<?php
 			if (!$page->formulari) { /* si no hi ha selecció d'edició mostra noticies existents a la bbdd  */
-
+				?>
+				<form method="get" action="home_cp.php">
+					<input type="hidden" name="sec" value="conciertos" />
+					<input type="hidden" name="action" value="edit" />
+					<p class="contingut">
+						Banda: <input type="text" name="buscar_banda" value="<?php echo htmlspecialchars($buscar_banda); ?>" />
+						&nbsp;&nbsp;
+						Fecha: <input type="text" name="buscar_data" value="<?php echo htmlspecialchars($buscar_data); ?>" />
+						&nbsp;&nbsp;
+						<input type="submit" value="Buscar" />
+						<?php if ($filtros_activos) { ?>&nbsp;<a class="linkk" href="home_cp.php?sec=conciertos&action=edit">Limpiar filtros</a><?php } ?><br>
+						<span style="font-size: 11px; color: #666; margin-left: 280px;">Formato: YYYY-MM-DD, YYYY-MM, YYYY, DD, o MM</span>
+					</p>
+				</form>
+				<?php
 				$basedades->conectar();
 				if (!$basedades->error_conexio) {
 					print '<p class="terminal">Conexió OK!</p>';
-					$cp_concert->presentar_concerts_formulari($basedades->__get('bd'), 'editar', $page->punter, $page->num_a_mostrar);
-					$cp_concert->navegador_entrades($basedades->contar_entrades('concertsdata'), $page->punter, $page->num_a_mostrar, $page->action);
+					$cp_concert->presentar_concerts_formulari($basedades->__get('bd'), 'editar', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
+					$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+					$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 					$basedades->desconectar();
 				} else {
 					print '<p class="terminal">Error de conexión a la base de datos</p>';
@@ -121,12 +154,27 @@
 			<p class="titol_parcial">Elije el concierto a eliminar</p>
 			<?php
 			if (!$page->formulari) { /* si no hi ha selecció d'edició mostra noticies existents a la bbdd  */
-
+				?>
+				<form method="get" action="home_cp.php">
+					<input type="hidden" name="sec" value="conciertos" />
+					<input type="hidden" name="action" value="del" />
+					<p class="contingut">
+						Banda: <input type="text" name="buscar_banda" value="<?php echo htmlspecialchars($buscar_banda); ?>" />
+						&nbsp;&nbsp;
+						Fecha: <input type="text" name="buscar_data" value="<?php echo htmlspecialchars($buscar_data); ?>" />
+						&nbsp;&nbsp;
+						<input type="submit" value="Buscar" />
+						<?php if ($filtros_activos) { ?>&nbsp;<a class="linkk" href="home_cp.php?sec=conciertos&action=del">Limpiar filtros</a><?php } ?><br>
+						<span style="font-size: 11px; color: #666; margin-left: 280px;">Formato: YYYY-MM-DD, YYYY-MM, YYYY, DD, o MM</span>
+					</p>
+				</form>
+				<?php
 				$basedades->conectar();
 				if (!$basedades->error_conexio) {
 					print '<p class="terminal">Conexió OK!</p>';
-					$cp_concert->presentar_concerts_formulari($basedades->bd, 'del', $page->punter, $page->num_a_mostrar);
-					$cp_concert->navegador_entrades($basedades->contar_entrades('concertsdata'), $page->punter, $page->num_a_mostrar, $page->action);
+					$cp_concert->presentar_concerts_formulari($basedades->bd, 'del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
+					$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+					$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 					$basedades->desconectar();
 				} else {
 					print '<p class="terminal">Error de conexión a la base de datos</p>';
