@@ -877,10 +877,30 @@ class cp_propers_concerts
 		}
 
 	}
-	public function presentar_concerts_formulari($bd, $tasca, $inici, $quantitat)
+	public function presentar_concerts_formulari($bd, $tasca, $inici, $quantitat, $buscar_banda = '', $buscar_data = '')
 	/* tenint l'objecte de la consulta les posa a pantalla */
 	{
-		$query = "select concerts.tipus, concerts.Nom, concerts.idGig, concerts.dateIn, concerts.cartell, concertsdata.dateConcert, concertsdata.cartell_concert, concertsdata.idConcert, concertsdata.sala, concertsdata.localitat from concerts, concertsdata where concertsdata.idGig = concerts.idGig order by concertsdata.dateConcert asc limit " . ($inici - 1) . ", " . $quantitat;
+		$buscar_banda = trim($buscar_banda);
+		$buscar_data = trim($buscar_data);
+
+		$select = 'select';
+		$join_banda = '';
+		$where_extra = '';
+
+		if ($buscar_banda != '') {
+			$select .= ' distinct';
+			$esc_banda = addslashes($buscar_banda);
+			$join_banda = " inner join concertsgrups on concertsgrups.idConcert = concertsdata.idConcert";
+			$where_extra .= " and concertsgrups.Grup LIKE '%" . $esc_banda . "%'";
+		}
+		if ($buscar_data != '') {
+			$esc_data = addslashes($buscar_data);
+			$where_extra .= " and concertsdata.dateConcert LIKE '%" . $esc_data . "%'";
+		}
+
+		$limit = ($buscar_banda == '' && $buscar_data == '') ? " limit " . ($inici - 1) . ", " . $quantitat : '';
+
+		$query = $select . " concerts.tipus, concerts.Nom, concerts.idGig, concerts.dateIn, concerts.cartell, concertsdata.dateConcert, concertsdata.cartell_concert, concertsdata.idConcert, concertsdata.sala, concertsdata.localitat from concerts, concertsdata" . $join_banda . " where concertsdata.idGig = concerts.idGig" . $where_extra . " order by concertsdata.dateConcert asc" . $limit;
 		$this->mini_dades = new mini_concert;
 		$this->resultat_consulta = $bd->query($query);
 		if (!$this->resultat_consulta == FALSE) {
