@@ -4,6 +4,8 @@ class cp_propers_concerts
 
 	public $formulari_1_ok;
 	public $formulari_2_ok;
+	public $warn_small_dims;
+	public $needs_dim_confirm;
 	public $error;
 	public $data;
 	public $num_concerts; /* control del numero de ocncerts a mostrar al formular 2 */
@@ -20,6 +22,8 @@ class cp_propers_concerts
 	{
 		$this->formulari_1_ok = FALSE;
 		$this->formulari_2_ok = FALSE;
+		$this->warn_small_dims = array();
+		$this->needs_dim_confirm = FALSE;
 		$this->error = 'Error: ';
 		$this->timestamp = '';
 
@@ -114,7 +118,14 @@ class cp_propers_concerts
 								$this->formulari_ok = FALSE;
 							} else {
 								$this->dades->cartell = $time_file . $ext;
-
+								if (!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si') {
+									$img_info = @getimagesize('../pics/conc/' . $directori);
+									if ($img_info !== FALSE && $img_info[0] < 700 && $img_info[1] < 700) {
+										$this->warn_small_dims[] = 'cartell';
+										$this->needs_dim_confirm = TRUE;
+										$this->formulari_2_ok = FALSE;
+									}
+								}
 							}
 						} else {
 							$this->error = $this->error . 'Error al subir la imagen.<br />';
@@ -423,8 +434,9 @@ class cp_propers_concerts
 
 	public function formulari_2()
 	{
-		print "<form action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
+		print "<form id=\"form_concierto\" action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
 		print "<input type=\"hidden\" name=\"enviat_formulari_2\" value=\"si\" \>\n";
+		print "<input type=\"hidden\" name=\"confirm_small_img\" id=\"confirm_small_img\" value=\"no\" \>\n";
 
 
 		if (!$this->formulari_1_ok) {
