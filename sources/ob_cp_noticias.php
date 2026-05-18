@@ -115,8 +115,65 @@ class cp_noticia
 								$this->formulari_ok = FALSE;
 							} else {
 								$this->imgs[$i] = 'pics/not/' . $time_file . '_' . ($i + 1) . $ext;
+								$img_info = @getimagesize($directori);
+								if ($img_info !== FALSE) {
+									$orig_w = $img_info[0];
+									$orig_h = $img_info[1];
+									$needs_resize = FALSE;
+									if ($orig_w > $orig_h) {
+										/* horizontal: resize by width if width > 550 */
+										if ($orig_w > 550) {
+											$new_w = 550;
+											$new_h = (int)round($orig_h * $new_w / $orig_w);
+											$needs_resize = TRUE;
+										}
+									} elseif ($orig_h > $orig_w) {
+										/* vertical: resize by height if height > 550 */
+										if ($orig_h > 550) {
+											$new_h = 550;
+											$new_w = (int)round($orig_w * $new_h / $orig_h);
+											$needs_resize = TRUE;
+										}
+									} else {
+										/* squared: resize if side > 550 */
+										if ($orig_w > 550) {
+											$new_w = 550;
+											$new_h = 550;
+											$needs_resize = TRUE;
+										}
+									}
+									if ($needs_resize) {
+										$img_resized = imagecreatetruecolor($new_w, $new_h);
+										switch ($img_info[2]) {
+											case IMAGETYPE_JPEG:
+												$img_src = imagecreatefromjpeg($directori);
+												imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+												imagejpeg($img_resized, $directori, 90);
+												break;
+											case IMAGETYPE_PNG:
+												$img_src = imagecreatefrompng($directori);
+												imagealphablending($img_resized, false);
+												imagesavealpha($img_resized, true);
+												imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+												imagepng($img_resized, $directori);
+												break;
+											case IMAGETYPE_GIF:
+												$img_src = imagecreatefromgif($directori);
+												imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+												imagegif($img_resized, $directori);
+												break;
+											case IMAGETYPE_WEBP:
+												$img_src = imagecreatefromwebp($directori);
+												imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+												imagewebp($img_resized, $directori, 90);
+												break;
+										}
+										if (isset($img_src)) { imagedestroy($img_src); }
+										imagedestroy($img_resized);
+										$img_info = @getimagesize($directori);
+									}
+								}
 								if ((!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si')) {
-									$img_info = @getimagesize($directori);
 									if ($img_info !== FALSE && $img_info[0] < 550 && $img_info[1] < 550) {
 										$this->warn_small_dims[] = ($i + 1);
 										$this->needs_dim_confirm = TRUE;
