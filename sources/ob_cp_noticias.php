@@ -13,6 +13,8 @@ class cp_noticia
 
 	public $imgs;
 	public $control_imatges;
+	public $warn_small_dims;
+	public $needs_dim_confirm;
 	public $enviat;
 	public $dia;
 	public $mes;
@@ -38,6 +40,8 @@ class cp_noticia
 		$this->control_imatges = 'no';
 		$this->timestamp = '';
 		$this->imgs = array('', '', '', '', '', '');
+		$this->warn_small_dims = array();
+		$this->needs_dim_confirm = FALSE;
 	}
 
 	public function recull_parametres($formulari) /* Mira si hi ha un formulari enviat i recull parametres */
@@ -111,7 +115,14 @@ class cp_noticia
 								$this->formulari_ok = FALSE;
 							} else {
 								$this->imgs[$i] = 'pics/not/' . $time_file . '_' . ($i + 1) . $ext;
-
+								if ((!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si')) {
+									$img_info = @getimagesize($directori);
+									if ($img_info !== FALSE && $img_info[0] < 550 && $img_info[1] < 550) {
+										$this->warn_small_dims[] = ($i + 1);
+										$this->needs_dim_confirm = TRUE;
+										$this->formulari_ok = FALSE;
+									}
+								}
 							}
 						} else {
 							$this->error = $this->error . 'Error al subir la imagen ' . ($i + 1) . '.<br />';
@@ -324,9 +335,10 @@ class cp_noticia
 
 	public function formulari()
 	{
-		print "<form action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
+		print "<form id=\"form_noticia\" action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
 		print "<input type=\"hidden\" name=\"enviat\" value=\"si\" \>\n";
 		print "<input type=\"hidden\" name=\"timestamp\" value=\"$this->timestamp\" \>\n";
+		print "<input type=\"hidden\" name=\"confirm_small_img\" id=\"confirm_small_img\" value=\"no\" \>\n";
 
 
 		print "<p class=\"form_data\">";
