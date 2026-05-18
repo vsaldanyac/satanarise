@@ -118,8 +118,43 @@ class cp_propers_concerts
 								$this->formulari_ok = FALSE;
 							} else {
 								$this->dades->cartell = $time_file . $ext;
+								$img_path = '../pics/conc/' . $directori;
+								$img_info = @getimagesize($img_path);
+								if ($img_info !== FALSE && $img_info[1] > 720) {
+									$orig_w = $img_info[0];
+									$orig_h = $img_info[1];
+									$new_h = 720;
+									$new_w = (int)round($orig_w * $new_h / $orig_h);
+									$img_resized = imagecreatetruecolor($new_w, $new_h);
+									switch ($img_info[2]) {
+										case IMAGETYPE_JPEG:
+											$img_src = imagecreatefromjpeg($img_path);
+											imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+											imagejpeg($img_resized, $img_path, 90);
+											break;
+										case IMAGETYPE_PNG:
+											$img_src = imagecreatefrompng($img_path);
+											imagealphablending($img_resized, false);
+											imagesavealpha($img_resized, true);
+											imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+											imagepng($img_resized, $img_path);
+											break;
+										case IMAGETYPE_GIF:
+											$img_src = imagecreatefromgif($img_path);
+											imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+											imagegif($img_resized, $img_path);
+											break;
+										case IMAGETYPE_WEBP:
+											$img_src = imagecreatefromwebp($img_path);
+											imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+											imagewebp($img_resized, $img_path, 90);
+											break;
+									}
+									if (isset($img_src)) { imagedestroy($img_src); }
+									imagedestroy($img_resized);
+									$img_info = @getimagesize($img_path);
+								}
 								if (!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si') {
-									$img_info = @getimagesize('../pics/conc/' . $directori);
 									if ($img_info !== FALSE && $img_info[0] < 700 && $img_info[1] < 700) {
 										$this->warn_small_dims[] = 'cartell';
 										$this->needs_dim_confirm = TRUE;
