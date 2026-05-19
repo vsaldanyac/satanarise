@@ -36,7 +36,9 @@
 					}
 
 				} else {
-					$noticia_add->inicialitzar_noticia(); /* no esta enviat o no es correcte, es posa tot a 0 */
+					if (!$noticia_add->needs_dim_confirm) {
+						$noticia_add->inicialitzar_noticia(); /* no esta enviat o no es correcte, es posa tot a 0 */
+					}
 				}
 
 
@@ -45,6 +47,15 @@
 			}
 			if (!$noticia_add->formulari_ok) { /* si el formulari no s'ha omplert o no esta tot correcte el torna a posar */
 
+				if ($noticia_add->needs_dim_confirm) { ?>
+					<div id="modal_dim_warning" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;">
+						<div style="background:#2a2a2a;color:#fff;padding:35px 40px;border-radius:8px;max-width:480px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+							<p style="font-size:15px;margin-bottom:25px;line-height:1.5;">La dimensión de esta imagen está por debajo de lo recomendado para su correcta visualización. ¿Quieres continuar?</p>
+							<button onclick="document.getElementById('confirm_small_img').value='si';document.getElementById('form_noticia').submit();" style="margin-right:12px;padding:10px 24px;cursor:pointer;background:#5a8a5a;color:#fff;border:none;border-radius:4px;font-size:14px;">Sí</button>
+							<button onclick="document.getElementById('modal_dim_warning').style.display='none';" style="padding:10px 24px;cursor:pointer;background:#666;color:#fff;border:none;border-radius:4px;font-size:14px;">No</button>
+						</div>
+					</div>
+				<?php }
 				$noticia_add->formulari();
 			} else {
 				print '<p class="terminal">Formulari OK</p>';
@@ -104,6 +115,15 @@
 					}
 				}
 				if (!$noticia_add->formulari_ok) { /* si el formulari no s'ha omplert o no esta tot correcte el torna a posar */
+					if ($noticia_add->needs_dim_confirm) { ?>
+						<div id="modal_dim_warning" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;">
+							<div style="background:#2a2a2a;color:#fff;padding:35px 40px;border-radius:8px;max-width:480px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+								<p style="font-size:15px;margin-bottom:25px;line-height:1.5;">La dimensión de esta imagen está por debajo de lo recomendado para su correcta visualización. ¿Quieres continuar?</p>
+								<button onclick="document.getElementById('confirm_small_img').value='si';document.getElementById('form_noticia').submit();" style="margin-right:12px;padding:10px 24px;cursor:pointer;background:#5a8a5a;color:#fff;border:none;border-radius:4px;font-size:14px;">Sí</button>
+								<button onclick="document.getElementById('modal_dim_warning').style.display='none';" style="padding:10px 24px;cursor:pointer;background:#666;color:#fff;border:none;border-radius:4px;font-size:14px;">No</button>
+							</div>
+						</div>
+					<?php }
 					$noticia_add->formulari();
 
 				} else {

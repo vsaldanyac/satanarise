@@ -65,11 +65,20 @@
 
 			} else { /* No està omplert el formulari 2 */
 
-				if ($cp_concert->recull_parametres_formulari_1($_POST, $page->id)) /* s'ha enviat el formulari 1? */{
+				if ($cp_concert->needs_dim_confirm) {
+					?>
+					<div id="modal_dim_warning" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;">
+						<div style="background:#2a2a2a;color:#fff;padding:35px 40px;border-radius:8px;max-width:480px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+							<p style="font-size:15px;margin-bottom:25px;line-height:1.5;">La dimensión de esta imagen está por debajo de lo recomendado para su correcta visualización. ¿Quieres continuar?</p>
+							<button onclick="document.getElementById('confirm_small_img').value='si';document.getElementById('form_concierto').submit();" style="margin-right:12px;padding:10px 24px;cursor:pointer;background:#5a8a5a;color:#fff;border:none;border-radius:4px;font-size:14px;">Sí</button>
+							<button onclick="document.getElementById('modal_dim_warning').style.display='none';" style="padding:10px 24px;cursor:pointer;background:#666;color:#fff;border:none;border-radius:4px;font-size:14px;">No</button>
+						</div>
+					</div>
+					<?php
+					$cp_concert->formulari_2();
+				} elseif ($cp_concert->recull_parametres_formulari_1($_POST, $page->id)) /* s'ha enviat el formulari 1? */{
 					/* S'ha omplert formular 1, recollir dades i mostrar formulari 2 */
 					$cp_concert->formulari_2(); /* Si no hi ha formular 2 ho genera formulari sense dades */
-
-
 
 				} else {
 					/* No s'ha omplert el fomulari 1, mostrar formular 1 */
@@ -130,18 +139,31 @@
 
 				} else {
 
-					/* no hi ha una noticia editada enviada pel formulari, tenim la id de la noticia a editar, extracció de la bbdd i crida al formulari per editar-la */
-					$basedades->conectar();
-					if (!$basedades->error_conexio) {
-						print '<p class="terminal">Conexió OK!</p>';
-						$cp_concert->extreu_dades_concert_per_id($basedades->__get('bd'), $page->id);
-						print '<p class="terminal">Dades en principi extretes de la bbdd</p>';
-						$basedades->desconectar();
-						/* Una vegada extretes les dades correctament es presenta el formulari 2 */
+					if ($cp_concert->needs_dim_confirm) {
+						?>
+						<div id="modal_dim_warning" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center;">
+							<div style="background:#2a2a2a;color:#fff;padding:35px 40px;border-radius:8px;max-width:480px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.5);">
+								<p style="font-size:15px;margin-bottom:25px;line-height:1.5;">La dimensión de esta imagen está por debajo de lo recomendado para su correcta visualización. ¿Quieres continuar?</p>
+								<button onclick="document.getElementById('confirm_small_img').value='si';document.getElementById('form_concierto').submit();" style="margin-right:12px;padding:10px 24px;cursor:pointer;background:#5a8a5a;color:#fff;border:none;border-radius:4px;font-size:14px;">Sí</button>
+								<button onclick="document.getElementById('modal_dim_warning').style.display='none';" style="padding:10px 24px;cursor:pointer;background:#666;color:#fff;border:none;border-radius:4px;font-size:14px;">No</button>
+							</div>
+						</div>
+						<?php
 						$cp_concert->formulari_2();
-
 					} else {
-						print '<p class="terminal">Error de conexión a la base de datos</p>';
+						/* no hi ha una noticia editada enviada pel formulari, tenim la id de la noticia a editar, extracció de la bbdd i crida al formulari per editar-la */
+						$basedades->conectar();
+						if (!$basedades->error_conexio) {
+							print '<p class="terminal">Conexió OK!</p>';
+							$cp_concert->extreu_dades_concert_per_id($basedades->__get('bd'), $page->id);
+							print '<p class="terminal">Dades en principi extretes de la bbdd</p>';
+							$basedades->desconectar();
+							/* Una vegada extretes les dades correctament es presenta el formulari 2 */
+							$cp_concert->formulari_2();
+
+						} else {
+							print '<p class="terminal">Error de conexión a la base de datos</p>';
+						}
 					}
 				}
 
