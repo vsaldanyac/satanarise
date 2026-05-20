@@ -227,3 +227,46 @@
 	}
 	?>
 </div>
+<script>
+(function () {
+    function attachImageResizer() {
+        var input = document.getElementById('cartell_generic');
+        if (!input) return;
+        input.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (!file || !file.type.match(/^image\//)) return;
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+                var img = new Image();
+                img.onload = function () {
+                    var MAX_H = 720;
+                    var w = img.width, h = img.height;
+                    if (h <= MAX_H) return; /* already small enough, keep original */
+                    w = Math.round(w * MAX_H / h);
+                    h = MAX_H;
+                    var canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    var mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    var quality = 0.90;
+                    canvas.toBlob(function (blob) {
+                        var resized = new File([blob], file.name, { type: mimeType });
+                        var dt = new DataTransfer();
+                        dt.items.add(resized);
+                        input.files = dt.files;
+                    }, mimeType, quality);
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    /* Run now if DOM is ready, otherwise wait */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachImageResizer);
+    } else {
+        attachImageResizer();
+    }
+})();
+</script>
