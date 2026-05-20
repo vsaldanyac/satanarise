@@ -178,3 +178,52 @@
 	}
 	?>
 </div>
+<script>
+(function () {
+    var MAX_DIM = 550;
+
+    function resizeInput(input) {
+        input.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (!file || !file.type.match(/^image\//)) return;
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+                var img = new Image();
+                img.onload = function () {
+                    var w = img.width, h = img.height;
+                    if (Math.max(w, h) <= MAX_DIM) return; /* already small enough */
+                    var scale = MAX_DIM / Math.max(w, h);
+                    var nw = Math.round(w * scale);
+                    var nh = Math.round(h * scale);
+                    var canvas = document.createElement('canvas');
+                    canvas.width = nw;
+                    canvas.height = nh;
+                    canvas.getContext('2d').drawImage(img, 0, 0, nw, nh);
+                    var mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    canvas.toBlob(function (blob) {
+                        var resized = new File([blob], file.name, { type: mimeType });
+                        var dt = new DataTransfer();
+                        dt.items.add(resized);
+                        input.files = dt.files;
+                    }, mimeType, 0.90);
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function attachAll() {
+        for (var i = 1; i <= 5; i++) {
+            var el = document.getElementById('file_' + i);
+            if (el) resizeInput(el);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachAll);
+    } else {
+        attachAll();
+    }
+})();
+</script>
