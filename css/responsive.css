@@ -775,12 +775,14 @@ div.entrada_concert img {
 
 div.entrada_concert h1 {
     margin-left: 0 !important;
+    overflow: hidden;
     padding: 5px 10px !important;
     font-size: 14px !important;
 }
 
 div.entrada_concert p {
     margin-left: 0 !important;
+    overflow: hidden;
     padding: 5px 10px !important;
     font-size: 13px !important;
 }
@@ -811,12 +813,14 @@ div.entrada_concert_ample img {
 
 div.entrada_concert_ample h1 {
     margin-left: 0 !important;
+    overflow: hidden;
     padding: 5px 10px !important;
     font-size: 14px !important;
 }
 
 div.entrada_concert_ample p {
     margin-left: 0 !important;
+    overflow: hidden;
     padding: 5px 10px !important;
     font-size: 13px !important;
 }
