@@ -229,7 +229,20 @@
 </div>
 <script>
 (function () {
+    var pendingResizes = 0;
+
+    function setSubmitDisabled(disabled) {
+        var btn = document.querySelector('#form_concierto [type=submit]');
+        if (btn) btn.disabled = disabled;
+    }
+
     function attachImageResizer() {
+        var form = document.getElementById('form_concierto');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                if (pendingResizes > 0) e.preventDefault();
+            });
+        }
         var input = document.getElementById('cartell_generic');
         if (!input) return;
         input.addEventListener('change', function (e) {
@@ -250,11 +263,17 @@
                     canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                     var mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
                     var quality = 0.90;
+                    pendingResizes++;
+                    setSubmitDisabled(true);
                     canvas.toBlob(function (blob) {
-                        var resized = new File([blob], file.name, { type: mimeType });
+                        var ext = mimeType === 'image/png' ? '.png' : '.jpg';
+                        var fileName = file.name.replace(/\.[^.]+$/, '') + ext;
+                        var resized = new File([blob], fileName, { type: mimeType });
                         var dt = new DataTransfer();
                         dt.items.add(resized);
                         input.files = dt.files;
+                        pendingResizes--;
+                        if (pendingResizes === 0) setSubmitDisabled(false);
                     }, mimeType, quality);
                 };
                 img.src = ev.target.result;

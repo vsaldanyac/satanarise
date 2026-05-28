@@ -181,6 +181,12 @@
 <script>
 (function () {
     var MAX_DIM = 550;
+    var pendingResizes = 0;
+
+    function setSubmitDisabled(disabled) {
+        var btn = document.querySelector('#form_noticia [type=submit]');
+        if (btn) btn.disabled = disabled;
+    }
 
     function resizeInput(input) {
         input.addEventListener('change', function (e) {
@@ -200,11 +206,17 @@
                     canvas.height = nh;
                     canvas.getContext('2d').drawImage(img, 0, 0, nw, nh);
                     var mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    pendingResizes++;
+                    setSubmitDisabled(true);
                     canvas.toBlob(function (blob) {
-                        var resized = new File([blob], file.name, { type: mimeType });
+                        var ext = mimeType === 'image/png' ? '.png' : '.jpg';
+                        var fileName = file.name.replace(/\.[^.]+$/, '') + ext;
+                        var resized = new File([blob], fileName, { type: mimeType });
                         var dt = new DataTransfer();
                         dt.items.add(resized);
                         input.files = dt.files;
+                        pendingResizes--;
+                        if (pendingResizes === 0) setSubmitDisabled(false);
                     }, mimeType, 0.90);
                 };
                 img.src = ev.target.result;
@@ -214,6 +226,12 @@
     }
 
     function attachAll() {
+        var form = document.getElementById('form_noticia');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                if (pendingResizes > 0) e.preventDefault();
+            });
+        }
         for (var i = 1; i <= 5; i++) {
             var el = document.getElementById('file_' + i);
             if (el) resizeInput(el);
