@@ -227,3 +227,65 @@
 	}
 	?>
 </div>
+<script>
+(function () {
+    var pendingResizes = 0;
+
+    function setSubmitDisabled(disabled) {
+        var btn = document.querySelector('#form_concierto [type=submit]');
+        if (btn) btn.disabled = disabled;
+    }
+
+    function attachImageResizer() {
+        var form = document.getElementById('form_concierto');
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                if (pendingResizes > 0) e.preventDefault();
+            });
+        }
+        var input = document.getElementById('cartell_generic');
+        if (!input) return;
+        input.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            if (!file || !file.type.match(/^image\//)) return;
+            var reader = new FileReader();
+            reader.onload = function (ev) {
+                var img = new Image();
+                img.onload = function () {
+                    var MAX_H = 720;
+                    var w = img.width, h = img.height;
+                    if (h <= MAX_H) return; /* already small enough, keep original */
+                    w = Math.round(w * MAX_H / h);
+                    h = MAX_H;
+                    var canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    var mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    var quality = 0.90;
+                    pendingResizes++;
+                    setSubmitDisabled(true);
+                    canvas.toBlob(function (blob) {
+                        var ext = mimeType === 'image/png' ? '.png' : '.jpg';
+                        var fileName = file.name.replace(/\.[^.]+$/, '') + ext;
+                        var resized = new File([blob], fileName, { type: mimeType });
+                        var dt = new DataTransfer();
+                        dt.items.add(resized);
+                        input.files = dt.files;
+                        pendingResizes--;
+                        if (pendingResizes === 0) setSubmitDisabled(false);
+                    }, mimeType, quality);
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    /* Run now if DOM is ready, otherwise wait */
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachImageResizer);
+    } else {
+        attachImageResizer();
+    }
+})();
+</script>
