@@ -1381,3 +1381,34 @@ div#final {
         max-height: 65vh;
     }
 }
+
+/* ================================================
+   Meme widget — visibility control
+   ================================================ */
+
+/* Desktop: show desktop widget, hide mobile widget + mobile menu entry */
+@media (min-width: 1024px) {
+    .meme-widget-desktop {
+        display: block;
+    }
+    .meme-widget-mobile {
+        display: none !important;
+    }
+    p.linkmenu.memes-mobile-link {
+        display: none !important;
+    }
+}
+
+/* Mobile: hide desktop widget (col_left is already hidden), show mobile widget */
+@media (max-width: 1023px) {
+    .meme-widget-desktop {
+        display: none !important;
+    }
+    .meme-widget-mobile {
+        display: block;
+    }
+    /* Archive grid: 1 column on mobile */
+    .memes-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

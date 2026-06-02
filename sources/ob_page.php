@@ -231,7 +231,8 @@ class ob_page
 				$this->section != 'concurs' &&
 				$this->section != 'carteslector' &&
 				$this->section != 'preferits' &&
-				$this->section != 'link')
+				$this->section != 'link' &&
+				$this->section != 'memes')
 		) {
 			$this->section = 'inici';
 		}
@@ -250,7 +251,8 @@ class ob_page
 				$this->section != 'concurso' &&
 				$this->section != 'cartaslector' &&
 				$this->section != 'preferidos' &&
-				$this->section != 'link')
+				$this->section != 'link' &&
+				$this->section != 'memes')
 		) {
 			$this->section = 'inicio';
 		}

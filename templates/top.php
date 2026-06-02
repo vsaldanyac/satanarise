@@ -260,6 +260,10 @@ switch ($page->section) {
 		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/disc.css" />');
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
 		break;
+	case ('memes'):
+		$page->description = 'Memes del día - Satan Arise - Heavy Metal';
+		$page->title = 'Memes del día - Satan Arise';
+		break;
 }
 /* Impresió de capçalera */
 $page->print_heads();
@@ -495,6 +499,9 @@ $page->print_heads();
 						print $texte;
 						if ($menu_active) print '</span>';
 						print '</a></p>' . "\n";
+						if ($cad_menu[$cont] == 'opinion') {
+							print '<p class="linkmenu memes-mobile-link"><a class="men" href="index.php?ln=ES&sec=memes">Memes del día</a></p>' . "\n";
+						}
 						$cont = $cont + 1;
 					}
 				} else {
@@ -557,6 +564,9 @@ $page->print_heads();
 						print $texte;
 						if ($menu_active) print '</span>';
 						print '</a></p>' . "\n";
+						if ($cad_menu[$cont] == 'opinio') {
+							print '<p class="linkmenu memes-mobile-link"><a class="men" href="index.php?ln=CAT&sec=memes">Memes del dia</a></p>' . "\n";
+						}
 						$cont = $cont + 1;
 					}
 				}

@@ -21,6 +21,7 @@ require('sources/ob_cronicas_web.php');
 require('sources/ob_cronicas.php');
 require('sources/ob_preferidos.php');
 require('sources/ob_preferidos_web.php');
+require('sources/ob_memes_web.php');
 
 
 	
@@ -388,6 +389,9 @@ switch ($page->section){
 	break;
     case ('preferits'):
 		require ('templates/preferidos.php');
+	break;
+	case ('memes'):
+		require ('templates/memes.php');
 	break;
 }
 require('templates/end.php');

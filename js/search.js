@@ -94,11 +94,12 @@
         function renderResults(results, q) {
             var cat = getLang() === 'CAT';
             var sections = {
-                noticias:    cat ? 'Notícies'   : 'Noticias',
-                conciertos:  cat ? 'Concerts'   : 'Conciertos',
-                criticas:    cat ? 'Crítiques'  : 'Críticas',
-                cronicas:    cat ? 'Cròniques'  : 'Crónicas',
-                entrevistas: cat ? 'Entrevistes' : 'Entrevistas'
+                noticias:    cat ? 'Notícies'    : 'Noticias',
+                conciertos:  cat ? 'Concerts'    : 'Conciertos',
+                criticas:    cat ? 'Crítiques'   : 'Críticas',
+                cronicas:    cat ? 'Cròniques'   : 'Crónicas',
+                entrevistas: cat ? 'Entrevistes'  : 'Entrevistas',
+                memes:       cat ? 'Memes del dia' : 'Memes del día'
             };
             var html  = '';
             var total = 0;
