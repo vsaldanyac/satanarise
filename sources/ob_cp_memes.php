@@ -134,6 +134,11 @@ class cp_meme
                     return FALSE;
                 }
             }
+        } else {
+            @unlink($dest);
+            $this->error .= 'El archivo subido no es una imagen válida.';
+            $this->formulari_ok = FALSE;
+            return FALSE;
         }
 
         $this->img          = self::PUBLIC_DIR . $filename;
