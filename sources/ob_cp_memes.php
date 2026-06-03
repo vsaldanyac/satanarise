@@ -33,7 +33,7 @@ class cp_meme
 
     public function recull_parametres($post, $files)
     {
-        if ($post['enviat'] !== 'si') {
+        if (!isset($post['enviat']) || $post['enviat'] !== 'si') {
             return FALSE;
         }
         $this->formulari_ok = TRUE;
@@ -48,6 +48,12 @@ class cp_meme
 
         if ($files['file_meme']['error'] !== UPLOAD_ERR_OK) {
             $this->error .= 'Error al subir el archivo (código ' . $files['file_meme']['error'] . ').';
+            $this->formulari_ok = FALSE;
+            return FALSE;
+        }
+
+        if (!isset($files['file_meme']['size']) || (int)$files['file_meme']['size'] > 5000000) {
+            $this->error .= 'La imagen supera el tamaño máximo permitido (5MB).';
             $this->formulari_ok = FALSE;
             return FALSE;
         }
@@ -128,6 +134,11 @@ class cp_meme
                     return FALSE;
                 }
             }
+        } else {
+            @unlink($dest);
+            $this->error .= 'El archivo subido no es una imagen válida.';
+            $this->formulari_ok = FALSE;
+            return FALSE;
         }
 
         $this->img          = self::PUBLIC_DIR . $filename;

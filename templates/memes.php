@@ -8,11 +8,20 @@ $memes_web   = new ob_memes_web;
 $basedades->conectar();
 if (!$basedades->error_conexio) {
     $memes_web->extreure_memes_per_pagina($basedades->bd, $pagina, $per_pagina);
+
+    $total_pagines = ($memes_web->total > 0) ? (int)ceil($memes_web->total / $per_pagina) : 1;
+    if ($pagina > $total_pagines && $memes_web->total > 0) {
+        $pagina = $total_pagines;
+        $memes_web = new ob_memes_web;
+        $memes_web->extreure_memes_per_pagina($basedades->bd, $pagina, $per_pagina);
+    }
+
     $basedades->desconectar();
+} else {
+    $total_pagines = 1;
 }
 
 $titol = ($page->leng === 'CAT') ? 'Memes del dia' : 'Memes del día';
-$total_pagines = ($memes_web->total > 0) ? (int)ceil($memes_web->total / $per_pagina) : 1;
 ?>
 
 <!-- Meme overlay -->
@@ -47,7 +56,7 @@ $total_pagines = ($memes_web->total > 0) ? (int)ceil($memes_web->total / $per_pa
         <img src="<?php echo htmlspecialchars($meme['img']); ?>"
              alt="Meme"
              class="meme-thumb"
-             onclick="openMemeOverlay('<?php echo htmlspecialchars($meme['img']); ?>')" />
+             onclick="openMemeOverlay(this.src)" />
         <div class="meme-meta">
             <span class="meme-author"><?php echo !empty($meme['author']) ? htmlspecialchars($meme['author']) : ''; ?></span>
             <span class="meme-date"><?php echo date('d/m/Y', strtotime($meme['dateIn'])); ?></span>
