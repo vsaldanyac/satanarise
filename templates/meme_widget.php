@@ -117,8 +117,7 @@ $basedades->desconectar();
         <img src="<?php echo htmlspecialchars($meme_widget_data['img']); ?>"
              alt="Meme del día"
              style="max-width:100%;height:auto;cursor:pointer;border-radius:3px;"
-             onclick="openMemeWidgetOverlay('<?php echo htmlspecialchars($meme_widget_data['img']); ?>')" />
-    </div>
+             onclick="openMemeWidgetOverlay(this.src)" />
     <?php endif; ?>
 
 </div>
