@@ -40,6 +40,14 @@ class cp_meme
         $this->descripcio   = isset($post['descripcio']) ? trim($post['descripcio']) : '';
         $this->author       = isset($post['author'])     ? trim($post['author'])     : '';
 
+        /* Re-submission after dim warning: file input is empty, use stored path */
+        if (isset($post['confirm_small_img']) && $post['confirm_small_img'] === 'si' &&
+            isset($post['uploaded_img']) && strpos($post['uploaded_img'], self::PUBLIC_DIR) === 0) {
+            $this->img          = $post['uploaded_img'];
+            $this->formulari_ok = TRUE;
+            return TRUE;
+        }
+
         if ($files['file_meme']['error'] === UPLOAD_ERR_NO_FILE) {
             $this->error .= 'No has seleccionado ningún archivo.';
             $this->formulari_ok = FALSE;
@@ -226,6 +234,7 @@ class cp_meme
         print '<p class="contingut"><input type="hidden" name="MAX_FILE_SIZE" value="5000000" />';
         if ($this->img !== '') {
             print '<img src="../' . htmlspecialchars($this->img) . '" width="150" /><br />';
+            print '<input type="hidden" name="uploaded_img" value="' . htmlspecialchars($this->img) . '" />';
         }
         print '<input type="file" name="file_meme" id="file_meme" /></p>';
         print '<p class="contingut"><label for="author">Autor:</label><br />';
