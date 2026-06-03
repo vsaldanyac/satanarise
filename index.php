@@ -151,7 +151,7 @@ if (!$basedades->error_conexio)
                 }
                 
             }
-            $mensaje="Bon dia a la vila del pingui!!!\n\nVistes del dia: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes croniques: ".$v['chronicles']."\nVistes entrevistes: ".$v['interviews']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes cartes: ".$v['memes']."\n".$b."\nFins dema!";
+            $mensaje="Bon dia a la vila del pingui!!!\n\nVistes del dia: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes croniques: ".$v['chronicles']."\nVistes entrevistes: ".$v['interviews']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes memes: ".$v['memes']."\n".$b."\nFins dema!";
             $cab = 'From: info@satanarise.com';
             mail('info@satanarise.com',$tit , $mensaje, $cab);
             $query="update comptadors set comptador_main=$dia where seccio='dia'";

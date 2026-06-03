@@ -226,7 +226,6 @@ class ob_page
 				$this->section != 'contacte' &&
 				$this->section != 'pagina' &&
 				$this->section != 'concurs' &&
-				$this->section != 'carteslector' &&
 				$this->section != 'preferits' &&
 				$this->section != 'link' &&
 				$this->section != 'memes')
@@ -480,7 +479,7 @@ class ob_page
 			} else {
 				$this->review_descripcio =
 					'Los músicos opinan sobre sus discos favoritos';
-				$this->review_titol = 'Preferidos';
+				$this->review_titol = 'Preferidos';3
 			}
 		}
 
@@ -1036,7 +1035,7 @@ class ob_page
 				print '&type=' . $this->opinion_tipus;
 			}
 			if (
-				$this->section == 'carteslector'
+				$this->section == 'memes'
 			) {
 				print '&type=' . $this->memes_tipus;
 			}
