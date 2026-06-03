@@ -143,25 +143,10 @@ switch ($page->section) {
 		$page->description = $page->opinio_descripcio . '... - Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
 		$page->title = $page->opinio_titol . ' - Satan Arise';
 		break;
-	case ('carteslector'):
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/carta.css" />');
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/imgs.css" />');
-		$page->add_css('<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />');
-		$page->add_scripts('<script type="text/javascript" src="css/lightbox.js"></script>');
-		$page->add_scripts('<script type="text/javascript" src="css/jquery-1.7.2.min.js"></script>');
+	case ('memes'):
 		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
-		$page->description = $page->opinio_descripcio . '... - Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
-		$page->title = $page->carta_titol . ' - Satan Arise';
-		break;
-	case ('cartaslector'):
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/carta.css" />');
-		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/imgs.css" />');
-		$page->add_css('<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />');
-		$page->add_scripts('<script type="text/javascript" src="css/lightbox.js"></script>');
-		$page->add_scripts('<script type="text/javascript" src="css/jquery-1.7.2.min.js"></script>');
-		$page->add_scripts('<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=642d31b41cdb86001a1eced7&product=sop" async="async"></script>');
-		$page->description = $page->opinio_descripcio . '... - Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
-		$page->title = $page->carta_titol . ' - Satan Arise';
+		$page->description = $page->memes_descripcio . '... - Satan Arise - Heavy Metal, críticas, entrevistas e información de todos los estilos de metal.';
+		$page->title = $page->memes_titol . ' - Satan Arise';
 		break;
 	case ('contacte'):
 		$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
@@ -608,8 +593,8 @@ $page->print_heads();
 						case 'opinio':
 							$tit = 'Metal Report - Satan Arise';
 							break;
-						case 'cartaslector':
-							$tit = 'Cartes Del Lector - Satan Arise';
+						case 'memes':
+							$tit = 'Memes del dia - Satan Arise';
 							break;
 						case 'preferits':
 							$tit = 'Preferits - Satan Arise';
@@ -637,9 +622,6 @@ $page->print_heads();
 							break;
 						case 'opinion':
 							$tit = 'Metal Report - Satan Arise';
-							break;
-						case 'carteslector':
-							$tit = 'Cartas Del Lector - Satan Arise';
 							break;
 						case 'preferidos':
 							$tit = 'Preferidos - Satan Arise';

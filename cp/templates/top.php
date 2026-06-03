@@ -12,27 +12,21 @@
 			$page->description = '';
 			// $page->words = $page->words;
 			$page->title = 'Reviews - Panel de Control de Satan Arise';
-			
 		break;
-
 		case ('conciertos'):
 			$page->description = '';
 			$page->words = 'concerts, gigs, '.$page->words;
 			$page->title = 'Conciertos / Giras / Festivales - Panel de Control de Satan Arise';
-
 		break;
-
 		case ('cronicas'):
 			$page->description = '--';
 			$page->words = 'review, live, report, interview, press, '.$page->words;
 			$page->title = 'Crónicas - Panel de Control de Satan Arise';
 		break;
-
 		case ('entrevistas'):
 			$page->description = '';
 			$page->words = ''.$page->words;
-			$page->title = 'Entrevistas - Panel de Control de Satan Arise';
-			
+			$page->title = 'Entrevistas - Panel de Control de Satan Arise';			
 		break;
         case ('entrevistasn'):
 			$page->description = '';
@@ -40,7 +34,6 @@
 			$page->title = 'Entrevistas nuevas - Panel de Control de Satan Arise';
 			
 		break;
-
 		case ('noticias'):
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
 			$page->description = '';
@@ -52,12 +45,6 @@
 			$page->description = '';
 			$page->words = ''.$page->words;
 			$page->title = 'Metal Report - Panel de Control de Satan Arise';
-		break;
-        case ('carta'):
-			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
-			$page->description = '';
-			$page->words = ''.$page->words;
-			$page->title = 'Cartas Del Lector - Panel de Control de Satan Arise';
 		break;
         case ('colaboradores'):
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
@@ -134,10 +121,6 @@
 				case 'opinion':
 					$tit = 'Metal Report - Satan Arise';
 					$texte = 'Metal Report';
-				break;
-                case 'carta':
-					$tit = 'Cartas Del Lector - Satan Arise';
-					$texte = 'Cartas Del Lector';
 				break;
                 case 'entrevistas':
 					$tit = 'Entrevistas - Satan Arise';

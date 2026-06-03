@@ -52,12 +52,7 @@ class ob_page
 	public $opinio_descripcio; /* descripció per la pagina */
 	public $quantitat_opinio;
 	public $opinio_traducida;
-	/* carta */
-	public $carta_tipus; /* Controla si es mostra la plana entrades o entrada */
-	public $carta_titol; /* titol per la pagina */
-	public $carta_descripcio; /* descripció per la pagina */
-	public $quantitat_carta;
-	public $carta_traducida;
+	
 	/* preferits */
 	public $preferits_tipus; /* Controla si es mostra la plana normal, entrades, entrada o agenda */
 	public $preferits_titol; /* titol per la pagina */
@@ -65,6 +60,10 @@ class ob_page
 	public $preferits_reviews;
 	/* Concursos */
 	public $concurs;
+/* Memes */
+	public $memes_descripcio; /* descripció per la pagina */
+	public $memes_titol; /* titol per la pagina */
+	public $memes_tipus; /* Controla si es mostra la plana entrades o entrada */
 
 	/* Pagines extra */
 	public $pagina;
@@ -127,7 +126,6 @@ class ob_page
 		$this->quantitat_croniques = 10;
 		$this->quantitat_entrevistes = 10;
 		$this->quantitat_opinio = 10;
-		$this->quantitat_carta = 10;
 		$this->quantitat_preferits = 10;
 		$this->noticia = '';
 		$this->id = '';
@@ -135,7 +133,6 @@ class ob_page
 		$this->noticia_traduida = '';
 		$this->entrevista_traducida = '';
 		$this->opinio_traducida = '';
-		$this->carta_traducida = '';
 		$this->preferits_traducida = '';
 		$this->cronica_traducida = '';
 		$this->concerts_titol = '';
@@ -249,7 +246,6 @@ class ob_page
 				$this->section != 'contacto' &&
 				$this->section != 'pagina' &&
 				$this->section != 'concurso' &&
-				$this->section != 'cartaslector' &&
 				$this->section != 'preferidos' &&
 				$this->section != 'link' &&
 				$this->section != 'memes')
@@ -638,7 +634,12 @@ class ob_page
 				}
 			}
 		}
-
+		if ($this->section == 'memes') {
+			/* parametres de la secció memes */
+			$this->memes_tipus = 'main';			
+			$this->memes_descripcio = 'Memes del día';
+			$this->memes_titol = 'Memes del día';		
+		}
 		if ($this->section == 'opinion' || $this->section == 'opinio') {
 			/* parametres de la secció concerts */
 			if (isset($param['type'])) {
@@ -700,70 +701,6 @@ class ob_page
 				} else {
 					$this->opinio_descripcio = 'Darrers reports';
 					$this->opinio_titol = "Metal Report";
-				}
-			}
-		}
-		if (
-			$this->section == 'carteslector' ||
-			$this->section == 'cartaslector'
-		) {
-			/* parametres de la secció concerts */
-			if (isset($param['type'])) {
-				$this->carta_tipus = $param['type'];
-			} else {
-				$this->carta_tipus = 'main';
-			}
-			if (
-				$this->carta_tipus != 'main' &&
-				$this->carta_tipus != 'entrada'
-			) {
-				$this->carta_tipus = 'main';
-			}
-			if (isset($param['id'])) {
-				$this->id = $param['id'];
-				$bd->conectar();
-				if ($this->leng == 'ES') {
-					$query =
-						'select idioma, titol_es, texte_es from carta where idcarta = ' .
-						$this->id;
-				} else {
-					$query =
-						'select idioma, titol_cat, texte_cat from carta where idcarta = ' .
-						$this->id;
-				}
-
-				$resultat = $bd->bd->query($query);
-				if ($resultat != false) {
-					$num_resultats = $resultat->num_rows;
-					$row = $resultat->fetch_assoc();
-					$idioma_ent = $row['idioma'];
-					if ($this->leng == 'ES') {
-						$this->carta_titol = $row['titol_es'];
-						$this->carta_descripcio = substr(
-							$row['texte_es'],
-							0,
-							200
-						);
-					} else {
-						$this->carta_titol = $row['titol_cat'];
-						$this->carta_descripcio = substr(
-							$row['texte_cat'],
-							0,
-							200
-						);
-					}
-					if ($idioma_ent != 'BOTH') {
-						$this->traduccio = false;
-					}
-				}
-				$bd->desconectar();
-			} else {
-				if ($this->leng == 'ES') {
-					$this->carta_descripcio = 'Últimas cartas del lector';
-					$this->carta_titol = 'Cartas Del Lector';
-				} else {
-					$this->carta_descripcio = 'Darreres cartes del lector';
-					$this->carta_titol = 'Cartes Del Lector';
 				}
 			}
 		}
@@ -867,7 +804,6 @@ class ob_page
 				$url = str_replace('contacto', 'contacte', $url);
 				$url = str_replace('concurso', 'concurs', $url);
 				$url = str_replace('opinion', 'opinio', $url);
-				$url = str_replace('cartaslector', 'carteslector', $url);
 				$url = str_replace('preferidos', 'preferits', $url);
 			} else {
 				$url = str_replace('CAT', 'ES', $url);
@@ -880,7 +816,6 @@ class ob_page
 				$url = str_replace('contacte', 'contacto', $url);
 				$url = str_replace('concurs', 'concurso', $url);
 				$url = str_replace('opinio', 'opionion', $url);
-				$url = str_replace('carteslector', 'cartaslector', $url);
 				$url = str_replace('preferits', 'preferidos', $url);
 			}
 			if (
@@ -941,10 +876,9 @@ class ob_page
 				print '&type=' . $this->opinio_tipus;
 			}
 			if (
-				$this->section == 'carteslector' ||
-				$this->section == 'cartaslector'
+				$this->section == 'memes'
 			) {
-				print '&type=' . $this->carta_tipus;
+				print '&type=' . $this->memes_tipus;
 			}
 			if (
 				$this->section == 'preferits' ||
@@ -994,10 +928,9 @@ class ob_page
 				print '&type=' . $this->opinion_tipus;
 			}
 			if (
-				$this->section == 'cartaslector' ||
-				$this->section == 'carteslector'
+				$this->section == 'memes'
 			) {
-				print '&type=' . $this->carta_tipus;
+				print '&type=' . $this->memes_tipus;
 			}
 			if (
 				$this->section == 'preferidos' ||
@@ -1050,10 +983,9 @@ class ob_page
 				print '&type=' . $this->opinion_tipus;
 			}
 			if (
-				$this->section == 'carteslector' ||
-				$this->section == 'cartaslector'
+				$this->section == 'memes'
 			) {
-				print '&type=' . $this->carta_tipus;
+				print '&type=' . $this->memes_tipus;
 			}
 
 			print '&pnt=' .
@@ -1104,10 +1036,9 @@ class ob_page
 				print '&type=' . $this->opinion_tipus;
 			}
 			if (
-				$this->section == 'carteslector' ||
-				$this->section == 'cartaslector'
+				$this->section == 'carteslector'
 			) {
-				print '&type=' . $this->carta_tipus;
+				print '&type=' . $this->memes_tipus;
 			}
 
 			print '&pnt=' .

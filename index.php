@@ -14,9 +14,7 @@ require('sources/ob_entrevnews_web.php');
 require('sources/ob_entrevistes.php');
 require('sources/ob_entrevnews.php');
 require('sources/ob_opinio_web.php');
-require('sources/ob_carta_web.php');
 require('sources/ob_opinio.php');
-require('sources/ob_carta.php');
 require('sources/ob_cronicas_web.php');
 require('sources/ob_cronicas.php');
 require('sources/ob_preferidos.php');
@@ -129,13 +127,13 @@ if (!$basedades->error_conexio)
                 if ($resultat_consulta!=FALSE) 
 	            {}
             }
-            $query="select comptador_main from comptadors where seccio='carta_dia'";	
+            $query="select comptador_main from comptadors where seccio='memes'";	
 	        $resultat_consulta=$bd->query($query);
             if ($resultat_consulta!=FALSE) 
 	        {
                 $resultat=$resultat_consulta->fetch_assoc();
-                $v['carta']=$resultat['comptador_main'];
-                $query="update comptadors set comptador_main=0 where seccio='carta_dia'";
+                $v['memes']=$resultat['comptador_main'];
+                $query="update comptadors set comptador_main=0 where seccio='memes'";
                 $resultat_consulta=$bd->query($query);
                 if ($resultat_consulta!=FALSE) 
 	            {}
@@ -153,7 +151,7 @@ if (!$basedades->error_conexio)
                 }
                 
             }
-            $mensaje="Bon dia a la vila del pingui!!!\n\nVistes del dia: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes croniques: ".$v['chronicles']."\nVistes entrevistes: ".$v['interviews']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes cartes: ".$v['carta']."\n".$b."\nFins dema!";
+            $mensaje="Bon dia a la vila del pingui!!!\n\nVistes del dia: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes croniques: ".$v['chronicles']."\nVistes entrevistes: ".$v['interviews']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes cartes: ".$v['memes']."\n".$b."\nFins dema!";
             $cab = 'From: info@satanarise.com';
             mail('info@satanarise.com',$tit , $mensaje, $cab);
             $query="update comptadors set comptador_main=$dia where seccio='dia'";
@@ -250,19 +248,19 @@ if (!$basedades->error_conexio)
                 if ($resultat_consulta!=FALSE) 
 	            {}
             }
-            $query="select comptador_main from comptadors where seccio='carta'";	
+            $query="select comptador_main from comptadors where seccio='memes'";	
 	        $resultat_consulta=$bd->query($query);
             if ($resultat_consulta!=FALSE) 
 	        {
                 $resultat=$resultat_consulta->fetch_assoc();
-                $v['carta']=$resultat['comptador_main'];
-                $query="update comptadors set comptador_main=0 where seccio='carta'";
+                $v['memes']=$resultat['comptador_main'];
+                $query="update comptadors set comptador_main=0 where seccio='memes'";
                 $resultat_consulta=$bd->query($query);
                 if ($resultat_consulta!=FALSE) 
 	            {}
             }
             
-            $mensaje="Bon mes a la vila del ornitorrinc!!!\n\nVistes del mes: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes entrevistes: ".$v['interviews']."\nVistes croniques: ".$v['chronicles']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes cartes: ".$v['carta']."\n".$b."\nFins el mes que ve!";
+            $mensaje="Bon mes a la vila del ornitorrinc!!!\n\nVistes del mes: ".$v['main']."\nVistes news: ".$v['news']."\nVistes reviews: ".$v['reviews']."\nVistes entrevistes: ".$v['interviews']."\nVistes croniques: ".$v['chronicles']."\nVistes concerts: ".$v['gigs']."\nVistes opinio: ".$v['opinion']."\nVistes memes: ".$v['memes']."\n".$b."\nFins el mes que ve!";
             $cab = 'From: info@satanarise.com';
             mail('info@satanarise.com',$tit , $mensaje, $cab);
             $query="update comptadors set comptador_main=$dia where seccio='mes'";
@@ -377,12 +375,6 @@ switch ($page->section){
 	break;
     case ('opinion'):
 		require ('templates/opinio.php');
-	break;
-    case ('cartaslector'):
-		require ('templates/cartaslector.php');
-	break;
-    case ('carteslector'):
-		require ('templates/cartaslector.php');
 	break;
     case ('preferidos'):
 		require ('templates/preferidos.php');

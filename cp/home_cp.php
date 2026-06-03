@@ -21,9 +21,6 @@ if (isset ($_SESSION['valid_user']))
     	break;	
     	case ('opinion'):
     		require ('templates/opinio.php');
-    	break;	
-        case ('carta'):
-    		require ('templates/carta.php');
     	break;
     	case ('criticas'):
     		require ('templates/reviews.php');
