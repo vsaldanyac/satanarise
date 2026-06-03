@@ -60,14 +60,47 @@ $basedades->desconectar();
     </div>
     <script>
     (function(){
-        if (window._memeWidgetOverlayInit) return;
-        window._memeWidgetOverlayInit = true;
-        var ov  = document.getElementById('meme-widget-overlay');
-        var img = document.getElementById('meme-widget-overlay-img');
-        document.getElementById('meme-widget-close').addEventListener('click', function(){ ov.style.display='none'; });
-        ov.addEventListener('click', function(e){ if(e.target===ov) ov.style.display='none'; });
-        document.addEventListener('keydown', function(e){ if(e.key==='Escape') ov.style.display='none'; });
-        window.openMemeWidgetOverlay = function(src){ img.src=src; ov.style.display='flex'; };
+        var overlays  = document.querySelectorAll('#meme-widget-overlay');
+        var closeBtns = document.querySelectorAll('#meme-widget-close');
+
+        function isWidgetVisible(ov) {
+            var w = ov.closest('.meme-widget');
+            return !w || (w.offsetWidth || w.offsetHeight || w.getClientRects().length);
+        }
+
+        function firstVisibleOverlay() {
+            for (var i = 0; i < overlays.length; i++) {
+                if (isWidgetVisible(overlays[i])) return overlays[i];
+            }
+            return overlays.length ? overlays[0] : null;
+        }
+
+        for (var i = 0; i < closeBtns.length; i++) {
+            closeBtns[i].addEventListener('click', function () {
+                var ov = this.closest('#meme-widget-overlay');
+                if (ov) ov.style.display = 'none';
+            });
+        }
+
+        for (var i = 0; i < overlays.length; i++) {
+            overlays[i].addEventListener('click', function (e) {
+                if (e.target === this) this.style.display = 'none';
+            });
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                for (var i = 0; i < overlays.length; i++) overlays[i].style.display = 'none';
+            }
+        });
+
+        window.openMemeWidgetOverlay = function (src) {
+            var ov = firstVisibleOverlay();
+            if (!ov) return;
+            var img = ov.querySelector('#meme-widget-overlay-img');
+            if (img) img.src = src;
+            ov.style.display = 'flex';
+        };
     })();
     </script>
 
