@@ -33,7 +33,7 @@ class cp_meme
 
     public function recull_parametres($post, $files)
     {
-        if ($post['enviat'] !== 'si') {
+        if (!isset($post['enviat']) || $post['enviat'] !== 'si') {
             return FALSE;
         }
         $this->formulari_ok = TRUE;
