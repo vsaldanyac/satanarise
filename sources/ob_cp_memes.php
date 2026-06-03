@@ -52,6 +52,12 @@ class cp_meme
             return FALSE;
         }
 
+        if (!isset($files['file_meme']['size']) || (int)$files['file_meme']['size'] > 5000000) {
+            $this->error .= 'La imagen supera el tamaño máximo permitido (5MB).';
+            $this->formulari_ok = FALSE;
+            return FALSE;
+        }
+
         $ext = $this->_get_ext($files['file_meme']['name']);
         if ($ext === '') {
             $this->error .= 'El archivo no es una imagen válida (jpg, jpeg, png, gif, webp).';
