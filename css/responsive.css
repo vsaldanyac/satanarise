@@ -1394,7 +1394,7 @@ div#final {
     .meme-widget-mobile {
         display: none !important;
     }
-    p.linkmenu.memes-mobile-link {
+    div#menu p.linkmenu.memes-mobile-link {
         display: none !important;
     }
 }
