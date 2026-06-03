@@ -118,6 +118,7 @@ $basedades->desconectar();
              alt="Meme del día"
              style="max-width:100%;height:auto;cursor:pointer;border-radius:3px;"
              onclick="openMemeWidgetOverlay(this.src)" />
+    </div>
     <?php endif; ?>
 
 </div>
