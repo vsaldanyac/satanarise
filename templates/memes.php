@@ -93,7 +93,9 @@ $titol = ($page->leng === 'CAT') ? 'Memes del dia' : 'Memes del día';
 }
 .meme-cell img.meme-thumb {
     width: 100%;
-    height: auto;
+    height: 220px;
+    object-fit: contain;
+    background-color: #111;
     display: block;
     cursor: pointer;
     border-radius: 3px;
