@@ -479,7 +479,7 @@ class ob_page
 			} else {
 				$this->review_descripcio =
 					'Los músicos opinan sobre sus discos favoritos';
-				$this->review_titol = 'Preferidos';3
+				$this->review_titol = 'Preferidos';
 			}
 		}
 
