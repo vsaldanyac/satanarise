@@ -924,7 +924,7 @@ class cp_propers_concerts
 		}
 
 	}
-	public function presentar_concerts_formulari($bd, $tasca, $inici, $quantitat, $buscar_banda = '', $buscar_data = '')
+	public function presentar_concerts_formulari($bd, $tasca, $inici, $quantitat, $buscar_banda = '', $buscar_data = '', $filtro_fecha = '')
 	/* tenint l'objecte de la consulta les posa a pantalla */
 	{
 		$buscar_banda = trim($buscar_banda);
@@ -944,10 +944,17 @@ class cp_propers_concerts
 			$esc_data = addslashes($buscar_data);
 			$where_extra .= " and concertsdata.dateConcert LIKE '%" . $esc_data . "%'";
 		}
+		if ($filtro_fecha == 'futuros') {
+			$where_extra .= " and concertsdata.dateConcert >= CURDATE()";
+		} elseif ($filtro_fecha == 'pasados') {
+			$where_extra .= " and concertsdata.dateConcert < CURDATE()";
+		}
 
-		$limit = ($buscar_banda == '' && $buscar_data == '') ? " limit " . ($inici - 1) . ", " . $quantitat : '';
+		$limit = ($buscar_banda == '' && $buscar_data == '' && $filtro_fecha == '') ? " limit " . ($inici - 1) . ", " . $quantitat : '';
 
-		$query = $select . " concerts.tipus, concerts.Nom, concerts.idGig, concerts.dateIn, concerts.cartell, concertsdata.dateConcert, concertsdata.cartell_concert, concertsdata.idConcert, concertsdata.sala, concertsdata.localitat from concerts, concertsdata" . $join_banda . " where concertsdata.idGig = concerts.idGig" . $where_extra . " order by concertsdata.dateConcert asc" . $limit;
+		$order = ($filtro_fecha == 'pasados') ? " order by concertsdata.dateConcert desc" : " order by concertsdata.dateConcert asc";
+
+		$query = $select . " concerts.tipus, concerts.Nom, concerts.idGig, concerts.dateIn, concerts.cartell, concertsdata.dateConcert, concertsdata.cartell_concert, concertsdata.idConcert, concertsdata.sala, concertsdata.localitat from concerts, concertsdata" . $join_banda . " where concertsdata.idGig = concerts.idGig" . $where_extra . $order . $limit;
 		$this->mini_dades = new mini_concert;
 		$this->resultat_consulta = $bd->query($query);
 		if (!$this->resultat_consulta == FALSE) {

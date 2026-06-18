@@ -157,7 +157,7 @@
 				}
 				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=del" title="'.$tit.'">Eliminar</a></p>'."\n";
 			}
-			if ($cad_menu[$cont] == 'conciertos') print '<p class="submenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=borrar_fora_de_data" title="'.$tit.'">Eliminar antiguos</a></p>'."\n";								
+			if ($cad_menu[$cont] == 'conciertos') print '<p class="submenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=borrar_fora_de_data" title="'.$tit.'">Pasados</a></p>'."\n";								
 			$cont=$cont+1;
 		}
 	

@@ -29,8 +29,8 @@
 			$basedades->conectar();
 			if (!$basedades->error_conexio) {
 				print '<p class="terminal">Conexió OK!</p>';
-				$cp_concert->presentar_concerts_formulari($basedades->bd, 'edit_del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
-				$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+				$cp_concert->presentar_concerts_formulari($basedades->bd, 'edit_del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data, 'futuros');
+				$total_nav = 0;
 				$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 				$basedades->desconectar();
 			} else {
@@ -111,8 +111,8 @@
 				$basedades->conectar();
 				if (!$basedades->error_conexio) {
 					print '<p class="terminal">Conexió OK!</p>';
-					$cp_concert->presentar_concerts_formulari($basedades->__get('bd'), 'editar', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
-					$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+					$cp_concert->presentar_concerts_formulari($basedades->__get('bd'), 'editar', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data, 'futuros');
+					$total_nav = 0;
 					$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 					$basedades->desconectar();
 				} else {
@@ -194,8 +194,8 @@
 				$basedades->conectar();
 				if (!$basedades->error_conexio) {
 					print '<p class="terminal">Conexió OK!</p>';
-					$cp_concert->presentar_concerts_formulari($basedades->bd, 'del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data);
-					$total_nav = $filtros_activos ? 0 : $basedades->contar_entrades('concertsdata');
+					$cp_concert->presentar_concerts_formulari($basedades->bd, 'del', $page->punter, $page->num_a_mostrar, $buscar_banda, $buscar_data, 'futuros');
+					$total_nav = 0;
 					$cp_concert->navegador_entrades($total_nav, $page->punter, $page->num_a_mostrar, $page->action);
 					$basedades->desconectar();
 				} else {
@@ -218,11 +218,29 @@
 			break;
 		case 'borrar_fora_de_data':
 			?>
-			<p class="titol_parcial">Eliminar conciertos pasados</p>
-			<p class="contingut">Este proceso eliminará todos los conciertos de fechas anteriores a la actual<br />
-				¿Está seguro que proceder?</p>
-			<p class="terminal">Botó de formulari i esborrar fins a dara actual</p>
+			<p class="titol_parcial">Conciertos pasados</p>
 			<?php
+			if ($page->formulari) {
+				print '<p class="terminal">Formulari OK</p>';
+				$basedades->conectar();
+				if (!$basedades->error_conexio) {
+					print '<p class="terminal">Conexió OK!</p>';
+					$cp_concert->eliminar_registre($basedades->bd, $page->id);
+					print '<p class="terminal">Registro Eliminado</p>';
+					$basedades->desconectar();
+				} else {
+					print '<p class="terminal">Error de conexión a la base de datos</p>';
+				}
+			} else {
+				$basedades->conectar();
+				if (!$basedades->error_conexio) {
+					print '<p class="terminal">Conexió OK!</p>';
+					$cp_concert->presentar_concerts_formulari($basedades->bd, 'edit_del', $page->punter, $page->num_a_mostrar, '', '', 'pasados');
+					$basedades->desconectar();
+				} else {
+					print '<p class="terminal">Error de conexión a la base de datos</p>';
+				}
+			}
 			break;
 	}
 	?>
