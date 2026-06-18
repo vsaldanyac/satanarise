@@ -7,6 +7,12 @@ $memes_web   = new ob_memes_web;
 
 $basedades->conectar();
 if (!$basedades->error_conexio) {
+    $bd = $basedades->__get('bd');
+    $q = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='memes'");
+    if ($q) { $r = $q->fetch_assoc(); $v = $r['comptador_main']+1; $bd->query("UPDATE comptadors SET comptador_main=$v WHERE seccio='memes'"); }
+    $q = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='memes_dia'");
+    if ($q) { $r = $q->fetch_assoc(); $v = $r['comptador_main']+1; $bd->query("UPDATE comptadors SET comptador_main=$v WHERE seccio='memes_dia'"); }
+
     $memes_web->extreure_memes_per_pagina($basedades->bd, $pagina, $per_pagina);
 
     $total_pagines = ($memes_web->total > 0) ? (int)ceil($memes_web->total / $per_pagina) : 1;

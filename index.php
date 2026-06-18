@@ -127,15 +127,15 @@ if (!$basedades->error_conexio)
                 if ($resultat_consulta!=FALSE) 
 	            {}
             }
-            $query="select comptador_main from comptadors where seccio='memes'";	
+            $query="select comptador_main from comptadors where seccio='memes_dia'";
 	        $resultat_consulta=$bd->query($query);
-            if ($resultat_consulta!=FALSE) 
+            if ($resultat_consulta!=FALSE)
 	        {
                 $resultat=$resultat_consulta->fetch_assoc();
                 $v['memes']=$resultat['comptador_main'];
-                $query="update comptadors set comptador_main=0 where seccio='memes'";
+                $query="update comptadors set comptador_main=0 where seccio='memes_dia'";
                 $resultat_consulta=$bd->query($query);
-                if ($resultat_consulta!=FALSE) 
+                if ($resultat_consulta!=FALSE)
 	            {}
             }
             $query="select texte, contador from banners order by tipo desc";
