@@ -12,27 +12,21 @@
 			$page->description = '';
 			// $page->words = $page->words;
 			$page->title = 'Reviews - Panel de Control de Satan Arise';
-			
 		break;
-
 		case ('conciertos'):
 			$page->description = '';
 			$page->words = 'concerts, gigs, '.$page->words;
 			$page->title = 'Conciertos / Giras / Festivales - Panel de Control de Satan Arise';
-
 		break;
-
 		case ('cronicas'):
 			$page->description = '--';
 			$page->words = 'review, live, report, interview, press, '.$page->words;
 			$page->title = 'Crónicas - Panel de Control de Satan Arise';
 		break;
-
 		case ('entrevistas'):
 			$page->description = '';
 			$page->words = ''.$page->words;
-			$page->title = 'Entrevistas - Panel de Control de Satan Arise';
-			
+			$page->title = 'Entrevistas - Panel de Control de Satan Arise';			
 		break;
         case ('entrevistasn'):
 			$page->description = '';
@@ -40,7 +34,6 @@
 			$page->title = 'Entrevistas nuevas - Panel de Control de Satan Arise';
 			
 		break;
-
 		case ('noticias'):
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
 			$page->description = '';
@@ -53,12 +46,6 @@
 			$page->words = ''.$page->words;
 			$page->title = 'Metal Report - Panel de Control de Satan Arise';
 		break;
-        case ('carta'):
-			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
-			$page->description = '';
-			$page->words = ''.$page->words;
-			$page->title = 'Cartas Del Lector - Panel de Control de Satan Arise';
-		break;
         case ('colaboradores'):
 			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
 			$page->description = '';
@@ -66,10 +53,14 @@
 			$page->title = 'Colaboradores - Panel de Control de Satan Arise';
 		break;        
         case ('usuarios'):
-			//$page->add_css('<link type="text/css" rel="stylesheet" media="all" href="css/contact.css" />');
 			$page->description = '';
 			$page->words = ''.$page->words;
 			$page->title = 'Usuarios - Panel de Control de Satan Arise';
+		break;
+        case ('memes'):
+			$page->description = '';
+			$page->words = ''.$page->words;
+			$page->title = 'Memes - Panel de Control de Satan Arise';
 		break;
 	}
 	/* Impresió de capçalera */
@@ -101,7 +92,7 @@
 
 <?php
 			
-	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','carta','colaboradores','usuarios');
+	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','memes','colaboradores','usuarios');
 	$contmax = count($cad_menu); 
 	$cont=0;
 	
@@ -131,10 +122,6 @@
 					$tit = 'Metal Report - Satan Arise';
 					$texte = 'Metal Report';
 				break;
-                case 'carta':
-					$tit = 'Cartas Del Lector - Satan Arise';
-					$texte = 'Cartas Del Lector';
-				break;
                 case 'entrevistas':
 					$tit = 'Entrevistas - Satan Arise';
 					$texte = 'Entrevistas';
@@ -143,7 +130,11 @@
 					$tit = 'Entrevistas nuevas - Satan Arise';
 					$texte = 'Entrevistas nuevas';
 				break;
-                case ('colaboradores'):			        
+                case 'memes':
+					$tit = 'Memes del día - Satan Arise';
+					$texte = 'Memes';
+				break;
+                case ('colaboradores'):
 					$tit = 'Colaboradores - Satan Arise';
 					$texte = 'Colaboradores';
 					$page->title = 'Colaboradores - Panel de Control de Satan Arise';
@@ -161,10 +152,12 @@
 			print '</a></p>'."\n";
 			if ($cad_menu[$cont] !='inicio') {
 				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=add" title="'.$tit.'">Añadir</a></p>'."\n";
-				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=edit" title="'.$tit.'">Editar</a></p>'."\n";
-				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=del" title="'.$tit.'">Eliminar</a></p>'."\n";									
+				if ($cad_menu[$cont] !== 'memes') {
+					print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=edit" title="'.$tit.'">Editar</a></p>'."\n";
+				}
+				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=del" title="'.$tit.'">Eliminar</a></p>'."\n";
 			}
-			if ($cad_menu[$cont] == 'conciertos') print '<p class="submenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=borrar_fora_de_data" title="'.$tit.'">Eliminar antiguos</a></p>'."\n";								
+			if ($cad_menu[$cont] == 'conciertos') print '<p class="submenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=borrar_fora_de_data" title="'.$tit.'">Pasados</a></p>'."\n";								
 			$cont=$cont+1;
 		}
 	

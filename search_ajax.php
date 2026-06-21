@@ -7,7 +7,7 @@ header('X-Content-Type-Options: nosniff');
 $q  = isset($_GET['q'])  ? trim($_GET['q'])  : '';
 $ln = (isset($_GET['ln']) && $_GET['ln'] === 'CAT') ? 'CAT' : 'ES';
 
-$empty = ['noticias' => [], 'conciertos' => [], 'criticas' => [], 'cronicas' => [], 'entrevistas' => []];
+$empty = ['noticias' => [], 'conciertos' => [], 'criticas' => [], 'cronicas' => [], 'entrevistas' => [], 'memes' => []];
 
 if (mb_strlen($q) < 3) {
     echo json_encode(['results' => $empty]);
@@ -164,6 +164,24 @@ if ($r && $r->num_rows > 0) {
         $results['entrevistas'][] = [
             'title' => clean($row['banda']) . $titol,
             'url'   => 'index.php?ln=' . $ln . '&sec=' . $sec_entrevistas . '&' . $row['link'],
+        ];
+    }
+}
+
+/* ---- Memes ---- */
+$r = $bd->query(
+    "SELECT idMeme, descripcio, dateIn
+     FROM meme
+     WHERE descripcio LIKE '%$term%'
+     ORDER BY dateIn DESC
+     LIMIT 10"
+);
+if ($r && $r->num_rows > 0) {
+    while ($row = $r->fetch_assoc()) {
+        $fecha = !empty($row['dateIn']) ? date('d/m/Y', strtotime($row['dateIn'])) : '';
+        $results['memes'][] = [
+            'title' => clean($row['descripcio']) . ($fecha ? ' - ' . $fecha : ''),
+            'url'   => 'index.php?ln=' . $ln . '&sec=memes',
         ];
     }
 }

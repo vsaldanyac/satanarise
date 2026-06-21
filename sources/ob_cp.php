@@ -107,7 +107,7 @@
 					$this->section = 'inicio';
 			}
 			
-			if ((($this->section != 'inicio') && ($this->section != 'criticas') && ($this->section != 'noticias') && ($this->section != 'colaboradores') && ($this->section != 'conciertos') && ($this->section != 'cronicas') && ($this->section != 'entrevistas') && ($this->section != 'entrevistasn') && ($this->section != 'carta') && ($this->section != 'opinion') && ($this->section != 'logout') && ($this->section != 'usuarios'))) {
+			if ((($this->section != 'inicio') && ($this->section != 'criticas') && ($this->section != 'noticias') && ($this->section != 'colaboradores') && ($this->section != 'conciertos') && ($this->section != 'cronicas') && ($this->section != 'entrevistas') && ($this->section != 'entrevistasn') &&  ($this->section != 'opinion') && ($this->section != 'logout') && ($this->section != 'usuarios') && ($this->section != 'memes'))) {
 				$this->section = 'inicio';
 
 			}
@@ -121,7 +121,7 @@
 				exit();
 				
 			}			
-			if ((($this->section == 'criticas') || ($this->section == 'noticias') || ($this->section == 'conciertos') || ($this->section == 'usuarios') || ($this->section == 'opinion') || ($this->section == 'carta') || ($this->section == 'colaboradores') || ($this->section == 'cronicas') || ($this->section == 'entrevistas') || ($this->section == 'entrevistasn'))) {
+			if ((($this->section == 'criticas') || ($this->section == 'noticias') || ($this->section == 'conciertos') || ($this->section == 'usuarios') || ($this->section == 'opinion') || ($this->section == 'colaboradores') || ($this->section == 'cronicas') || ($this->section == 'entrevistas') || ($this->section == 'entrevistasn') || ($this->section == 'memes'))) {
 				if (isset($param['action'])) {
 					$this->action=$param['action'];
 					if (($this->action!='main') && ($this->action!='add') && ($this->action!='del') && ($this->action!='edit')) {

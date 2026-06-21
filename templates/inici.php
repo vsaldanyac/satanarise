@@ -142,5 +142,9 @@
         <!-- --------------------------------------------------------------------------------------------------------------------- -->
 	<?php
 			require('templates/conciertos_index.php');
-	?>        
-	
+	?>
+
+	<!-- ---- MEME DEL DÍA — mobile only (hidden on desktop via CSS) ---- -->
+	<?php $meme_widget_class = 'meme-widget-mobile'; require('templates/meme_widget.php'); ?>
+
+

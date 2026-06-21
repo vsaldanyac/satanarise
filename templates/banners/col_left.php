@@ -5,6 +5,7 @@
 	<!-- ShareThis END -->
 </div>
 <br />
+<?php $meme_widget_class = 'meme-widget-desktop'; require('templates/meme_widget.php'); ?>
 <?php
 $basedades->conectar();
 if (!$basedades->error_conexio) {

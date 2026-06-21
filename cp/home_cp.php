@@ -13,7 +13,7 @@ if (isset ($_SESSION['valid_user']))
     /* captar parametres */
     if (isset($_GET)) $page->get_param($_GET);
     
-    /* carrega top.php - Menu i control de capçaleres */
+    /* carrega top.php - Menu i control de capï¿½aleres */
     require ('templates/top.php');
     switch ($page->section){
     	case ('inicio'):
@@ -21,9 +21,6 @@ if (isset ($_SESSION['valid_user']))
     	break;	
     	case ('opinion'):
     		require ('templates/opinio.php');
-    	break;	
-        case ('carta'):
-    		require ('templates/carta.php');
     	break;
     	case ('criticas'):
     		require ('templates/reviews.php');
@@ -43,6 +40,9 @@ if (isset ($_SESSION['valid_user']))
     	case ('noticias'):
     		require ('templates/noticias.php');
     	break;
+        case ('memes'):
+			require ('templates/memes.php');
+		break;
         case ('colaboradores'):
 			require ('templates/colaboradors.php');
 		break;	
