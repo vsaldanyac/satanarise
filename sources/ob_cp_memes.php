@@ -74,7 +74,7 @@ class cp_meme
         }
 
         $time_file = str_replace(array('-', ' ', ':'), '', date('Y-m-d H:i:s'));
-        $filename  = $time_file . $ext;
+        $filename  = $time_file . '_' . bin2hex(random_bytes(4)) . $ext;
         $dest      = self::UPLOAD_DIR . $filename;
 
         if (!is_uploaded_file($files['file_meme']['tmp_name'])) {
