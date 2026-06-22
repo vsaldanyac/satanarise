@@ -14,7 +14,8 @@ class ob_cp_newsletter
         list($from, $to) = $this->get_prev_week_range();
         $from_esc = $bd->real_escape_string($from);
         $to_esc   = $bd->real_escape_string($to);
-        $query = "SELECT news.idNews, newscontent.Title, news.dateIn
+        $query = "SELECT news.idNews, newscontent.Title, news.dateIn,
+                         (SELECT ruta FROM newsdata WHERE newsdata.idNews = news.idNews AND newsdata.tipo = 1 AND newsdata.orden = 1) AS ruta
                   FROM news
                   JOIN newscontent ON news.idNews = newscontent.idNews
                   WHERE news.newsletter = 1
@@ -54,14 +55,20 @@ class ob_cp_newsletter
 
     public function get_week_concerts($bd)
     {
-        list($from, $to) = $this->get_prev_week_range();
-        $from_esc = $bd->real_escape_string($from);
-        $to_esc   = $bd->real_escape_string($to);
-        $query = "SELECT concertsdata.idConcert, concertsdata.idGig, concerts.Nom,
+        $hoy        = date('Ymd') . '000000';
+        $next_monday = date('Ymd', strtotime('next monday')) . '000000';
+        $query = "SELECT concertsdata.idConcert, concertsdata.idGig,
+                         COALESCE(
+                           (SELECT GROUP_CONCAT(Grup ORDER BY ordre SEPARATOR ' + ')
+                            FROM concertsgrups WHERE concertsgrups.idConcert = concertsdata.idConcert),
+                           NULLIF(concerts.Nom, '')
+                         ) AS Nom,
+                         concerts.Nom AS concerts_nom,
                          concertsdata.localitat, concertsdata.sala, concertsdata.dateConcert
-                  FROM concertsdata
-                  JOIN concerts ON concertsdata.idGig = concerts.idGig
-                  WHERE concertsdata.dateConcert BETWEEN '$from_esc' AND '$to_esc'
+                  FROM concertsdata, concerts
+                  WHERE concertsdata.dateConcert >= $hoy
+                    AND concertsdata.dateConcert < $next_monday
+                    AND concerts.idGig = concertsdata.idGig
                   ORDER BY concertsdata.dateConcert ASC";
         $result = $bd->query($query);
         $rows = [];
@@ -76,10 +83,30 @@ class ob_cp_newsletter
     public function get_week_interviews($bd)
     {
         list($from, $to) = $this->get_prev_week_range();
-        $from_esc = $bd->real_escape_string($from);
-        $to_esc   = $bd->real_escape_string($to);
+        $from_esc = $bd->real_escape_string(date('YmdHis', strtotime($from)));
+        $to_esc   = $bd->real_escape_string(date('YmdHis', strtotime($to)));
         $query = "SELECT identrevistes, banda, titol_es, link, data
                   FROM entrevnews
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH')
+                    AND data BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY data DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function get_week_metal_report($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string(date('YmdHis', strtotime($from)));
+        $to_esc   = $bd->real_escape_string(date('YmdHis', strtotime($to)));
+        $query = "SELECT idopinio, titol_es, data, ruta
+                  FROM opinio
                   WHERE (idioma = 'ES' OR idioma = 'BOTH')
                     AND data BETWEEN '$from_esc' AND '$to_esc'
                   ORDER BY data DESC";
@@ -120,36 +147,39 @@ class ob_cp_newsletter
         $bd->query("UPDATE comptadors SET comptador_main = $val WHERE seccio = 'newsletter_auto'");
     }
 
-    public function build_email_html($news, $reviews, $concerts, $interviews, $token)
+    public function build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $token)
     {
         list($from, $to) = $this->get_prev_week_range();
         $week_from = date('d/m/Y', strtotime($from));
         $week_to   = date('d/m/Y', strtotime($to));
 
-        $base = 'http://www.satanarise.com';
+        $base = 'https://www.satanarise.com';
 
         $html  = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/></head>';
         $html .= '<body style="margin:0;padding:0;background-color:#111111;font-family:Arial,Helvetica,sans-serif;">';
         $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#111111;">';
-        $html .= '<tr><td align="center" style="padding:20px 10px;">';
+        $html .= '<tr><td align="center" style="padding:12px 10px 0 10px;">';
+        $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#555555;">&iquest;No se muestra bien? <a href="' . $base . '/newsletter_web.php" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Ver en el navegador</a></span>';
+        $html .= '</td></tr>';
+        $html .= '<tr><td align="center" style="padding:12px 10px 20px 10px;">';
         $html .= '<table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#000000;border:1px solid #600;">';
 
         /* Header */
         $html .= '<tr><td style="background-color:#600;padding:24px 20px 16px 20px;text-align:center;">';
-        $html .= '<span style="font-family:Arial,sans-serif;font-size:32px;font-weight:bold;color:#ffffff;letter-spacing:4px;text-transform:uppercase;">SATANARISE</span><br/>';
+        $html .= '<a href="' . $base . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:32px;font-weight:bold;color:#ffffff;letter-spacing:4px;text-transform:uppercase;text-decoration:none;">SATANARISE</span></a><br/>';
         $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#ffcccc;letter-spacing:2px;text-transform:uppercase;">Newsletter Semanal &bull; ' . $week_from . ' - ' . $week_to . '</span>';
         $html .= '</td></tr>';
 
         /* Intro */
         $html .= '<tr><td style="padding:20px 30px 10px 30px;border-bottom:1px solid #330000;">';
-        $html .= '<p style="margin:0;font-size:13px;color:#cccccc;line-height:1.6;">Lo mejor de la semana en el mundo del metal: noticias, cr&iacute;ticas, conciertos y entrevistas.</p>';
+        $html .= '<p style="margin:0;font-size:13px;color:#cccccc;line-height:1.6;letter-spacing:normal;">Lo mejor de la semana en el mundo del metal: noticias, cr&iacute;ticas, conciertos y entrevistas.</p>';
         $html .= '</td></tr>';
 
         /* Noticias */
         if (!empty($news)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Noticias</span></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=noticias" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Noticias</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
             $count = count($news);
@@ -158,8 +188,15 @@ class ob_cp_newsletter
                 $url = $base . '/index.php?ln=ES&sec=noticias&id=' . (int)$n['idNews'] . '&noticia=' . urlencode($n['Title']);
                 $date = date('d/m/Y', strtotime($n['dateIn']));
                 $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="' . $border . 'padding-bottom:12px;margin-bottom:12px;">';
-                $html .= '<tr><td>';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($n['Title']) . '</span></a><br/>';
+                $html .= '<tr>';
+                if (!empty($n['ruta'])) {
+                    $img_src = $base . '/' . htmlspecialchars(preg_replace('/\s+/', '', $n['ruta']));
+                    $html .= '<td width="90" valign="middle" style="padding-right:14px;">';
+                    $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
+                    $html .= '</td>';
+                }
+                $html .= '<td valign="middle">';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($n['Title']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date . '</span>';
                 $html .= '</td></tr></table>';
             }
@@ -170,7 +207,7 @@ class ob_cp_newsletter
         if (!empty($reviews)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Cr&iacute;ticas de la semana</span></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=criticas" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Cr&iacute;ticas de la semana</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
             $count = count($reviews);
@@ -179,9 +216,9 @@ class ob_cp_newsletter
                 $url = $base . '/index.php?ln=ES&sec=criticas&' . $r['link'];
                 $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="' . $border . 'padding-bottom:14px;margin-bottom:14px;">';
                 $html .= '<tr><td width="70" valign="top" style="padding-right:14px;">';
-                $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars($r['portada']) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
+                $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars(preg_replace('/\s+/', '', $r['portada'])) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
                 $html .= '</td><td valign="top">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($r['estil']) . '</span><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cccccc;">Puntuaci&oacute;n: <strong style="color:#cc2200;">' . htmlspecialchars($r['nota']) . '</strong></span>';
                 $html .= '</td></tr></table>';
@@ -193,19 +230,23 @@ class ob_cp_newsletter
         if (!empty($concerts)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Conciertos de la semana</span></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=conciertos&type=agenda" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Conciertos de la semana</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
             $count = count($concerts);
             foreach ($concerts as $i => $c) {
                 $border = ($i < $count - 1) ? 'border-bottom:1px solid #1a0000;' : '';
-                $url = $base . '/index.php?ln=ES&sec=conciertos&id=' . (int)$c['idGig'];
+                if (!empty($c['concerts_nom'])) {
+                    $url = $base . '/index.php?ln=ES&sec=conciertos&type=entrada&id=' . (int)$c['idGig'];
+                } else {
+                    $url = $base . '/index.php?ln=ES&sec=conciertos&type=agenda&fecha_tipo=libre&fecha_libre=' . substr($c['dateConcert'], 0, 10);
+                }
                 $date_str = date('d M', strtotime($c['dateConcert']));
                 $html .= '<tr><td style="padding:8px 0;' . $border . '">';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cc2200;font-weight:bold;">' . $date_str . '</span>&nbsp;&nbsp;';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars($c['Nom']) . '</span></a><br/>';
-                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($c['sala']) . ' &bull; ' . htmlspecialchars($c['localitat']) . '</span>';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim(strip_tags($c['Nom'])))) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['sala']))) . ' &bull; ' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['localitat']))) . '</span>';
                 $html .= '</td></tr>';
             }
             $html .= '</table></td></tr>';
@@ -215,7 +256,7 @@ class ob_cp_newsletter
         if (!empty($interviews)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Entrevistas de la semana</span></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=entrevistasn" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Entrevistas de la semana</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 20px 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
@@ -225,19 +266,51 @@ class ob_cp_newsletter
                 $url = $base . '/index.php?ln=ES&sec=entrevistasn&' . $e['link'];
                 $date_str = date('d/m/Y', strtotime($e['data']));
                 $html .= '<tr><td style="padding:8px 0;' . $border . '">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($e['titol_es']) . '</span></a><br/>';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($e['titol_es']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($e['banda']) . ' &bull; ' . $date_str . '</span>';
                 $html .= '</td></tr>';
             }
             $html .= '</table></td></tr>';
         }
 
+        /* Metal Report */
+        if (!empty($metal_report)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=opinion" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Metal Report</span></a></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 0 30px;">';
+            $count = count($metal_report);
+            foreach ($metal_report as $i => $mr) {
+                $border = ($i < $count - 1) ? 'border-bottom:1px solid #220000;' : '';
+                $url = $base . '/index.php?ln=ES&sec=opinion&type=entrada&id=' . (int)$mr['idopinio'];
+                $date_str = date('d/m/Y', strtotime($mr['data']));
+                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="' . $border . 'padding-bottom:12px;margin-bottom:12px;">';
+                $html .= '<tr>';
+                if (!empty($mr['ruta'])) {
+                    $img_src = $base . '/pics/opinio_pics/' . htmlspecialchars(preg_replace('/\s+/', '', $mr['ruta']));
+                    $html .= '<td width="90" valign="middle" style="padding-right:14px;">';
+                    $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
+                    $html .= '</td>';
+                }
+                $html .= '<td valign="middle">';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($mr['titol_es']) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date_str . '</span>';
+                $html .= '</td></tr></table>';
+            }
+            $html .= '</td></tr>';
+        }
+
         /* Footer */
-        $unsubscribe_url = $base . '/unsubscribe.php?token=' . urlencode($token);
         $html .= '<tr><td style="background-color:#0d0d0d;border-top:2px solid #600;padding:20px 30px;text-align:center;">';
-        $html .= '<p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;color:#555555;">Est&aacute;s recibiendo este email porque te suscribiste al newsletter de SatanArise.</p>';
-        $html .= '<p style="margin:0;"><a href="' . $unsubscribe_url . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
-        $html .= '&nbsp;&bull;&nbsp;<a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
+        if ($token !== '') {
+            $unsubscribe_url = $base . '/unsubscribe.php?token=' . urlencode($token);
+            $html .= '<p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;color:#555555;">Est&aacute;s recibiendo este email porque te suscribiste al newsletter de SatanArise.</p>';
+            $html .= '<p style="margin:0;"><a href="' . $unsubscribe_url . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
+            $html .= '&nbsp;&bull;&nbsp;<a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
+        } else {
+            $html .= '<p style="margin:0;"><a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
+        }
         $html .= '</td></tr>';
 
         $html .= '</table></td></tr></table></body></html>';
@@ -246,10 +319,11 @@ class ob_cp_newsletter
 
     public function send_newsletter($bd)
     {
-        $news       = $this->get_newsletter_news($bd);
-        $reviews    = $this->get_week_reviews($bd);
-        $concerts   = $this->get_week_concerts($bd);
-        $interviews = $this->get_week_interviews($bd);
+        $news         = $this->get_newsletter_news($bd);
+        $reviews      = $this->get_week_reviews($bd);
+        $concerts     = $this->get_week_concerts($bd);
+        $interviews   = $this->get_week_interviews($bd);
+        $metal_report = $this->get_week_metal_report($bd);
 
         $result = $bd->query("SELECT email, unsubscribe_token FROM newsletter_subscribers WHERE active = 1");
         if (!$result) {
@@ -265,7 +339,7 @@ class ob_cp_newsletter
 
         $sent = 0;
         while ($subscriber = $result->fetch_assoc()) {
-            $html = $this->build_email_html($news, $reviews, $concerts, $interviews, $subscriber['unsubscribe_token']);
+            $html = $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $subscriber['unsubscribe_token']);
             $ok = mail($subscriber['email'], $subject, $html, $headers);
             if ($ok) {
                 $sent++;
@@ -280,10 +354,11 @@ class ob_cp_newsletter
     {
         $count      = $this->count_active_subscribers($bd);
         $auto       = $this->get_auto_status($bd);
-        $news       = $this->get_newsletter_news($bd);
-        $reviews    = $this->get_week_reviews($bd);
-        $concerts   = $this->get_week_concerts($bd);
-        $interviews = $this->get_week_interviews($bd);
+        $news         = $this->get_newsletter_news($bd);
+        $reviews      = $this->get_week_reviews($bd);
+        $concerts     = $this->get_week_concerts($bd);
+        $interviews   = $this->get_week_interviews($bd);
+        $metal_report = $this->get_week_metal_report($bd);
 
         list($from, $to) = $this->get_prev_week_range();
 
@@ -339,6 +414,14 @@ class ob_cp_newsletter
             print 'Sin entrevistas esta semana.';
         } else {
             print count($interviews) . ' entrevista(s)';
+        }
+        print '</p>';
+
+        print '<p class="contingut"><strong>Metal Report:</strong> ';
+        if (empty($metal_report)) {
+            print 'Sin Metal Report esta semana.';
+        } else {
+            print count($metal_report) . ' art&iacute;culo(s)';
         }
         print '</p>';
 

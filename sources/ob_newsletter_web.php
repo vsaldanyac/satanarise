@@ -7,8 +7,16 @@ class ob_newsletter_web
             return 'invalid';
         }
         $email_esc = $bd->real_escape_string(trim($email));
-        $result = $bd->query("SELECT id FROM newsletter_subscribers WHERE email = '$email_esc'");
+        $result = $bd->query("SELECT id, active FROM newsletter_subscribers WHERE email = '$email_esc'");
         if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if ((int)$row['active'] === 0) {
+                $id    = (int)$row['id'];
+                $now   = date('Y-m-d H:i:s');
+                $token = bin2hex(random_bytes(32));
+                $ok = $bd->query("UPDATE newsletter_subscribers SET active = 1, subscribed_at = '$now', unsubscribed_at = NULL, unsubscribe_token = '$token' WHERE id = $id");
+                return $ok ? 'ok' : 'error';
+            }
             return 'duplicate';
         }
         $token = bin2hex(random_bytes(32));
@@ -42,7 +50,7 @@ class ob_newsletter_web
         $message = '';
         switch ($status) {
             case 'ok':
-                $message = '<p style="color:#5a5;font-size:12px;margin:0 0 8px 0;">Te has suscrito correctamente.</p>';
+                $message = '<p style="color:#5a5;font-size:12px;margin:0 0 8px 0;">&#161;Suscrito correctamente! <br />Podr&aacute;s deshacerlo desde cualquier newsletter. Cuando puedas, revisa tambi&eacute;n tu bandeja de spam; a veces los correos se cuelan all&iacute;.</p>';
                 break;
             case 'duplicate':
                 $message = '<p style="color:#cc2200;font-size:12px;margin:0 0 8px 0;">Este email ya está suscrito.</p>';
@@ -54,11 +62,11 @@ class ob_newsletter_web
                 $message = '<p style="color:#cc2200;font-size:12px;margin:0 0 8px 0;">Error al suscribir. Inténtalo de nuevo.</p>';
                 break;
         }
-        print '<div style="background:#0d0d0d;border:1px solid #600;padding:16px 20px;margin:20px 0;font-family:Arial,Helvetica,sans-serif;">';
+        print '<div id="newsletter-sub" style="background:#0d0d0d;border:1px solid #600;padding:16px 20px;margin:20px 0;font-family:Arial,Helvetica,sans-serif;">';
         print '<p style="color:#ffffff;font-size:13px;font-weight:bold;margin:0 0 6px 0;letter-spacing:1px;text-transform:uppercase;">Newsletter</p>';
         print '<p style="color:#999999;font-size:12px;margin:0 0 10px 0;">Recibe lo mejor de la semana en tu email.</p>';
         print $message;
-        print '<form action="index.php" method="post" style="margin:0;">';
+        print '<form action="index.php#newsletter-sub" method="post" style="margin:0;">';
         print '<input type="hidden" name="nl_action" value="subscribe" />';
         print '<input type="text" name="nl_email" placeholder="Tu email" maxlength="255" style="width:170px;padding:5px 8px;background:#1a1a1a;border:1px solid #600;color:#ccc;font-size:12px;" />';
         print '&nbsp;<input type="submit" value="Suscribirse" style="padding:5px 10px;background:#600;color:#fff;border:none;cursor:pointer;font-size:12px;" />';
