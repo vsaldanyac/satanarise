@@ -118,9 +118,9 @@
 			} else {
 				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
 			}
-			if ($page->section == $cad_menu[$cont]) print '<span class="on">';
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'concerts_agenda' && $page->section == 'concerts' && $page->concert_tipus == 'agenda')) print '<span class="on">';
 			print $texte;
-			if ($page->section == $cad_menu[$cont]) print '</span>';
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'concerts_agenda' && $page->section == 'concerts' && $page->concert_tipus == 'agenda')) print '</span>';
 			print '</a>'."\n";
 			$cont=$cont+1;
 		}
