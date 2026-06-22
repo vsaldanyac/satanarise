@@ -114,7 +114,7 @@
 				}
 
 			if ($cad_menu[$cont] == 'concerts_agenda') {
-				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec=conciertos&type=agenda" title="'.$tit.'">';
+				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec=concerts&type=agenda" title="'.$tit.'">';
 			} else {
 				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
 			}
