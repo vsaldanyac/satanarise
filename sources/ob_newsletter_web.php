@@ -41,8 +41,8 @@ class ob_newsletter_web
         }
         $id = (int)$row['id'];
         $now = date('Y-m-d H:i:s');
-        $bd->query("UPDATE newsletter_subscribers SET active = 0, unsubscribed_at = '$now' WHERE id = $id");
-        return 'ok';
+        $ok = $bd->query("UPDATE newsletter_subscribers SET active = 0, unsubscribed_at = '$now' WHERE id = $id");
+        return $ok ? 'ok' : 'error';
     }
 
     public function render_subscribe_form($status = '')
