@@ -1,0 +1,352 @@
+<?php
+class ob_cp_newsletter
+{
+    private function get_prev_week_range()
+    {
+        $monday = strtotime('monday this week midnight');
+        $from = date('Y-m-d 00:00:00', $monday - 7 * 86400);
+        $to   = date('Y-m-d 23:59:59', $monday - 86400);
+        return [$from, $to];
+    }
+
+    public function get_newsletter_news($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $query = "SELECT news.idNews, newscontent.Title, news.dateIn
+                  FROM news
+                  JOIN newscontent ON news.idNews = newscontent.idNews
+                  WHERE news.newsletter = 1
+                    AND newscontent.Idioma = 'ES'
+                    AND news.dateIn BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY news.dateIn DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function get_week_reviews($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $query = "SELECT reviews.idreviews, reviews.banda, reviews.disc, reviews.portada,
+                         reviews.link, reviews.nota, estil.estil
+                  FROM reviews
+                  LEFT JOIN estil ON reviews.idestil = estil.idestil
+                  WHERE reviews.release_date BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY reviews.release_date DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function get_week_concerts($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $query = "SELECT concertsdata.idConcert, concertsdata.idGig, concerts.Nom,
+                         concertsdata.localitat, concertsdata.sala, concertsdata.dateConcert
+                  FROM concertsdata
+                  JOIN concerts ON concertsdata.idGig = concerts.idGig
+                  WHERE concertsdata.dateConcert BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY concertsdata.dateConcert ASC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function get_week_interviews($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $query = "SELECT identrevistes, banda, titol_es, link, data
+                  FROM entrevnews
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH')
+                    AND data BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY data DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function count_active_subscribers($bd)
+    {
+        $result = $bd->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE active = 1");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            return (int)$row['total'];
+        }
+        return 0;
+    }
+
+    public function get_auto_status($bd)
+    {
+        $result = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio = 'newsletter_auto'");
+        if ($result) {
+            $row = $result->fetch_assoc();
+            if ($row === null) return 0;
+            return (int)$row['comptador_main'];
+        }
+        return 0;
+    }
+
+    public function save_auto_status($bd, $value)
+    {
+        $val = (int)$value;
+        $bd->query("UPDATE comptadors SET comptador_main = $val WHERE seccio = 'newsletter_auto'");
+    }
+
+    public function build_email_html($news, $reviews, $concerts, $interviews, $token)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $week_from = date('d/m/Y', strtotime($from));
+        $week_to   = date('d/m/Y', strtotime($to));
+
+        $base = 'http://www.satanarise.com';
+
+        $html  = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"/></head>';
+        $html .= '<body style="margin:0;padding:0;background-color:#111111;font-family:Arial,Helvetica,sans-serif;">';
+        $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#111111;">';
+        $html .= '<tr><td align="center" style="padding:20px 10px;">';
+        $html .= '<table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#000000;border:1px solid #600;">';
+
+        /* Header */
+        $html .= '<tr><td style="background-color:#600;padding:24px 20px 16px 20px;text-align:center;">';
+        $html .= '<span style="font-family:Arial,sans-serif;font-size:32px;font-weight:bold;color:#ffffff;letter-spacing:4px;text-transform:uppercase;">SATANARISE</span><br/>';
+        $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#ffcccc;letter-spacing:2px;text-transform:uppercase;">Newsletter Semanal &bull; ' . $week_from . ' - ' . $week_to . '</span>';
+        $html .= '</td></tr>';
+
+        /* Intro */
+        $html .= '<tr><td style="padding:20px 30px 10px 30px;border-bottom:1px solid #330000;">';
+        $html .= '<p style="margin:0;font-size:13px;color:#cccccc;line-height:1.6;">Lo mejor de la semana en el mundo del metal: noticias, cr&iacute;ticas, conciertos y entrevistas.</p>';
+        $html .= '</td></tr>';
+
+        /* Noticias */
+        if (!empty($news)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Noticias</span></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 0 30px;">';
+            $count = count($news);
+            foreach ($news as $i => $n) {
+                $border = ($i < $count - 1) ? 'border-bottom:1px solid #220000;' : '';
+                $url = $base . '/index.php?ln=ES&sec=noticias&id=' . (int)$n['idNews'] . '&noticia=' . urlencode($n['Title']);
+                $date = date('d/m/Y', strtotime($n['dateIn']));
+                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="' . $border . 'padding-bottom:12px;margin-bottom:12px;">';
+                $html .= '<tr><td>';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($n['Title']) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date . '</span>';
+                $html .= '</td></tr></table>';
+            }
+            $html .= '</td></tr>';
+        }
+
+        /* Criticas */
+        if (!empty($reviews)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Cr&iacute;ticas de la semana</span></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 0 30px;">';
+            $count = count($reviews);
+            foreach ($reviews as $i => $r) {
+                $border = ($i < $count - 1) ? 'border-bottom:1px solid #220000;' : '';
+                $url = $base . '/index.php?ln=ES&sec=criticas&' . $r['link'];
+                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="' . $border . 'padding-bottom:14px;margin-bottom:14px;">';
+                $html .= '<tr><td width="70" valign="top" style="padding-right:14px;">';
+                $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars($r['portada']) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
+                $html .= '</td><td valign="top">';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($r['estil']) . '</span><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cccccc;">Puntuaci&oacute;n: <strong style="color:#cc2200;">' . htmlspecialchars($r['nota']) . '</strong></span>';
+                $html .= '</td></tr></table>';
+            }
+            $html .= '</td></tr>';
+        }
+
+        /* Conciertos */
+        if (!empty($concerts)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Conciertos de la semana</span></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 0 30px;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
+            $count = count($concerts);
+            foreach ($concerts as $i => $c) {
+                $border = ($i < $count - 1) ? 'border-bottom:1px solid #1a0000;' : '';
+                $url = $base . '/index.php?ln=ES&sec=conciertos&id=' . (int)$c['idGig'];
+                $date_str = date('d M', strtotime($c['dateConcert']));
+                $html .= '<tr><td style="padding:8px 0;' . $border . '">';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cc2200;font-weight:bold;">' . $date_str . '</span>&nbsp;&nbsp;';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars($c['Nom']) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($c['sala']) . ' &bull; ' . htmlspecialchars($c['localitat']) . '</span>';
+                $html .= '</td></tr>';
+            }
+            $html .= '</table></td></tr>';
+        }
+
+        /* Entrevistas */
+        if (!empty($interviews)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;">Entrevistas de la semana</span></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 20px 30px;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
+            $count = count($interviews);
+            foreach ($interviews as $i => $e) {
+                $border = ($i < $count - 1) ? 'border-bottom:1px solid #1a0000;' : '';
+                $url = $base . '/index.php?ln=ES&sec=entrevistasn&' . $e['link'];
+                $date_str = date('d/m/Y', strtotime($e['data']));
+                $html .= '<tr><td style="padding:8px 0;' . $border . '">';
+                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;">' . htmlspecialchars($e['titol_es']) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($e['banda']) . ' &bull; ' . $date_str . '</span>';
+                $html .= '</td></tr>';
+            }
+            $html .= '</table></td></tr>';
+        }
+
+        /* Footer */
+        $unsubscribe_url = $base . '/unsubscribe.php?token=' . urlencode($token);
+        $html .= '<tr><td style="background-color:#0d0d0d;border-top:2px solid #600;padding:20px 30px;text-align:center;">';
+        $html .= '<p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;color:#555555;">Est&aacute;s recibiendo este email porque te suscribiste al newsletter de SatanArise.</p>';
+        $html .= '<p style="margin:0;"><a href="' . $unsubscribe_url . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
+        $html .= '&nbsp;&bull;&nbsp;<a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
+        $html .= '</td></tr>';
+
+        $html .= '</table></td></tr></table></body></html>';
+        return $html;
+    }
+
+    public function send_newsletter($bd)
+    {
+        $news       = $this->get_newsletter_news($bd);
+        $reviews    = $this->get_week_reviews($bd);
+        $concerts   = $this->get_week_concerts($bd);
+        $interviews = $this->get_week_interviews($bd);
+
+        $result = $bd->query("SELECT email, unsubscribe_token FROM newsletter_subscribers WHERE active = 1");
+        if (!$result) {
+            return ['sent' => 0, 'error' => 'no_subscribers'];
+        }
+        if ($result->num_rows == 0) {
+            return ['sent' => 0, 'error' => 'no_subscribers'];
+        }
+
+        $subject = 'Newsletter SatanArise';
+        $headers  = "From: SatanArise <info@satanarise.com>\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $sent = 0;
+        while ($subscriber = $result->fetch_assoc()) {
+            $html = $this->build_email_html($news, $reviews, $concerts, $interviews, $subscriber['unsubscribe_token']);
+            $ok = mail($subscriber['email'], $subject, $html, $headers);
+            if ($ok) {
+                $sent++;
+            } else {
+                error_log('Newsletter: mail() failed for ' . $subscriber['email']);
+            }
+        }
+        return ['sent' => $sent];
+    }
+
+    public function render_send_form($bd)
+    {
+        $count      = $this->count_active_subscribers($bd);
+        $auto       = $this->get_auto_status($bd);
+        $news       = $this->get_newsletter_news($bd);
+        $reviews    = $this->get_week_reviews($bd);
+        $concerts   = $this->get_week_concerts($bd);
+        $interviews = $this->get_week_interviews($bd);
+
+        list($from, $to) = $this->get_prev_week_range();
+
+        print '<p class="titol_parcial">Newsletter</p>';
+        print '<p class="terminal">Suscriptores activos: ' . $count . '</p>';
+
+        /* Settings form */
+        print '<form action="home_cp.php?sec=newsletter&action=main" method="post" style="margin-bottom:20px;">';
+        print '<input type="hidden" name="nl_action" value="save_auto" />';
+        $checked = ($auto == 1) ? ' checked="checked"' : '';
+        print '<p class="contingut"><input type="checkbox" name="newsletter_auto" value="1"' . $checked . ' /> Enviar newsletter autom&aacute;ticamente cada semana (primer acceso del lunes)</p>';
+        print '<input type="submit" value="Guardar configuraci&oacute;n" /></form>';
+
+        /* Preview */
+        print '<p class="titol_parcial">Contenido de la semana anterior (' . date('d/m/Y', strtotime($from)) . ' - ' . date('d/m/Y', strtotime($to)) . ')</p>';
+
+        print '<p class="contingut"><strong>Noticias:</strong> ';
+        if (empty($news)) {
+            print '<span style="color:#cc2200;">Sin noticias marcadas para newsletter esta semana.</span>';
+        } else {
+            print count($news) . ' noticia(s)';
+            print '<ul>';
+            foreach ($news as $n) {
+                print '<li class="contingut">' . htmlspecialchars($n['Title']) . '</li>';
+            }
+            print '</ul>';
+        }
+        print '</p>';
+
+        print '<p class="contingut"><strong>Cr&iacute;ticas:</strong> ';
+        if (empty($reviews)) {
+            print 'Sin cr&iacute;ticas esta semana.';
+        } else {
+            print count($reviews) . ' cr&iacute;tica(s)';
+            print '<ul>';
+            foreach ($reviews as $r) {
+                print '<li class="contingut">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</li>';
+            }
+            print '</ul>';
+        }
+        print '</p>';
+
+        print '<p class="contingut"><strong>Conciertos:</strong> ';
+        if (empty($concerts)) {
+            print 'Sin conciertos esta semana.';
+        } else {
+            print count($concerts) . ' concierto(s)';
+        }
+        print '</p>';
+
+        print '<p class="contingut"><strong>Entrevistas:</strong> ';
+        if (empty($interviews)) {
+            print 'Sin entrevistas esta semana.';
+        } else {
+            print count($interviews) . ' entrevista(s)';
+        }
+        print '</p>';
+
+        /* Manual send form */
+        print '<form action="home_cp.php?sec=newsletter&action=main" method="post">';
+        print '<input type="hidden" name="nl_action" value="send_now" />';
+        print '<input type="submit" value="Enviar newsletter ahora" style="background:#600;color:#fff;border:none;padding:8px 16px;cursor:pointer;" />';
+        print '</form>';
+    }
+}
+?>

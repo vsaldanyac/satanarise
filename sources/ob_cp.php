@@ -107,7 +107,7 @@
 					$this->section = 'inicio';
 			}
 			
-			if ((($this->section != 'inicio') && ($this->section != 'criticas') && ($this->section != 'noticias') && ($this->section != 'colaboradores') && ($this->section != 'conciertos') && ($this->section != 'cronicas') && ($this->section != 'entrevistas') && ($this->section != 'entrevistasn') &&  ($this->section != 'opinion') && ($this->section != 'logout') && ($this->section != 'usuarios') && ($this->section != 'memes'))) {
+			if ((($this->section != 'inicio') && ($this->section != 'criticas') && ($this->section != 'noticias') && ($this->section != 'colaboradores') && ($this->section != 'conciertos') && ($this->section != 'cronicas') && ($this->section != 'entrevistas') && ($this->section != 'entrevistasn') &&  ($this->section != 'opinion') && ($this->section != 'logout') && ($this->section != 'usuarios') && ($this->section != 'memes') && ($this->section != 'newsletter'))) {
 				$this->section = 'inicio';
 
 			}

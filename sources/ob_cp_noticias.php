@@ -30,6 +30,7 @@ class cp_noticia
 	public $timestamp;
 	public $id;
 	public $descripcio; /* tags */
+	public $newsletter;
 
 
 
@@ -42,6 +43,7 @@ class cp_noticia
 		$this->imgs = array('', '', '', '', '', '');
 		$this->warn_small_dims = array();
 		$this->needs_dim_confirm = FALSE;
+		$this->newsletter = 0;
 	}
 
 	public function recull_parametres($formulari) /* Mira si hi ha un formulari enviat i recull parametres */
@@ -57,6 +59,7 @@ class cp_noticia
 			$this->video = $_POST['video'];
 			$this->timestamp = $_POST['timestamp'];
 			$this->descripcio = $_POST['descripcio'];
+			$this->newsletter = isset($_POST['newsletter']) ? 1 : 0;
 			if ($this->video != '') {
 				$this->video = trim($this->video);
 			}
@@ -258,7 +261,7 @@ class cp_noticia
 		$this->descripcio = addslashes($this->descripcio);
 
 		if ($logica_id) {
-			$query1 = "insert into news (idNews, type, dateIn, descripcio) values ('" . $id . "', '" . $this->tipus . "', '" . $this->timestamp . "', '" . $this->descripcio . "')";
+			$query1 = "insert into news (idNews, type, dateIn, descripcio, newsletter) values ('" . $id . "', '" . $this->tipus . "', '" . $this->timestamp . "', '" . $this->descripcio . "', '" . $this->newsletter . "')";
 			switch ($this->idioma) {
 				case 'ES':
 					$query2 = "insert into newscontent (idNews, Idioma, Title, Body, dateIn) values ('" . $id . "', 'ES', '" . $this->titol_es . "', '" . $this->texte_es . "', '" . $this->timestamp . "')";
@@ -273,7 +276,7 @@ class cp_noticia
 			}
 
 		} else {
-			$query1 = "insert into news (type, dateIn, descripcio) values ('" . $this->tipus . "', '" . $this->timestamp . "', '" . $this->descripcio . "')";
+			$query1 = "insert into news (type, dateIn, descripcio, newsletter) values ('" . $this->tipus . "', '" . $this->timestamp . "', '" . $this->descripcio . "', '" . $this->newsletter . "')";
 			switch ($this->idioma) {
 				case 'ES':
 					$query2 = "insert into newscontent (idNews, title, body, dateIn, idioma) values ((select idNews from news order by idNews desc limit 1), '" . $this->titol_es . "', '" . $this->texte_es . "', '" . $this->timestamp . "', 'ES')";
@@ -385,6 +388,7 @@ class cp_noticia
 		$this->hora = '--';
 		$this->mins = '--';
 		$this->descripcio = '';
+		$this->newsletter = 0;
 
 
 
@@ -472,6 +476,8 @@ class cp_noticia
 
 		print $this->video . '" /></p>';
 		print '<p class="contingut">Etiquetas, separadas por comas<br /><br /><input class="imgs_form" type="text" name="descripcio" maxlength="200" value="' . $this->descripcio . '" /></p>';
+		$nl_checked = ($this->newsletter == 1) ? ' checked="checked"' : '';
+		print '<p class="contingut"><input type="checkbox" name="newsletter" value="1"' . $nl_checked . ' /> Incluir en newsletter</p>';
 		/*print '<p class="contingut">Introsucir una fecha y hora diferente a la real<br /><br />
 					   Día <select name="dia">
 					   <option value="--">--</option>';
@@ -573,8 +579,8 @@ class cp_noticia
 	public function extreu_dades_noticia_per_id($bd, $id)
 	/* Extreu dades d'una unica noticia */
 	{
-		$query_es = "select Title, Body, Idioma, type, news.dateIn, descripcio from news, newscontent where news.idNews = " . $id . " and newscontent.idNews = " . $id . " and newscontent.Idioma = 'ES'";
-		$query_cat = "select Title, Body, Idioma, type, news.dateIn, descripcio from news, newscontent where news.idNews = " . $id . " and newscontent.idNews = " . $id . " and newscontent.Idioma = 'CAT'";
+		$query_es = "select Title, Body, Idioma, type, news.dateIn, descripcio, news.newsletter from news, newscontent where news.idNews = " . $id . " and newscontent.idNews = " . $id . " and newscontent.Idioma = 'ES'";
+		$query_cat = "select Title, Body, Idioma, type, news.dateIn, descripcio, news.newsletter from news, newscontent where news.idNews = " . $id . " and newscontent.idNews = " . $id . " and newscontent.Idioma = 'CAT'";
 
 		$this->resultat_consulta_es = $bd->query($query_es);
 		if ($this->resultat_consulta_es == FALSE) {
@@ -600,6 +606,7 @@ class cp_noticia
 			$this->titol_es = $resultat_es['Title'];
 			$this->texte_es = $resultat_es['Body'];
 			$this->descripcio = $resultat_es['descripcio'];
+			$this->newsletter = (int)$resultat_es['newsletter'];
 			$control_es = TRUE;
 
 		}

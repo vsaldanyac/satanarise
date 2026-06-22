@@ -62,6 +62,11 @@
 			$page->words = ''.$page->words;
 			$page->title = 'Memes - Panel de Control de Satan Arise';
 		break;
+        case ('newsletter'):
+			$page->description = '';
+			$page->words = ''.$page->words;
+			$page->title = 'Newsletter - Panel de Control de Satan Arise';
+		break;
 	}
 	/* Impresió de capçalera */
 	$page->print_heads();
@@ -92,7 +97,7 @@
 
 <?php
 			
-	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','memes','colaboradores','usuarios');
+	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','memes','colaboradores','usuarios','newsletter');
 	$contmax = count($cad_menu); 
 	$cont=0;
 	
@@ -138,10 +143,14 @@
 					$tit = 'Colaboradores - Satan Arise';
 					$texte = 'Colaboradores';
 					$page->title = 'Colaboradores - Panel de Control de Satan Arise';
-                break;                case ('usuarios'):			        
+                break;                case ('usuarios'):
 					$tit = 'Usuarios - Satan Arise';
 					$texte = 'Usuarios';
 					$page->title = 'Usuarios - Panel de Control de Satan Arise';
+                break;
+                case ('newsletter'):
+					$tit = 'Newsletter - Satan Arise';
+					$texte = 'Newsletter';
                 break;
 				}
 			
@@ -150,7 +159,7 @@
 			print $texte;
 			if ($page->section == $cad_menu[$cont]) print '</span>';
 			print '</a></p>'."\n";
-			if ($cad_menu[$cont] !='inicio') {
+			if ($cad_menu[$cont] != 'inicio' && $cad_menu[$cont] != 'newsletter') {
 				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=add" title="'.$tit.'">Añadir</a></p>'."\n";
 				if ($cad_menu[$cont] !== 'memes') {
 					print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=edit" title="'.$tit.'">Editar</a></p>'."\n";
