@@ -143,7 +143,8 @@
 					$tit = 'Colaboradores - Satan Arise';
 					$texte = 'Colaboradores';
 					$page->title = 'Colaboradores - Panel de Control de Satan Arise';
-                break;                case ('usuarios'):
+                break;
+                case ('usuarios'):
 					$tit = 'Usuarios - Satan Arise';
 					$texte = 'Usuarios';
 					$page->title = 'Usuarios - Panel de Control de Satan Arise';
