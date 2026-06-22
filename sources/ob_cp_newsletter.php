@@ -251,7 +251,7 @@ class ob_cp_newsletter
                 $date_str = date('d M', strtotime($c['dateConcert']));
                 $html .= '<tr><td style="padding:8px 0;">';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cc2200;font-weight:bold;">' . $date_str . '</span>&nbsp;&nbsp;';
-                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars(trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($c['Nom']), ENT_QUOTES | ENT_HTML5, 'UTF-8')))) . '</span></a><br/>';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim(str_replace(['&nbsp;', "\xc2\xa0"], '', strip_tags($c['Nom']))))) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['sala']))) . ' &#8226; ' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['localitat']))) . '</span>';
                 $html .= '</td></tr>';
                 if ($i < $count - 1) {
