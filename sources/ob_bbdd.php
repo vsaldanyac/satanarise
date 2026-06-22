@@ -38,9 +38,8 @@
 			$owned = !($this->bd instanceof mysqli);
 			$this->conectar();
 			if ($this->error_conexio) return 0;
-			$query = "SELECT * FROM ".$taula."";
-			$result = $this->bd->query($query);
-			$numero = $result ? $result->num_rows : 0;
+			$query = "SELECT COUNT(*) FROM ".$taula."";
+			$numero = $this->bd->query($query);
 			if ($owned) $this->desconectar();
 
 		  return ($numero);

@@ -179,32 +179,28 @@ class ob_cp_newsletter
         if (!empty($news)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=noticias" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Noticias</span></a></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=noticias" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">NOTICIAS</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
-            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
             $count = count($news);
             foreach ($news as $i => $n) {
                 $url = $base . '/index.php?ln=ES&sec=noticias&id=' . (int)$n['idNews'] . '&noticia=' . urlencode($n['Title']);
                 $date = date('d/m/Y', strtotime($n['dateIn']));
-                $html .= '<tr><td style="padding:' . ($i === 0 ? '0' : '10px') . ' 0 10px 0;">';
                 $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
                 if (!empty($n['ruta'])) {
                     $img_src = $base . '/' . htmlspecialchars(preg_replace('/\s+/', '', $n['ruta']));
-                    $html .= '<td width="90" valign="middle" style="padding-right:14px;">';
+                    $html .= '<td width="90" valign="middle" style="padding-right:14px;padding-bottom:10px;">';
                     $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
                     $html .= '</td>';
                 }
-                $html .= '<td valign="middle">';
+                $html .= '<td valign="middle" style="padding-bottom:10px;">';
                 $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($n['Title']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date . '</span>';
                 $html .= '</td></tr></table>';
-                $html .= '</td></tr>';
                 if ($i < $count - 1) {
-                    $html .= '<tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr>';
+                    $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr></table>';
                 }
             }
-            $html .= '</table>';
             $html .= '</td></tr>';
         }
 
@@ -212,28 +208,24 @@ class ob_cp_newsletter
         if (!empty($reviews)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=criticas" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Cr&iacute;ticas de la semana</span></a></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=criticas" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">CR&Iacute;TICAS DE LA SEMANA</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
-            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
             $count = count($reviews);
             foreach ($reviews as $i => $r) {
                 $url = $base . '/index.php?ln=ES&sec=criticas&' . $r['link'];
-                $html .= '<tr><td style="padding:' . ($i === 0 ? '0' : '10px') . ' 0 10px 0;">';
                 $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-                $html .= '<td width="70" valign="top" style="padding-right:14px;">';
+                $html .= '<td width="70" valign="top" style="padding-right:14px;padding-bottom:10px;">';
                 $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars(preg_replace('/\s+/', '', $r['portada'])) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
-                $html .= '</td><td valign="top">';
+                $html .= '</td><td valign="top" style="padding-bottom:10px;">';
                 $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($r['estil']) . '</span><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cccccc;">Puntuaci&oacute;n: <strong style="color:#cc2200;">' . htmlspecialchars($r['nota']) . '</strong></span>';
                 $html .= '</td></tr></table>';
-                $html .= '</td></tr>';
                 if ($i < $count - 1) {
-                    $html .= '<tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr>';
+                    $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr></table>';
                 }
             }
-            $html .= '</table>';
             $html .= '</td></tr>';
         }
 
@@ -241,7 +233,7 @@ class ob_cp_newsletter
         if (!empty($concerts)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=conciertos&type=agenda" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Conciertos de la semana</span></a></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=conciertos&type=agenda" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">CONCIERTOS DE LA SEMANA</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
@@ -269,7 +261,7 @@ class ob_cp_newsletter
         if (!empty($interviews)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=entrevistasn" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Entrevistas de la semana</span></a></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=entrevistasn" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">ENTREVISTAS DE LA SEMANA</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 20px 30px;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
@@ -292,32 +284,28 @@ class ob_cp_newsletter
         if (!empty($metal_report)) {
             $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=opinion" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-transform:uppercase;text-decoration:none;">Metal Report</span></a></td>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=opinion" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">METAL REPORT</span></a></td>';
             $html .= '</tr></table></td></tr>';
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
-            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
             $count = count($metal_report);
             foreach ($metal_report as $i => $mr) {
                 $url = $base . '/index.php?ln=ES&sec=opinion&type=entrada&id=' . (int)$mr['idopinio'];
                 $date_str = date('d/m/Y', strtotime($mr['data']));
-                $html .= '<tr><td style="padding:' . ($i === 0 ? '0' : '10px') . ' 0 10px 0;">';
                 $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
                 if (!empty($mr['ruta'])) {
                     $img_src = $base . '/pics/opinio_pics/' . htmlspecialchars(preg_replace('/\s+/', '', $mr['ruta']));
-                    $html .= '<td width="90" valign="middle" style="padding-right:14px;">';
+                    $html .= '<td width="90" valign="middle" style="padding-right:14px;padding-bottom:10px;">';
                     $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
                     $html .= '</td>';
                 }
-                $html .= '<td valign="middle">';
+                $html .= '<td valign="middle" style="padding-bottom:10px;">';
                 $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($mr['titol_es']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date_str . '</span>';
                 $html .= '</td></tr></table>';
-                $html .= '</td></tr>';
                 if ($i < $count - 1) {
-                    $html .= '<tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr>';
+                    $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr></table>';
                 }
             }
-            $html .= '</table>';
             $html .= '</td></tr>';
         }
 
