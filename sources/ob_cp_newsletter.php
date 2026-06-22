@@ -1,6 +1,11 @@
 <?php
 class ob_cp_newsletter
 {
+    private function email_escape($value)
+    {
+        return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+    }
+
     private function get_prev_week_range()
     {
         $monday = strtotime('monday this week midnight');
@@ -184,17 +189,20 @@ class ob_cp_newsletter
             $html .= '<tr><td style="padding:10px 30px 0 30px;">';
             $count = count($news);
             foreach ($news as $i => $n) {
-                $url = $base . '/index.php?ln=ES&sec=noticias&id=' . (int)$n['idNews'] . '&noticia=' . urlencode($n['Title']);
+                $clean_title = strip_tags($n['Title']);
+                $url = $base . '/index.php?ln=ES&sec=noticias&id=' . (int)$n['idNews'] . '&noticia=' . urlencode($clean_title);
                 $date = date('d/m/Y', strtotime($n['dateIn']));
-                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+                $html .= '<table width="540" cellpadding="0" cellspacing="0" border="0"><tr>';
                 if (!empty($n['ruta'])) {
-                    $img_src = $base . '/' . htmlspecialchars(preg_replace('/\s+/', '', $n['ruta']));
-                    $html .= '<td width="90" valign="middle" style="padding-right:14px;padding-bottom:10px;">';
+                    $img_src = $base . '/' . htmlspecialchars(ltrim($n['ruta'], '/'));
+                    $html .= '<td width="90" valign="middle" style="width:90px;padding-right:14px;padding-bottom:10px;">';
                     $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
                     $html .= '</td>';
+                    $html .= '<td width="450" valign="middle" style="width:450px;padding-bottom:10px;">';
+                } else {
+                    $html .= '<td width="540" valign="middle" style="width:540px;padding-bottom:10px;">';
                 }
-                $html .= '<td valign="middle" style="padding-bottom:10px;">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($n['Title']) . '</span></a><br/>';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($clean_title) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date . '</span>';
                 $html .= '</td></tr></table>';
                 if ($i < $count - 1) {
@@ -214,11 +222,11 @@ class ob_cp_newsletter
             $count = count($reviews);
             foreach ($reviews as $i => $r) {
                 $url = $base . '/index.php?ln=ES&sec=criticas&' . $r['link'];
-                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
-                $html .= '<td width="70" valign="top" style="padding-right:14px;padding-bottom:10px;">';
-                $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars(preg_replace('/\s+/', '', $r['portada'])) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
-                $html .= '</td><td valign="top" style="padding-bottom:10px;">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
+                $html .= '<table width="540" cellpadding="0" cellspacing="0" border="0"><tr>';
+                $html .= '<td width="70" valign="top" style="width:70px;padding-right:14px;padding-bottom:10px;">';
+                $html .= '<img src="' . $base . '/pics/covers/' . htmlspecialchars(ltrim($r['portada'], '/')) . '" width="60" height="60" alt="Portada" style="display:block;border:1px solid #330000;"/>';
+                $html .= '</td><td width="470" valign="top" style="width:470px;padding-bottom:10px;">';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($r['estil']) . '</span><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cccccc;">Puntuaci&oacute;n: <strong style="color:#cc2200;">' . htmlspecialchars($r['nota']) . '</strong></span>';
                 $html .= '</td></tr></table>';
@@ -239,16 +247,12 @@ class ob_cp_newsletter
             $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0">';
             $count = count($concerts);
             foreach ($concerts as $i => $c) {
-                if (!empty($c['concerts_nom'])) {
-                    $url = $base . '/index.php?ln=ES&sec=conciertos&type=entrada&id=' . (int)$c['idGig'];
-                } else {
-                    $url = $base . '/index.php?ln=ES&sec=conciertos&type=agenda&fecha_tipo=libre&fecha_libre=' . substr($c['dateConcert'], 0, 10);
-                }
+                $url = $base . '/index.php?ln=ES&sec=conciertos&type=entrada&id=' . (int)$c['idConcert'];
                 $date_str = date('d M', strtotime($c['dateConcert']));
                 $html .= '<tr><td style="padding:8px 0;">';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:12px;color:#cc2200;font-weight:bold;">' . $date_str . '</span>&nbsp;&nbsp;';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim(strip_tags($c['Nom'])))) . '</span></a><br/>';
-                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['sala']))) . ' &bull; ' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['localitat']))) . '</span>';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;">' . htmlspecialchars(trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($c['Nom']), ENT_QUOTES | ENT_HTML5, 'UTF-8')))) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['sala']))) . ' &#8226; ' . htmlspecialchars(preg_replace('/\s+/', ' ', trim($c['localitat']))) . '</span>';
                 $html .= '</td></tr>';
                 if ($i < $count - 1) {
                     $html .= '<tr><td style="background-color:#1a0000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr>';
@@ -270,8 +274,8 @@ class ob_cp_newsletter
                 $url = $base . '/index.php?ln=ES&sec=entrevistasn&' . $e['link'];
                 $date_str = date('d/m/Y', strtotime($e['data']));
                 $html .= '<tr><td style="padding:8px 0;">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($e['titol_es']) . '</span></a><br/>';
-                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars($e['banda']) . ' &bull; ' . $date_str . '</span>';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars(strip_tags($e['titol_es'])) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . htmlspecialchars(strip_tags($e['banda'])) . ' &#8226; ' . $date_str . '</span>';
                 $html .= '</td></tr>';
                 if ($i < $count - 1) {
                     $html .= '<tr><td style="background-color:#1a0000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr>';
@@ -291,15 +295,17 @@ class ob_cp_newsletter
             foreach ($metal_report as $i => $mr) {
                 $url = $base . '/index.php?ln=ES&sec=opinion&type=entrada&id=' . (int)$mr['idopinio'];
                 $date_str = date('d/m/Y', strtotime($mr['data']));
-                $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+                $html .= '<table width="540" cellpadding="0" cellspacing="0" border="0"><tr>';
                 if (!empty($mr['ruta'])) {
-                    $img_src = $base . '/pics/opinio_pics/' . htmlspecialchars(preg_replace('/\s+/', '', $mr['ruta']));
-                    $html .= '<td width="90" valign="middle" style="padding-right:14px;padding-bottom:10px;">';
+                    $img_src = $base . '/pics/opinio_pics/' . htmlspecialchars(ltrim($mr['ruta'], '/'));
+                    $html .= '<td width="90" valign="middle" style="width:90px;padding-right:14px;padding-bottom:10px;">';
                     $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
                     $html .= '</td>';
+                    $html .= '<td width="450" valign="middle" style="width:450px;padding-bottom:10px;">';
+                } else {
+                    $html .= '<td width="540" valign="middle" style="width:540px;padding-bottom:10px;">';
                 }
-                $html .= '<td valign="middle" style="padding-bottom:10px;">';
-                $html .= '<a href="' . $url . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($mr['titol_es']) . '</span></a><br/>';
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars(strip_tags($mr['titol_es'])) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date_str . '</span>';
                 $html .= '</td></tr></table>';
                 if ($i < $count - 1) {
@@ -314,8 +320,8 @@ class ob_cp_newsletter
         if ($token !== '') {
             $unsubscribe_url = $base . '/unsubscribe.php?token=' . urlencode($token);
             $html .= '<p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;color:#555555;">Est&aacute;s recibiendo este email porque te suscribiste al newsletter de SatanArise.</p>';
-            $html .= '<p style="margin:0;"><a href="' . $unsubscribe_url . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
-            $html .= '&nbsp;&bull;&nbsp;<a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
+            $html .= '<p style="margin:0;"><a href="' . $this->email_escape($unsubscribe_url) . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
+            $html .= '&#160;&#8226;&#160;<a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
         } else {
             $html .= '<p style="margin:0;"><a href="' . $base . '" style="font-family:Arial,sans-serif;font-size:11px;color:#666666;text-decoration:none;">satanarise.com</a></p>';
         }
@@ -342,8 +348,10 @@ class ob_cp_newsletter
         }
 
         $subject = 'Newsletter SatanArise';
-        $headers  = "From: SatanArise <info@satanarise.com>\r\n";
+        $headers  = "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= "From: SatanArise <info@satanarise.com>\r\n";
+        $headers .= "Reply-To: info@satanarise.com\r\n";
 
         $sent = 0;
         while ($subscriber = $result->fetch_assoc()) {
