@@ -148,6 +148,6 @@
 	<?php $meme_widget_class = 'meme-widget-mobile'; require('templates/meme_widget.php'); ?>
 
 	<!-- ---- NEWSLETTER SUBSCRIBE FORM ---- -->
-	<?php $nl_web->render_subscribe_form($nl_subscribe_status); ?>
+	<?php if (isset($nl_web)) { $nl_web->render_subscribe_form(isset($nl_subscribe_status) ? $nl_subscribe_status : ''); } ?>
 
 
