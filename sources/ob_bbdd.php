@@ -16,28 +16,33 @@
 		}
 		public function conectar()
 		{
+			if ($this->bd instanceof mysqli) return;
 
-			
 			@ $this->bd = new  mysqli('62.149.150.175','Sql613596','9d8a8df8','Sql613596_1');
 			if (mysqli_connect_errno()) {
 				$this->error_conexio=TRUE;
+				$this->bd=null;
 			}
-						
+
 		}
 		public function desconectar()
 		{
-			
+			if (!($this->bd instanceof mysqli)) return false;
 			$error=$this->bd->close();
+			$this->bd=null;
 			return $error;
 		}
 		
 		public function contar_entrades($taula)
 		{
+			$owned = !($this->bd instanceof mysqli);
 			$this->conectar();
-			$query = "SELECT * FROM ".$taula."";  // sentencia sql
+			if ($this->error_conexio) return 0;
+			$query = "SELECT * FROM ".$taula."";
 			$result = $this->bd->query($query);
-			$numero =$result->num_rows;
-            
+			$numero = $result ? $result->num_rows : 0;
+			if ($owned) $this->desconectar();
+
 		  return ($numero);
 		}
 	}
