@@ -1,6 +1,6 @@
 <div id="socials_2">
 	<!-- ShareThis BEGIN -->
-	<p><a href="#newsletter-sub" style="color:#cc2200;font-weight:bold;">Suscríbete aquí!</a></p>
+	<p><a href="index.php#newsletter-sub" style="color:#cc2200;font-weight:bold;">Suscríbete aquí!</a></p>
 	<div class="sharethis-inline-follow-buttons"></div>
 	<!-- ShareThis END -->
 </div>
