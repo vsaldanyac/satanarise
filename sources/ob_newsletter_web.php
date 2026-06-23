@@ -3,10 +3,11 @@ class ob_newsletter_web
 {
     public function subscribe($bd, $email)
     {
-        if (!preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $email)) {
+        $email = trim((string)$email);
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return 'invalid';
         }
-        $email_esc = $bd->real_escape_string(trim($email));
+        $email_esc = $bd->real_escape_string($email);
         $result = $bd->query("SELECT id, active FROM newsletter_subscribers WHERE email = '$email_esc'");
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
