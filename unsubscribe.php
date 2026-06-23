@@ -47,7 +47,7 @@ switch ($status) {
 </head>
 <body>
     <p style="font-size:22px;font-weight:bold;letter-spacing:3px;color:#fff;text-transform:uppercase;">SATANARISE</p>
-    <p style="font-size:15px;color:<?php print $color; ?>;"><?php print htmlspecialchars($mensaje); ?></p>
+    <p style="font-size:15px;color:<?php print $color; ?>;"><?php print htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8'); ?></p>
     <p><a href="index.php">Volver a la web</a></p>
 </body>
 </html>
