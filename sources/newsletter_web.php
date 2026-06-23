@@ -1,7 +1,5 @@
 <?php
-require('sources/ob_bbdd.php');
-require('sources/ob_newsletter.php');
-require('sources/ob_cp_newsletter.php');
+ require(__DIR__ . '/../newsletter_web.php');
 
 $basedades = new ob_bbdd;
 $nl_cp     = new ob_cp_newsletter;
