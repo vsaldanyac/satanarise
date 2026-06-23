@@ -317,7 +317,7 @@ class ob_cp_newsletter
 
         /* Footer */
         $html .= '<tr><td style="background-color:#0d0d0d;border-top:2px solid #600;padding:20px 30px;text-align:center;">';
-        if ($token !== '') {
+        if (!empty($token)) {
             $unsubscribe_url = $base . '/unsubscribe.php?token=' . urlencode($token);
             $html .= '<p style="margin:0 0 8px 0;font-family:Arial,sans-serif;font-size:11px;color:#555555;">Est&aacute;s recibiendo este email porque te suscribiste al newsletter de SatanArise.</p>';
             $html .= '<p style="margin:0;"><a href="' . $this->email_escape($unsubscribe_url) . '" style="font-family:Arial,sans-serif;font-size:11px;color:#cc2200;text-decoration:underline;">Darse de baja</a>';
