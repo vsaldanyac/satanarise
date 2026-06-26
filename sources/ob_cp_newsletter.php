@@ -37,6 +37,39 @@ class ob_cp_newsletter
         return $rows;
     }
 
+    public function get_all_week_news($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $query = "SELECT news.idNews, newscontent.Title, news.dateIn, news.newsletter
+                  FROM news
+                  JOIN newscontent ON news.idNews = newscontent.idNews
+                  WHERE newscontent.Idioma = 'ES'
+                    AND news.dateIn BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY news.dateIn DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public function update_news_newsletter_flags($bd, $enabled_ids)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_esc = $bd->real_escape_string($from);
+        $to_esc   = $bd->real_escape_string($to);
+        $bd->query("UPDATE news SET newsletter = 0 WHERE dateIn BETWEEN '$from_esc' AND '$to_esc'");
+        if (!empty($enabled_ids)) {
+            $ids = implode(',', array_map('intval', $enabled_ids));
+            $bd->query("UPDATE news SET newsletter = 1 WHERE idNews IN ($ids)");
+        }
+    }
+
     public function get_week_reviews($bd)
     {
         list($from, $to) = $this->get_prev_week_range();
@@ -152,11 +185,13 @@ class ob_cp_newsletter
         $bd->query("UPDATE comptadors SET comptador_main = $val WHERE seccio = 'newsletter_auto'");
     }
 
-    public function build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $token)
+    public function build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $token, $week_from = null, $week_to = null)
     {
-        list($from, $to) = $this->get_prev_week_range();
-        $week_from = date('d/m/Y', strtotime($from));
-        $week_to   = date('d/m/Y', strtotime($to));
+        if ($week_from === null || $week_to === null) {
+            list($from, $to) = $this->get_prev_week_range();
+            $week_from = date('d/m/Y', strtotime($from));
+            $week_to   = date('d/m/Y', strtotime($to));
+        }
 
         $base = 'https://www.satanarise.com';
 
@@ -366,11 +401,63 @@ class ob_cp_newsletter
         return ['sent' => $sent];
     }
 
+    private function build_next_preview_html($bd)
+    {
+        $monday      = strtotime('monday this week midnight');
+        $next_sunday = $monday + 6 * 86400;
+        $from        = date('Y-m-d 00:00:00', $monday);
+        $to          = date('Y-m-d 23:59:59', $next_sunday);
+        $week_from   = date('d/m/Y', $monday);
+        $week_to     = date('d/m/Y', $next_sunday);
+
+        $from_dt  = $bd->real_escape_string($from);
+        $to_dt    = $bd->real_escape_string($to);
+        $from_ymd = $bd->real_escape_string(date('YmdHis', $monday));
+        $to_ymd   = $bd->real_escape_string(date('YmdHis', $next_sunday + 86399));
+
+        $news = [];
+        $r = $bd->query("SELECT news.idNews, newscontent.Title, news.dateIn,
+                         (SELECT ruta FROM newsdata WHERE newsdata.idNews = news.idNews AND newsdata.tipo = 1 AND newsdata.orden = 1) AS ruta
+                  FROM news
+                  JOIN newscontent ON news.idNews = newscontent.idNews
+                  WHERE news.newsletter = 1 AND newscontent.Idioma = 'ES'
+                    AND news.dateIn BETWEEN '$from_dt' AND '$to_dt'
+                  ORDER BY news.dateIn DESC");
+        if ($r) while ($row = $r->fetch_assoc()) $news[] = $row;
+
+        $reviews = [];
+        $r = $bd->query("SELECT reviews.idreviews, reviews.banda, reviews.disc, reviews.portada,
+                         reviews.link, reviews.nota, estil.estil
+                  FROM reviews LEFT JOIN estil ON reviews.idestil = estil.idestil
+                  WHERE reviews.release_date BETWEEN '$from_dt' AND '$to_dt'
+                  ORDER BY reviews.release_date DESC");
+        if ($r) while ($row = $r->fetch_assoc()) $reviews[] = $row;
+
+        $concerts = $this->get_week_concerts($bd);
+
+        $interviews = [];
+        $r = $bd->query("SELECT identrevistes, banda, titol_es, link, data
+                  FROM entrevnews
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH') AND data BETWEEN '$from_ymd' AND '$to_ymd'
+                  ORDER BY data DESC");
+        if ($r) while ($row = $r->fetch_assoc()) $interviews[] = $row;
+
+        $metal_report = [];
+        $r = $bd->query("SELECT idopinio, titol_es, data, ruta
+                  FROM opinio
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH') AND data BETWEEN '$from_ymd' AND '$to_ymd'
+                  ORDER BY data DESC");
+        if ($r) while ($row = $r->fetch_assoc()) $metal_report[] = $row;
+
+        return $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, '', $week_from, $week_to);
+    }
+
     public function render_send_form($bd)
     {
         $count      = $this->count_active_subscribers($bd);
         $auto       = $this->get_auto_status($bd);
-        $news         = $this->get_newsletter_news($bd);
+        $all_news     = $this->get_all_week_news($bd);
+        $news         = array_values(array_filter($all_news, function($n) { return (int)$n['newsletter'] === 1; }));
         $reviews      = $this->get_week_reviews($bd);
         $concerts     = $this->get_week_concerts($bd);
         $interviews   = $this->get_week_interviews($bd);
@@ -446,6 +533,26 @@ class ob_cp_newsletter
         print '<input type="hidden" name="nl_action" value="send_now" />';
         print '<input type="submit" value="Enviar newsletter ahora" style="background:#600;color:#fff;border:none;padding:8px 16px;cursor:pointer;" />';
         print '</form>';
+
+        /* Two-column preview */
+        $monday    = strtotime('monday this week midnight');
+        $last_html = $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, '');
+        $next_html = $this->build_next_preview_html($bd);
+
+        print '<p class="titol_parcial" style="margin-top:32px;">Previsualizaci&oacute;n</p>';
+        print '<div style="display:flex;gap:24px;overflow-x:auto;padding-bottom:16px;">';
+
+        print '<div style="flex:0 0 auto;">';
+        print '<p class="contingut" style="margin-bottom:6px;"><strong>&Uacute;ltimo newsletter</strong> &mdash; ' . date('d/m/Y', strtotime($from)) . ' &ndash; ' . date('d/m/Y', strtotime($to)) . '</p>';
+        print '<iframe srcdoc="' . htmlspecialchars($last_html, ENT_QUOTES, 'UTF-8') . '" width="600" height="700" style="display:block;border:2px solid #600;"></iframe>';
+        print '</div>';
+
+        print '<div style="flex:0 0 auto;">';
+        print '<p class="contingut" style="margin-bottom:6px;"><strong>Pr&oacute;ximo newsletter</strong> &mdash; ' . date('d/m/Y', $monday) . ' &ndash; ' . date('d/m/Y', $monday + 6 * 86400) . '</p>';
+        print '<iframe srcdoc="' . htmlspecialchars($next_html, ENT_QUOTES, 'UTF-8') . '" width="600" height="700" style="display:block;border:2px solid #333;"></iframe>';
+        print '</div>';
+
+        print '</div>';
     }
 }
 ?>
