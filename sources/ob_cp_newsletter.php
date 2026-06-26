@@ -42,7 +42,8 @@ class ob_cp_newsletter
         list($from, $to) = $this->get_prev_week_range();
         $from_esc = $bd->real_escape_string($from);
         $to_esc   = $bd->real_escape_string($to);
-        $query = "SELECT news.idNews, newscontent.Title, news.dateIn, news.newsletter
+        $query = "SELECT news.idNews, newscontent.Title, news.dateIn, news.newsletter,
+                         (SELECT ruta FROM newsdata WHERE newsdata.idNews = news.idNews AND newsdata.tipo = 1 AND newsdata.orden = 1) AS ruta
                   FROM news
                   JOIN newscontent ON news.idNews = newscontent.idNews
                   WHERE newscontent.Idioma = 'ES'
@@ -70,6 +71,37 @@ class ob_cp_newsletter
         }
     }
 
+    public function get_all_current_week_news($bd)
+    {
+        $monday   = strtotime('monday this week midnight');
+        $from_esc = $bd->real_escape_string(date('Y-m-d 00:00:00', $monday));
+        $to_esc   = $bd->real_escape_string(date('Y-m-d 23:59:59', $monday + 6 * 86400));
+        $query = "SELECT news.idNews, newscontent.Title, news.dateIn, news.newsletter
+                  FROM news
+                  JOIN newscontent ON news.idNews = newscontent.idNews
+                  WHERE newscontent.Idioma = 'ES'
+                    AND news.dateIn BETWEEN '$from_esc' AND '$to_esc'
+                  ORDER BY news.dateIn DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function update_current_week_news_flags($bd, $enabled_ids)
+    {
+        $monday   = strtotime('monday this week midnight');
+        $from_esc = $bd->real_escape_string(date('Y-m-d 00:00:00', $monday));
+        $to_esc   = $bd->real_escape_string(date('Y-m-d 23:59:59', $monday + 6 * 86400));
+        $bd->query("UPDATE news SET newsletter = 0 WHERE dateIn BETWEEN '$from_esc' AND '$to_esc'");
+        if (!empty($enabled_ids)) {
+            $ids = implode(',', array_map('intval', $enabled_ids));
+            $bd->query("UPDATE news SET newsletter = 1 WHERE idNews IN ($ids)");
+        }
+    }
+
     public function get_week_reviews($bd)
     {
         list($from, $to) = $this->get_prev_week_range();
@@ -87,6 +119,31 @@ class ob_cp_newsletter
             while ($row = $result->fetch_assoc()) {
                 $rows[] = $row;
             }
+        }
+        return $rows;
+    }
+
+    private function get_next_week_concerts($bd)
+    {
+        $next_monday  = date('Ymd', strtotime('next monday')) . '000000';
+        $monday_after = date('Ymd', strtotime('next monday') + 7 * 86400) . '000000';
+        $query = "SELECT concertsdata.idConcert, concertsdata.idGig,
+                         COALESCE(
+                           (SELECT GROUP_CONCAT(Grup ORDER BY ordre SEPARATOR ' + ')
+                            FROM concertsgrups WHERE concertsgrups.idConcert = concertsdata.idConcert),
+                           NULLIF(concerts.Nom, '')
+                         ) AS Nom,
+                         concerts.Nom AS concerts_nom,
+                         concertsdata.localitat, concertsdata.sala, concertsdata.dateConcert
+                  FROM concertsdata, concerts
+                  WHERE concertsdata.dateConcert >= $next_monday
+                    AND concertsdata.dateConcert < $monday_after
+                    AND concerts.idGig = concertsdata.idGig
+                  ORDER BY concertsdata.dateConcert ASC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) $rows[] = $row;
         }
         return $rows;
     }
@@ -433,7 +490,7 @@ class ob_cp_newsletter
                   ORDER BY reviews.release_date DESC");
         if ($r) while ($row = $r->fetch_assoc()) $reviews[] = $row;
 
-        $concerts = $this->get_week_concerts($bd);
+        $concerts = $this->get_next_week_concerts($bd);
 
         $interviews = [];
         $r = $bd->query("SELECT identrevistes, banda, titol_es, link, data
@@ -476,31 +533,36 @@ class ob_cp_newsletter
         print '<input type="submit" value="Guardar configuraci&oacute;n" /></form>';
 
         /* Preview */
-        print '<p class="titol_parcial">Contenido de la semana anterior (' . date('d/m/Y', strtotime($from)) . ' - ' . date('d/m/Y', strtotime($to)) . ')</p>';
+        print '<p class="titol_parcial">Contenido de la semana en curso (' . date('d/m/Y', strtotime($from)) . ' - ' . date('d/m/Y', strtotime($to)) . ')</p>';
 
+        $news_marked = count($news);
         print '<p class="contingut"><strong>Noticias:</strong> ';
-        if (empty($news)) {
-            print '<span style="color:#cc2200;">Sin noticias marcadas para newsletter esta semana.</span>';
+        if (empty($all_news)) {
+            print '<span style="color:#cc2200;">Sin noticias esta semana.</span></p>';
         } else {
-            print count($news) . ' noticia(s)';
-            print '<ul>';
-            foreach ($news as $n) {
-                print '<li class="contingut">' . htmlspecialchars($n['Title']) . '</li>';
+            print $news_marked . ' de ' . count($all_news) . ' marcadas</p>';
+            print '<form action="home_cp.php?sec=newsletter&action=main" method="post" style="margin:4px 0 16px 0;">';
+            print '<input type="hidden" name="nl_action" value="save_news_selection" />';
+            print '<table cellpadding="3" cellspacing="0" border="0">';
+            foreach ($all_news as $n) {
+                $checked = ((int)$n['newsletter'] === 1) ? ' checked="checked"' : '';
+                $color   = ((int)$n['newsletter'] === 1) ? '#ffffff' : '#666666';
+                print '<tr>';
+                print '<td style="vertical-align:middle;"><input type="checkbox" name="nl_news[]" value="' . (int)$n['idNews'] . '"' . $checked . ' /></td>';
+                print '<td class="contingut" style="color:' . $color . ';padding-left:6px;">' . htmlspecialchars(strip_tags($n['Title'])) . '</td>';
+                print '<td class="contingut" style="color:#555;padding-left:10px;">' . date('d/m/Y', strtotime($n['dateIn'])) . '</td>';
+                print '</tr>';
             }
-            print '</ul>';
+            print '</table>';
+            print '<input type="submit" value="Guardar selecci&oacute;n" style="margin-top:8px;padding:4px 12px;" />';
+            print '</form>';
         }
-        print '</p>';
 
         print '<p class="contingut"><strong>Cr&iacute;ticas:</strong> ';
         if (empty($reviews)) {
             print 'Sin cr&iacute;ticas esta semana.';
         } else {
             print count($reviews) . ' cr&iacute;tica(s)';
-            print '<ul>';
-            foreach ($reviews as $r) {
-                print '<li class="contingut">' . htmlspecialchars($r['banda']) . ' &ndash; ' . htmlspecialchars($r['disc']) . '</li>';
-            }
-            print '</ul>';
         }
         print '</p>';
 
@@ -540,6 +602,34 @@ class ob_cp_newsletter
         $next_html = $this->build_next_preview_html($bd);
 
         print '<p class="titol_parcial" style="margin-top:32px;">Previsualizaci&oacute;n</p>';
+
+        /* Next-week news checklist */
+        $all_current_news  = $this->get_all_current_week_news($bd);
+        $current_week_from = date('d/m/Y', $monday);
+        $current_week_to   = date('d/m/Y', $monday + 6 * 86400);
+        $current_marked    = count(array_filter($all_current_news, function($n) { return (int)$n['newsletter'] === 1; }));
+        print '<p class="contingut"><strong>Noticias pr&oacute;ximo newsletter</strong> (' . $current_week_from . ' &ndash; ' . $current_week_to . '): ';
+        if (empty($all_current_news)) {
+            print '<span style="color:#666;">Sin noticias esta semana.</span></p>';
+        } else {
+            print $current_marked . ' de ' . count($all_current_news) . ' marcadas</p>';
+            print '<form action="home_cp.php?sec=newsletter&action=main" method="post" style="margin:4px 0 16px 0;">';
+            print '<input type="hidden" name="nl_action" value="save_next_news_selection" />';
+            print '<table cellpadding="3" cellspacing="0" border="0">';
+            foreach ($all_current_news as $n) {
+                $checked = ((int)$n['newsletter'] === 1) ? ' checked="checked"' : '';
+                $color   = ((int)$n['newsletter'] === 1) ? '#ffffff' : '#666666';
+                print '<tr>';
+                print '<td style="vertical-align:middle;"><input type="checkbox" name="nl_next_news[]" value="' . (int)$n['idNews'] . '"' . $checked . ' /></td>';
+                print '<td class="contingut" style="color:' . $color . ';padding-left:6px;">' . htmlspecialchars(strip_tags($n['Title'])) . '</td>';
+                print '<td class="contingut" style="color:#555;padding-left:10px;">' . date('d/m/Y', strtotime($n['dateIn'])) . '</td>';
+                print '</tr>';
+            }
+            print '</table>';
+            print '<input type="submit" value="Guardar selecci&oacute;n" style="margin-top:8px;padding:4px 12px;" />';
+            print '</form>';
+        }
+
         print '<div style="display:flex;gap:24px;overflow-x:auto;padding-bottom:16px;">';
 
         print '<div style="flex:0 0 auto;">';

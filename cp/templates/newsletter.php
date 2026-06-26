@@ -11,6 +11,14 @@ if (isset($_POST['nl_action'])) {
             $val = isset($_POST['newsletter_auto']) ? 1 : 0;
             $nl_cp->save_auto_status($basedades->bd, $val);
             $feedback = 'Configuraci&oacute;n guardada.';
+        } elseif ($_POST['nl_action'] === 'save_news_selection') {
+            $enabled = isset($_POST['nl_news']) && is_array($_POST['nl_news']) ? $_POST['nl_news'] : [];
+            $nl_cp->update_news_newsletter_flags($basedades->bd, $enabled);
+            $feedback = 'Selecci&oacute;n de noticias guardada.';
+        } elseif ($_POST['nl_action'] === 'save_next_news_selection') {
+            $enabled = isset($_POST['nl_next_news']) && is_array($_POST['nl_next_news']) ? $_POST['nl_next_news'] : [];
+            $nl_cp->update_current_week_news_flags($basedades->bd, $enabled);
+            $feedback = 'Selecci&oacute;n de noticias (pr&oacute;ximo newsletter) guardada.';
         } elseif ($_POST['nl_action'] === 'send_now') {
             $result = $nl_cp->send_newsletter($basedades->bd);
             if (isset($result['error']) && $result['error'] === 'no_subscribers') {
