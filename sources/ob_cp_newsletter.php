@@ -533,7 +533,7 @@ class ob_cp_newsletter
         print '<input type="submit" value="Guardar configuraci&oacute;n" /></form>';
 
         /* Preview */
-        print '<p class="titol_parcial">Contenido de la semana en curso (' . date('d/m/Y', strtotime($from)) . ' - ' . date('d/m/Y', strtotime($to)) . ')</p>';
+        print '<p class="titol_parcial">Contenido de la semana anterior (' . date('d/m/Y', strtotime($from)) . ' - ' . date('d/m/Y', strtotime($to)) . ')</p>';
 
         $news_marked = count($news);
         print '<p class="contingut"><strong>Noticias:</strong> ';
