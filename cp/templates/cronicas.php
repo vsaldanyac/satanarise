@@ -87,43 +87,30 @@
 					print '<p class="terminal">Error de conexión a la base de datos</p>';
 				}
 			} else {
-				if (isset($_POST['enviat'])) { /* s'ha enviat el formulari? */
+				if (isset($_POST['enviat_formulari_2'])) { /* s'ha enviat el formulari? */
 					$basedades->conectar();
                     if (!$cronicas_add->recull_parametres_formulari_2($_POST, $cronicas,$basedades->bd)) /* en principi si, comrobació i recull de dades Si TRUE les tracta en busca d'errors */
                     {
-				        print '<p class="terminal">'.$cronicas_add->error.'</p>';							
+				        print '<p class="terminal">'.$cronicas_add->error.'</p>';
+				        $cronicas_add->formulari_2($cronicas,$basedades->bd);
+	       			} else {
+	       				print '<p class="terminal">Formulari OK</p>';
+	       				/* Introduir a bbdd  */
+						$cronicas_add->introduir($basedades->bd,$cronicas,TRUE,$cronicas->id);
 	       			}
                     $basedades->desconectar();
-					
+
 				} else {
-				
+
 					/* no hi ha una noticia editada enviada pel formulari, tenim la id de la noticia a editar, extracció de la bbdd i crida al formulari per editar-la */
 					$basedades->conectar();
 					if (!$basedades->error_conexio) {
 						print '<p class="terminal">Conexió OK!</p>';
 						$cronicas_add->extreu_dades_cronicas_per_id($basedades->bd,$cronicas,$page->id);
 						print '<p class="terminal">Dades en principi extretes de la bbdd</p>';
+						$cronicas_add->formulari_2($cronicas,$basedades->bd);
 						$basedades->desconectar();
 
-					} else {
-						print '<p class="terminal">Error de conexión a la base de datos</p>';
-					}
-				}
-				if (!$cronicas_add->formulari_2_ok) { /* si el formulari no s'ha omplert o no esta tot correcte el torna a posar */					
-					print '<p class="terminal">Formulari 2 Num div: '.$cronicas->num_div.'</p>';
-					$basedades->conectar();
-				  $cronicas_add->formulari_2 ($cronicas,$basedades->bd);
-          $basedades->desconectar();
-					
-				} else {
-					print '<p class="terminal">Formulari OK</p>';
-					$basedades->conectar();
-					if (!$basedades->error_conexio) {
-						print '<p class="terminal">Conexió OK!</p>';
-						/* Introduir a bbdd  */						
-						$cronicas_add->introduir($basedades->bd,$cronicas,TRUE,$cronicas->id);
-						$basedades->desconectar();
-						
 					} else {
 						print '<p class="terminal">Error de conexión a la base de datos</p>';
 					}
