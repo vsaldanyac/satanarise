@@ -507,13 +507,14 @@ class ob_cp_newsletter
         $subject = 'Newsletter SatanArise';
         $headers  = "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= "Content-Transfer-Encoding: quoted-printable\r\n";
         $headers .= "From: SatanArise <info@satanarise.com>\r\n";
         $headers .= "Reply-To: info@satanarise.com\r\n";
 
         $sent = 0;
         while ($subscriber = $result->fetch_assoc()) {
             $html = $this->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, $subscriber['unsubscribe_token']);
-            $ok = mail($subscriber['email'], $subject, $html, $headers);
+            $ok = mail($subscriber['email'], $subject, quoted_printable_encode($html), $headers);
             if ($ok) {
                 $sent++;
             } else {
