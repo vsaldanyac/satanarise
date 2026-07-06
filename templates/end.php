@@ -11,9 +11,9 @@
 <?php
 			
 	if ($page->leng == 'ES') {
-		$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','contacto');
+		$cad_menu = array ('inicio','noticias','criticas','conciertos','conciertos_agenda','cronicas','entrevistas','opinion','contacto');
 	} else {
-		$cad_menu = array ('inici','noticies','critiques','concerts','croniques','entrevistes','contacte');
+		$cad_menu = array ('inici','noticies','critiques','concerts','concerts_agenda','croniques','entrevistes','opinio','contacte');
 	}
 	$contmax = count($cad_menu); 
 	$cont=0;
@@ -37,6 +37,10 @@
 					$tit = 'Conciertos, fechas, salas, bandas y carteles - Satan Arise';
 					$texte = 'Conciertos';
 				break;
+				case 'conciertos_agenda':
+					$tit = 'Agenda de conciertos de metal - Satan Arise';
+					$texte = 'Agenda';
+				break;
 				case 'cronicas':
 					$tit = 'Crónicas de conciertos - Satan Arise';
 					$texte = 'Crónicas';
@@ -45,17 +49,25 @@
 					$tit = 'Entrevistas - Satan Arise';
 					$texte = 'Entrevistas';
 				break;
+				case 'opinion':
+					$tit = 'Metal Report - Satan Arise';
+					$texte = 'Metal Report';
+				break;
 				case 'contacto':
 					$tit = 'Contacto - Satan Arise';
 					$texte = 'Satan Arise';
-				break;				
+				break;
 
 				}
-			
-			print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
-			if ($page->section == $cad_menu[$cont]) print '<span class="on">';
+
+			if ($cad_menu[$cont] == 'conciertos_agenda') {
+				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec=conciertos&type=agenda" title="'.$tit.'">';
+			} else {
+				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
+			}
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'conciertos_agenda' && $page->section == 'conciertos' && $page->concert_tipus == 'agenda')) print '<span class="on">';
 			print $texte;
-			if ($page->section == $cad_menu[$cont]) print '</span>';
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'conciertos_agenda' && $page->section == 'conciertos' && $page->concert_tipus == 'agenda')) print '</span>';
 			print '</a>'."\n";
 			$cont=$cont+1;
 		}
@@ -78,6 +90,10 @@
 					$tit = 'Concerts, datas, sales, bandes i cartells - Satan Arise';
 					$texte = 'Concerts';
 				break;
+				case 'concerts_agenda':
+					$tit = 'Agenda de concerts de metall - Satan Arise';
+					$texte = 'Agenda';
+				break;
 				case 'croniques':
 					$tit = 'Cròniques de concerts - Satan Arise';
 					$texte = 'Crónicas';
@@ -86,16 +102,25 @@
 					$tit = 'Entrevistes - Satan Arise';
 					$texte = 'Entrevistes';
 				break;
+				case 'opinio':
+					$tit = 'Metal Report - Satan Arise';
+					$texte = 'Metal Report';
+				break;
 				case 'contacto':
 					$tit = 'Contacte - Satan Arise';
 					$texte = 'Satan Arise';
-				break;				
+				break;
 
 				}
-			print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
-			if ($page->section == $cad_menu[$cont]) print '<span class="on">';
+
+			if ($cad_menu[$cont] == 'concerts_agenda') {
+				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec=concerts&type=agenda" title="'.$tit.'">';
+			} else {
+				print '<a class="linkblanc" href="index.php?ln='.$page->leng.'&sec='.$cad_menu[$cont].'" title="'.$tit.'">';
+			}
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'concerts_agenda' && $page->section == 'concerts' && $page->concert_tipus == 'agenda')) print '<span class="on">';
 			print $texte;
-			if ($page->section == $cad_menu[$cont]) print '</span>';
+			if ($page->section == $cad_menu[$cont] || ($cad_menu[$cont] == 'concerts_agenda' && $page->section == 'concerts' && $page->concert_tipus == 'agenda')) print '</span>';
 			print '</a>'."\n";
 			$cont=$cont+1;
 		}

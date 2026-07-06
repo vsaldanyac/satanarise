@@ -20,15 +20,19 @@ require('sources/ob_cronicas.php');
 require('sources/ob_preferidos.php');
 require('sources/ob_preferidos_web.php');
 require('sources/ob_memes_web.php');
+require('sources/ob_newsletter.php');
+require('sources/ob_newsletter_web.php');
 
 
-	
+
 $noticies = new ob_noticias_web;
 $concerts = new ob_conciertos_web;
 $page = new ob_page;
 $basedades = new ob_bbdd;
 $banner = new banner_700;
 $banner100 = new banner_100;
+$nl_web = new ob_newsletter_web;
+$nl_subscribe_status = '';
 
 
 /* captar parametres */
@@ -297,11 +301,34 @@ if (!$basedades->error_conexio)
         $vistes=$resultat['comptador_main']+1;         
         $query="update comptadors set comptador_main=$vistes where seccio='main_dia'";
         $resultat_consulta=$bd->query($query);
-        if ($resultat_consulta!=FALSE) 
+        if ($resultat_consulta!=FALSE)
 	    {}
     }
-    
-    
+
+    /* Newsletter: subscribe handler */
+    if (isset($_POST['nl_action']) && $_POST['nl_action'] === 'subscribe') {
+        $nl_subscribe_status = $nl_web->subscribe($bd, isset($_POST['nl_email']) ? $_POST['nl_email'] : '');
+    }
+    /* Newsletter: auto-send trigger (first visit of new ISO week when enabled) */
+    $query_nlw = "SELECT comptador_main FROM comptadors WHERE seccio='newsletter_week'";
+    $result_nlw = $bd->query($query_nlw);
+    if ($result_nlw) {
+        $row_nlw = $result_nlw->fetch_assoc();
+        $week_actual = (int)date('W');
+        if ($week_actual != (int)$row_nlw['comptador_main']) {
+            $result_auto = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='newsletter_auto'");
+            if ($result_auto) {
+                $row_auto = $result_auto->fetch_assoc();
+                if ((int)$row_auto['comptador_main'] === 1) {
+                    require_once('sources/ob_cp_newsletter.php');
+                    $nl_auto = new ob_cp_newsletter;
+                    $nl_auto->send_newsletter($bd);
+                    $bd->query("UPDATE comptadors SET comptador_main=$week_actual WHERE seccio='newsletter_week'");
+                }
+            }
+        }
+    }
+
 }
 /* omple els banners */
 

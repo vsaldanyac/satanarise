@@ -49,6 +49,9 @@ if (isset ($_SESSION['valid_user']))
         case ('usuarios'):
 			require ('templates/users.php');
 		break;
+        case ('newsletter'):
+			require ('templates/newsletter.php');
+		break;
     }
     require('templates/end.php');
     

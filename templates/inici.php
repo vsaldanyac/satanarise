@@ -147,4 +147,7 @@
 	<!-- ---- MEME DEL DÍA — mobile only (hidden on desktop via CSS) ---- -->
 	<?php $meme_widget_class = 'meme-widget-mobile'; require('templates/meme_widget.php'); ?>
 
+	<!-- ---- NEWSLETTER SUBSCRIBE FORM ---- -->
+	<?php if (isset($nl_web)) { $nl_web->render_subscribe_form(isset($nl_subscribe_status) ? $nl_subscribe_status : ''); } ?>
+
 
