@@ -215,6 +215,36 @@ class ob_cp_newsletter
         return $rows;
     }
 
+    public function get_all_week_cronicas($bd)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_ymd = $bd->real_escape_string(date('YmdHis', strtotime($from)));
+        $to_ymd   = $bd->real_escape_string(date('YmdHis', strtotime($to)));
+        $query = "SELECT idcronicas, titol, data, cartell, newsletter, link
+                  FROM cronicas
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH')
+                    AND data BETWEEN '$from_ymd' AND '$to_ymd'
+                  ORDER BY data DESC";
+        $result = $bd->query($query);
+        $rows = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function update_cronicas_newsletter_flags($bd, $enabled_ids)
+    {
+        list($from, $to) = $this->get_prev_week_range();
+        $from_ymd = $bd->real_escape_string(date('YmdHis', strtotime($from)));
+        $to_ymd   = $bd->real_escape_string(date('YmdHis', strtotime($to)));
+        $bd->query("UPDATE cronicas SET newsletter = 0 WHERE (idioma = 'ES' OR idioma = 'BOTH') AND data BETWEEN '$from_ymd' AND '$to_ymd'");
+        if (!empty($enabled_ids)) {
+            $ids = implode(',', array_map('intval', $enabled_ids));
+            $bd->query("UPDATE cronicas SET newsletter = 1 WHERE idcronicas IN ($ids)");
+        }
+    }
+
     public function count_active_subscribers($bd)
     {
         $result = $bd->query("SELECT COUNT(*) as total FROM newsletter_subscribers WHERE active = 1");
@@ -242,7 +272,7 @@ class ob_cp_newsletter
         $bd->query("UPDATE comptadors SET comptador_main = $val WHERE seccio = 'newsletter_auto'");
     }
 
-    public function build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $token, $week_from = null, $week_to = null)
+    public function build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, $token, $week_from = null, $week_to = null)
     {
         if ($week_from === null || $week_to === null) {
             list($from, $to) = $this->get_prev_week_range();
@@ -296,6 +326,39 @@ class ob_cp_newsletter
                 }
                 $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($clean_title) . '</span></a><br/>';
                 $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date . '</span>';
+                $html .= '</td></tr></table>';
+                if ($i < $count - 1) {
+                    $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr></table>';
+                }
+            }
+            $html .= '</td></tr>';
+        }
+
+        /* Crónicas */
+        if (!empty($cronicas)) {
+            $html .= '<tr><td style="padding:24px 30px 0 30px;border-top:1px solid #330000;">';
+            $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>';
+            $html .= '<td style="background-color:#600;padding:6px 14px;"><a href="' . $base . '/index.php?ln=ES&sec=cronicas" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;color:#ffffff;letter-spacing:2px;text-decoration:none;white-space:nowrap;">CR&Oacute;NICAS</span></a></td>';
+            $html .= '</tr></table></td></tr>';
+            $html .= '<tr><td style="padding:10px 30px 0 30px;">';
+            $count = count($cronicas);
+            foreach ($cronicas as $i => $cr) {
+                $clean_title = strip_tags($cr['titol']);
+                $url = $base . '/index.php?ln=ES&sec=cronicas&' . $cr['link'];
+                $dt = DateTime::createFromFormat('YmdHis', $cr['data']);
+                $date_str = $dt ? $dt->format('d/m/Y') : '';
+                $html .= '<table width="540" cellpadding="0" cellspacing="0" border="0"><tr>';
+                if (!empty($cr['cartell'])) {
+                    $img_src = $base . '/pics/cronicas_pics/' . htmlspecialchars($cr['cartell']);
+                    $html .= '<td width="90" valign="middle" style="width:90px;padding-right:14px;padding-bottom:10px;">';
+                    $html .= '<img src="' . $img_src . '" width="76" height="52" alt="" style="display:block;border:1px solid #330000;"/>';
+                    $html .= '</td>';
+                    $html .= '<td width="450" valign="middle" style="width:450px;padding-bottom:10px;">';
+                } else {
+                    $html .= '<td width="540" valign="middle" style="width:540px;padding-bottom:10px;">';
+                }
+                $html .= '<a href="' . $this->email_escape($url) . '" style="text-decoration:none;"><span style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#cc2200;text-decoration:none;">' . htmlspecialchars($clean_title) . '</span></a><br/>';
+                $html .= '<span style="font-family:Arial,sans-serif;font-size:11px;color:#666666;">' . $date_str . '</span>';
                 $html .= '</td></tr></table>';
                 if ($i < $count - 1) {
                     $html .= '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#220000;height:1px;font-size:1px;line-height:1px;mso-line-height-rule:exactly;padding:0;">&nbsp;</td></tr></table>';
@@ -426,6 +489,8 @@ class ob_cp_newsletter
     public function send_newsletter($bd)
     {
         $news         = $this->get_newsletter_news($bd);
+        $all_cronicas = $this->get_all_week_cronicas($bd);
+        $cronicas     = array_values(array_filter($all_cronicas, function($c) { return (int)$c['newsletter'] === 1; }));
         $reviews      = $this->get_week_reviews($bd);
         $concerts     = $this->get_week_concerts($bd);
         $interviews   = $this->get_week_interviews($bd);
@@ -447,7 +512,7 @@ class ob_cp_newsletter
 
         $sent = 0;
         while ($subscriber = $result->fetch_assoc()) {
-            $html = $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, $subscriber['unsubscribe_token']);
+            $html = $this->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, $subscriber['unsubscribe_token']);
             $ok = mail($subscriber['email'], $subject, $html, $headers);
             if ($ok) {
                 $sent++;
@@ -506,7 +571,15 @@ class ob_cp_newsletter
                   ORDER BY data DESC");
         if ($r) while ($row = $r->fetch_assoc()) $metal_report[] = $row;
 
-        return $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, '', $week_from, $week_to);
+        $cronicas = [];
+        $r = $bd->query("SELECT idcronicas, titol, data, cartell, newsletter, link
+                  FROM cronicas
+                  WHERE (idioma = 'ES' OR idioma = 'BOTH') AND newsletter = 1
+                    AND data BETWEEN '$from_ymd' AND '$to_ymd'
+                  ORDER BY data DESC");
+        if ($r) while ($row = $r->fetch_assoc()) $cronicas[] = $row;
+
+        return $this->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, '', $week_from, $week_to);
     }
 
     public function render_send_form($bd)
@@ -515,6 +588,8 @@ class ob_cp_newsletter
         $auto       = $this->get_auto_status($bd);
         $all_news     = $this->get_all_week_news($bd);
         $news         = array_values(array_filter($all_news, function($n) { return (int)$n['newsletter'] === 1; }));
+        $all_cronicas = $this->get_all_week_cronicas($bd);
+        $cronicas     = array_values(array_filter($all_cronicas, function($c) { return (int)$c['newsletter'] === 1; }));
         $reviews      = $this->get_week_reviews($bd);
         $concerts     = $this->get_week_concerts($bd);
         $interviews   = $this->get_week_interviews($bd);
@@ -551,6 +626,36 @@ class ob_cp_newsletter
                 print '<td style="vertical-align:middle;"><input type="checkbox" name="nl_news[]" value="' . (int)$n['idNews'] . '"' . $checked . ' /></td>';
                 print '<td class="contingut" style="color:' . $color . ';padding-left:6px;">' . htmlspecialchars(strip_tags($n['Title'])) . '</td>';
                 print '<td class="contingut" style="color:#555;padding-left:10px;">' . date('d/m/Y', strtotime($n['dateIn'])) . '</td>';
+                print '</tr>';
+            }
+            print '</table>';
+            print '<input type="submit" value="Guardar selecci&oacute;n" style="margin-top:8px;padding:4px 12px;" />';
+            print '</form>';
+        }
+
+        $cronicas_marked = count($cronicas);
+        print '<p class="contingut"><strong>Cr&oacute;nicas:</strong> ';
+        if (empty($all_cronicas)) {
+            print '<span style="color:#cc2200;">Sin cr&oacute;nicas esta semana.</span></p>';
+        } else {
+            print $cronicas_marked . ' de ' . count($all_cronicas) . ' marcadas</p>';
+            print '<form action="home_cp.php?sec=newsletter&action=main" method="post" style="margin:4px 0 16px 0;">';
+            print '<input type="hidden" name="nl_action" value="save_cronicas_selection" />';
+            print '<table cellpadding="3" cellspacing="0" border="0">';
+            foreach ($all_cronicas as $cr) {
+                $ck    = ((int)$cr['newsletter'] === 1) ? ' checked="checked"' : '';
+                $color = ((int)$cr['newsletter'] === 1) ? '#ffffff' : '#666666';
+                $dt    = DateTime::createFromFormat('YmdHis', $cr['data']);
+                $dstr  = $dt ? $dt->format('d/m/Y') : '';
+                print '<tr>';
+                print '<td style="vertical-align:middle;"><input type="checkbox" name="nl_cronicas[]" value="' . (int)$cr['idcronicas'] . '"' . $ck . ' /></td>';
+                if (!empty($cr['cartell'])) {
+                    print '<td style="vertical-align:middle;padding-left:6px;"><img src="../pics/cronicas_pics/' . htmlspecialchars($cr['cartell']) . '" height="30" style="display:block;" /></td>';
+                } else {
+                    print '<td></td>';
+                }
+                print '<td class="contingut" style="color:' . $color . ';padding-left:6px;">' . htmlspecialchars(strip_tags($cr['titol'])) . '</td>';
+                print '<td class="contingut" style="color:#555;padding-left:10px;">' . $dstr . '</td>';
                 print '</tr>';
             }
             print '</table>';
@@ -598,7 +703,7 @@ class ob_cp_newsletter
 
         /* Two-column preview */
         $monday    = strtotime('monday this week midnight');
-        $last_html = $this->build_email_html($news, $reviews, $concerts, $interviews, $metal_report, '');
+        $last_html = $this->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, '');
         $next_html = $this->build_next_preview_html($bd);
 
         print '<p class="titol_parcial" style="margin-top:32px;">Previsualizaci&oacute;n</p>';
