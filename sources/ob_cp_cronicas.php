@@ -35,6 +35,8 @@ class ob_cp_cronicas
 	public function recull_parametres_formulari_2($formulari, $cronicas)
 	{
 		if (isset($formulari['enviat_formulari_2'])) { /* formulari 1 enviat */
+			$cronicas->id = $formulari['id'];
+			$cronicas->link = $formulari['link'];
 			$cronicas->num_div = $formulari['num_div'];
 			$cronicas->crear_divisions();
 			$cronicas->titol = $formulari['titol'];
@@ -192,8 +194,7 @@ class ob_cp_cronicas
 
 						}
 
-						if (isset($_POST['borrar_' . ($i + 1)])) {
-							print 'borrrrrar';
+						if (isset($_POST['borrar_' . $x . '_' . $i])) {
 							if (file_exists('../pics/cronicas_pics/' . $cronicas->$nom->imgs[$i])) {
 								unlink('../pics/cronicas_pics/' . $cronicas->$nom->imgs[$i]);
 							}
@@ -284,7 +285,7 @@ class ob_cp_cronicas
 
 
 		if ($logica_id) {
-			//$query1="update crxonicass set data='".$cronicas->timestamp."', banda='".$cronicas->banda."', disc='".$cronicas->disc."', portada='".$cronicas->portada."', logo='".$cronicas->logo."', video='".$cronicas->video."', media='".$cronicas->media."', tracklist='".$cronicas->tracklist."', formacio_es='".$cronicas->formacio_es."', formacio_cat='".$cronicas->formacio_cat."', texte_es='".$cronicas->texte_es."', texte_cat='".$cronicas->texte_cat."', idcolaboradors='".$cronicas->idcolaboradors."', nota='".$cronicas->nota."', idpais='".$cronicas->idpais."', any='".$cronicas->any."', idestil='".$cronicas->idestil."', idlabel='".$cronicas->idlabel."', tipus='".$cronicas->tipus."', link='".$cronicas->link."' where idcronicass='".$cronicas->id."'" ;
+			$query1 = "update cronicas set data='" . $cronicas->timestamp . "', titol='" . $cronicas->titol . "', cartell='" . $cronicas->cartell . "', num_div='" . $cronicas->num_div . "', intro_es='" . $cronicas->intro_es . "', intro_cat='" . $cronicas->intro_cat . "', idioma='" . $cronicas->idioma . "', outro_es='" . $cronicas->outro_es . "', outro_cat='" . $cronicas->outro_cat . "', setlist='" . $cronicas->setlist . "', idcolaborador1='" . $cronicas->idcolaborador1 . "', idcolaborador2='" . $cronicas->idcolaborador2 . "', idfoto1='" . $cronicas->idfoto1 . "', idfoto2='" . $cronicas->idfoto2 . "', link='" . $cronicas->link . "' where idcronicas='" . $cronicas->id . "'";
 		} else {
 			$query1 = "insert into cronicas (data, titol, cartell, num_div, intro_es, intro_cat, idioma, outro_es, outro_cat, setlist, idcolaborador1, idcolaborador2, idfoto1, idfoto2, link) values ('" . $cronicas->timestamp . "', '" . $cronicas->titol . "', '" . $cronicas->cartell . "', '" . $cronicas->num_div . "', '" . $cronicas->intro_es . "', '" . $cronicas->intro_cat . "', '" . $cronicas->idioma . "', '" . $cronicas->outro_es . "', '" . $cronicas->outro_cat . "', '" . $cronicas->setlist . "', '" . $cronicas->idcolaborador1 . "', '" . $cronicas->idcolaborador2 . "', '" . $cronicas->idfoto1 . "', '" . $cronicas->idfoto2 . "', '" . $cronicas->link . "')";
 			$query2 = "select idcronicas from cronicas order by idcronicas desc limit 1";
@@ -308,15 +309,15 @@ class ob_cp_cronicas
 
 
 			}
+			if ($logica_id) {
+				/* esborrem les dades i imatges de les divisions per tornar-les a inserir amb els valors actualitzats */
+				$bs->query("delete from cronicasimgs where idcronicas=" . $cronicas->id);
+				$bs->query("delete from cronicasdata where idcronicas=" . $cronicas->id);
+			}
 			for ($x = 1; $x <= $cronicas->num_div; $x++) {
 				$nom = 'div' . $x;
-				if (!$logica_id) {
-					$query1 = "insert into cronicasdata (idcronicas, texte_es, texte_cat) values (" . $cronicas->id . ", '" . $cronicas->$nom->texte_es . "', '" . $cronicas->$nom->texte_cat . "')";
-					$query2 = "select idcronicasdata from cronicasdata where idcronicas=" . $cronicas->id . " order by idcronicasdata desc limit 1 ";
-
-				} else {
-
-				}
+				$query1 = "insert into cronicasdata (idcronicas, texte_es, texte_cat) values (" . $cronicas->id . ", '" . $cronicas->$nom->texte_es . "', '" . $cronicas->$nom->texte_cat . "')";
+				$query2 = "select idcronicasdata from cronicasdata where idcronicas=" . $cronicas->id . " order by idcronicasdata desc limit 1 ";
 				$this->resultat_consulta = $bs->query($query1);
 				if ($this->resultat_consulta) {
 					$this->resultat_consulta = $bs->query($query2);
@@ -324,7 +325,7 @@ class ob_cp_cronicas
 					$cronicas->$nom->id_cronica = $row['idcronicasdata'];
 					/* intoduir imatges */
 					for ($i = 1; $i <= 5; $i++) {
-						if ($cronicas->$nom->imgs[$i] != '') {
+						if (($cronicas->$nom->imgs[$i] != '') && ($cronicas->$nom->imgs[$i] != 'borrar')) {
 							$query = "insert into cronicasimgs (idcronicas, idcronicasdata, ordre, ruta) values (" . $cronicas->id . ", " . $cronicas->$nom->id_cronica . ", " . $i . ", '" . $cronicas->$nom->imgs[$i] . "')";
 							print $query;
 							$this->resultat_consulta = $bs->query($query);
@@ -666,10 +667,11 @@ Tema 1<br />Tema2<br />Tema 3<br />Tema 4</h5>') . '<br />' . htmlspecialchars('
 			$cronicas->outro_es = $resultat['outro_es'];
 			$cronicas->outro_cat = $resultat['outro_cat'];
 			$cronicas->idioma = $resultat['idioma'];
-			$cronicas->colaborador1 = $resultat['colaborador1'];
-			$cronicas->colaborador2 = $resultat['colaborador2'];
-			$cronicas->foto1 = $resultat['foto1'];
-			$cronicas->foto2 = $resultat['foto2'];
+			$cronicas->idcolaborador1 = $resultat['idcolaborador1'];
+			$cronicas->idcolaborador2 = $resultat['idcolaborador2'];
+			$cronicas->idfoto1 = $resultat['idfoto1'];
+			$cronicas->idfoto2 = $resultat['idfoto2'];
+			$cronicas->setlist = $resultat['setlist'];
 			$cronicas->link = $resultat['link'];
 			$cronicas->dia = substr($cronicas->timestamp, 8, 2);
 			$cronicas->anydata = substr($cronicas->timestamp, 0, 4);
@@ -689,20 +691,15 @@ Tema 1<br />Tema2<br />Tema 3<br />Tema 4</h5>') . '<br />' . htmlspecialchars('
 					$cronicas->$nom->id_cronica = $resultat['idcronicas'];
 					$cronicas->$nom->texte_es = $resultat['texte_es'];
 					$cronicas->$nom->texte_cat = $resultat['texte_cat'];
-					/*$query= "select * from cronicasimgs where idcronicasdata = ".$cronicas->$nom->id." order by ordre";
-					$this->resultat_consulta2=$bd->query($query);
-					if ($this->resultat_consulta2==FALSE) 
-					{ 
-								   print '<p class="terminal">Error al extraer de cronicasimgs</p>';			 
+					$query2 = "select * from cronicasimgs where idcronicasdata = " . $cronicas->$nom->id . " order by ordre";
+					$this->resultat_consulta2 = $bd->query($query2);
+					if ($this->resultat_consulta2 == FALSE) {
+						print '<p class="terminal">Error al extraer de cronicasimgs</p>';
 					} else {
-						$this->numero_resultats=$this->resultat_consulta2->num_rows;
-						print '<p class="terminal">Num Results: '.$this->numero_resultats.'</p>';
-						for ($x=1;$x<=$this->numero_resultats;$x++)
-						{
-							$resultat2=$this->resultat_consulta->fetch_assoc();
-							$cronicas->$nom->imgs[$x]=$resultat2['ruta'];
-						}                     
-					}*/
+						while ($resultat2 = $this->resultat_consulta2->fetch_assoc()) {
+							$cronicas->$nom->imgs[$resultat2['ordre']] = $resultat2['ruta'];
+						}
+					}
 				}
 			}
 		}
