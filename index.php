@@ -309,23 +309,19 @@ if (!$basedades->error_conexio)
     if (isset($_POST['nl_action']) && $_POST['nl_action'] === 'subscribe') {
         $nl_subscribe_status = $nl_web->subscribe($bd, isset($_POST['nl_email']) ? $_POST['nl_email'] : '');
     }
-    /* Newsletter: auto-send trigger (first visit of new ISO week when enabled) */
-    $query_nlw = "SELECT comptador_main FROM comptadors WHERE seccio='newsletter_week'";
-    $result_nlw = $bd->query($query_nlw);
-    if ($result_nlw) {
-        $row_nlw = $result_nlw->fetch_assoc();
-        $week_actual = (int)date('W');
-        if ($week_actual != (int)$row_nlw['comptador_main']) {
-            $result_auto = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='newsletter_auto'");
-            if ($result_auto) {
-                $row_auto = $result_auto->fetch_assoc();
-                if ((int)$row_auto['comptador_main'] === 1) {
-                    require_once('sources/ob_cp_newsletter.php');
-                    $nl_auto = new ob_cp_newsletter;
-                    $nl_auto->send_newsletter($bd);
-                    $bd->query("UPDATE comptadors SET comptador_main=$week_actual WHERE seccio='newsletter_week'");
-                }
-            }
+    /* Newsletter: auto-send trigger (first visit of new ISO week when enabled).
+       The week is claimed atomically BEFORE sending so that concurrent PHP-FPM
+       children cannot each launch a full subscriber blast (mail-flood incident). */
+    $week_actual = (int)date('W');
+    $result_auto = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='newsletter_auto'");
+    if ($result_auto && ($row_auto = $result_auto->fetch_assoc()) && (int)$row_auto['comptador_main'] === 1) {
+        /* Atomic claim: only the child whose UPDATE actually changes the row
+           (affected_rows === 1) proceeds to send; all racing children get 0. */
+        $bd->query("UPDATE comptadors SET comptador_main=$week_actual WHERE seccio='newsletter_week' AND comptador_main<>$week_actual");
+        if ($bd->affected_rows === 1) {
+            require_once('sources/ob_cp_newsletter.php');
+            $nl_auto = new ob_cp_newsletter;
+            $nl_auto->send_newsletter($bd);
         }
     }
 
