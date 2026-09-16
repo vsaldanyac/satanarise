@@ -64,7 +64,7 @@ class cp_banner
 						$this->formulari_ok = FALSE;
 						break;
 				}
-				if (isset($_POST['img_off'])) {
+				if (isset($_POST['img_off']) && is_string($_POST['img_off']) && basename($_POST['img_off']) === $_POST['img_off'] && preg_match('/\A[[:alnum:]_.-]+\.(?:webp|jpe?g|gif|png)\z/i', $_POST['img_off'])) {
 					$this->img = $_POST['img_off'];
 				}
 			} else {
