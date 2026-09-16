@@ -176,7 +176,7 @@ class cp_banner
 
 	public function formulari()
 	{
-		print "<form id=\"form_banner\" action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
+print "<form id=\"form_banner\" action=\"" . htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . "\" method=\"post\" enctype=\"multipart/form-data\">";
 		print "<input type=\"hidden\" name=\"enviat\" value=\"si\" \>\n";
 		print "<input type=\"hidden\" name=\"confirm_small_img\" id=\"confirm_small_img\" value=\"no\" \>\n";
 		print '<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />';
