@@ -32,67 +32,77 @@ class ob_cp_opinio
 			$time_file = str_replace('-', '', $time_file);
 			$time_file = str_replace(' ', '', $time_file);
 			$time_file = str_replace(':', '', $time_file);
-			if (isset($formulari['ruta_off'])) {
+			if (isset($formulari['ruta_off']))
 				$opinio->ruta = trim($formulari['ruta_off']);
-			} else {
-				/* recollir imatge de la banda */
-				if (isset($_FILES['fitxer_ruta'])) {
-					if ($_FILES['fitxer_ruta']['error'] > 0)
-					/* Comprovacio erros al pujar */{
-						switch ($_FILES['fitxer_ruta']['error']) {
-							case 1:
-								$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
-								$this->formulari_ok = FALSE;
-								break;
-							case 2:
-								$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
-								$this->formulari_ok = FALSE;
-								break;
-							case 4:
-								break;
-							default:
-								$this->error = $this->error . 'Error al subir el archivo ' . $_FILES['fitxer_ruta'] . '.<br />';
-								$this->formulari_ok = FALSE;
-								break;
+			/* recollir imatge de la banda */
+			if (isset($_FILES['fitxer_ruta'])) {
+				if ($_FILES['fitxer_ruta']['error'] > 0)
+				/* Comprovacio erros al pujar */{
+					switch ($_FILES['fitxer_ruta']['error']) {
+						case 1:
+							$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
+							$this->formulari_ok = FALSE;
+							break;
+						case 2:
+							$this->error = $this->error . 'El archivo excede del tamaño máximo.<br />';
+							$this->formulari_ok = FALSE;
+							break;
+						case 4:
+							break;
+						default:
+							$this->error = $this->error . 'Error al subir el archivo ' . $_FILES['fitxer_ruta'] . '.<br />';
+							$this->formulari_ok = FALSE;
+							break;
+					}
+				} else {
+					if (is_uploaded_file($_FILES['fitxer_ruta']['tmp_name'])) {
+						$img_info = @getimagesize($_FILES['fitxer_ruta']['tmp_name']);
+						$img_src = FALSE;
+						if ($img_info !== FALSE) {
+							switch ($img_info[2]) {
+								case IMAGETYPE_JPEG:
+									$img_src = imagecreatefromjpeg($_FILES['fitxer_ruta']['tmp_name']);
+									break;
+								case IMAGETYPE_PNG:
+									$img_src = imagecreatefrompng($_FILES['fitxer_ruta']['tmp_name']);
+									break;
+								case IMAGETYPE_GIF:
+									$img_src = imagecreatefromgif($_FILES['fitxer_ruta']['tmp_name']);
+									break;
+								case IMAGETYPE_WEBP:
+									$img_src = imagecreatefromwebp($_FILES['fitxer_ruta']['tmp_name']);
+									break;
+							}
 						}
-						if (isset($_POST['ruta_off'])) {
-							print 'Hi ha una imatge ja i no sha pujat res';
-							$opinio->logo = $_POST['ruta_off'];
-						}
-
-
-					} else {
-						$ext = '';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.jpg') != FALSE)
-							$ext = '.jpg';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.webp') != FALSE)
-							$ext = '.jpg';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.webp') != FALSE)
-							$ext = '.jpeg';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.gif') != FALSE)
-							$ext = '.gif';
-						if (stristr($_FILES['fitxer_ruta']['name'], '.png') != FALSE)
-							$ext = '.png';
-						if ($ext == '') {
+						if ($img_src === FALSE) {
 							$this->error = $this->error . 'El archivo no es una imagen .<br />';
 							$this->formulari_ok = FALSE;
 						} else {
-							$directori = '../pics/opinio_pics/' . $time_file . $ext;
-							if (is_uploaded_file($_FILES['fitxer_ruta']['tmp_name'])) {
-								if (!move_uploaded_file($_FILES['fitxer_ruta']['tmp_name'], $directori)) {
-									$this->error = $this->error . 'Error al subir la imagen a su carpeta.<br />';
-									$this->formulari_ok = FALSE;
-								} else {
-									$opinio->ruta = $time_file . $ext;
-								}
+							/* Es converteix sempre a png i es nomena amb la id de la opinio (si encara no te id, es fa servir un nom temporal fins despres de l'insert) */
+							if ($opinio->id != '' && $opinio->id != 0) {
+								$nom_fitxer = $opinio->id . '.png';
 							} else {
-								$this->error = $this->error . 'Error al subir la imagen.<br />';
-								$this->formulari_ok = FALSE;
+								$nom_fitxer = '_tmp_' . uniqid() . '.png';
 							}
+							$directori = '../pics/opinio_pics/' . $nom_fitxer;
+							if (!imagepng($img_src, $directori)) {
+								$this->error = $this->error . 'Error al subir la imagen a su carpeta.<br />';
+								$this->formulari_ok = FALSE;
+							} else {
+								if ($opinio->ruta != '' && $opinio->ruta != $nom_fitxer && file_exists('../pics/opinio_pics/' . $opinio->ruta)) {
+									unlink('../pics/opinio_pics/' . $opinio->ruta);
+								}
+								$opinio->ruta = $nom_fitxer;
+							}
+							imagedestroy($img_src);
 						}
+					} else {
+						$this->error = $this->error . 'Error al subir la imagen.<br />';
+						$this->formulari_ok = FALSE;
 					}
 				}
 			}
+			$opinio->special = isset($formulari['special']) ? 1 : 0;
 			$opinio->idioma = ($formulari['idioma']);
 			$opinio->idcolaboradors = ($formulari['idcolaboradors']);
 			$opinio->titol_es = $formulari['titol_es'];
@@ -148,17 +158,29 @@ class ob_cp_opinio
 		print 'Id Colaborador: ' . $opinio->idcolaboradors . '<br />';
 		print 'Idioma: ' . $opinio->idioma . '<br />';
 		print 'Fecha: ' . $opinio->timestamp . '<br />';
+		print 'Especial: ' . $opinio->special . '<br />';
 
 		if ($logica_id) {
-			$query1 = "update opinio set data='" . $opinio->timestamp . "', idioma='" . $opinio->idioma . "', titol_es='" . $opinio->titol_es . "', titol_cat='" . $opinio->titol_cat . "', texte_es='" . $opinio->texte_es . "', texte_cat='" . $opinio->texte_cat . "', idcolaboradors='" . $opinio->idcolaboradors . "', ruta='" . $opinio->ruta . "' where idopinio='" . $opinio->id . "'";
+			$query1 = "update opinio set data='" . $opinio->timestamp . "', idioma='" . $opinio->idioma . "', titol_es='" . $opinio->titol_es . "', titol_cat='" . $opinio->titol_cat . "', texte_es='" . $opinio->texte_es . "', texte_cat='" . $opinio->texte_cat . "', idcolaboradors='" . $opinio->idcolaboradors . "', ruta='" . $opinio->ruta . "', special='" . $opinio->special . "' where idopinio='" . $opinio->id . "'";
 		} else {
-			$query1 = "insert into opinio (data, idcolaboradors, idioma, titol_es, titol_cat, texte_es, texte_cat, ruta, visites) values ('" . $opinio->timestamp . "', '" . $opinio->idcolaboradors . "', '" . $opinio->idioma . "', '" . $opinio->titol_es . "', '" . $opinio->titol_cat . "', '" . $opinio->texte_es . "', '" . $opinio->texte_cat . "', '" . $opinio->ruta . "', 0)";
+			$query1 = "insert into opinio (data, idcolaboradors, idioma, titol_es, titol_cat, texte_es, texte_cat, ruta, special, visites) values ('" . $opinio->timestamp . "', '" . $opinio->idcolaboradors . "', '" . $opinio->idioma . "', '" . $opinio->titol_es . "', '" . $opinio->titol_cat . "', '" . $opinio->texte_es . "', '" . $opinio->texte_cat . "', '" . $opinio->ruta . "', '" . $opinio->special . "', 0)";
 		}
 
 		$this->resultat_consulta = $bs->query($query1);
 		print $query1;
 		if ($this->resultat_consulta) {
-
+			if (!$logica_id) {
+				/* Un cop coneguda la id autoincremental, es renombra la imatge temporal amb el nom definitiu */
+				$nou_id = $bs->insert_id;
+				if (strpos($opinio->ruta, '_tmp_') === 0) {
+					$nom_fitxer = $nou_id . '.png';
+					if (rename('../pics/opinio_pics/' . $opinio->ruta, '../pics/opinio_pics/' . $nom_fitxer)) {
+						$bs->query("update opinio set ruta='" . $nom_fitxer . "' where idopinio=" . $nou_id);
+						$opinio->ruta = $nom_fitxer;
+					}
+				}
+				$opinio->id = $nou_id;
+			}
 		} else {
 			print '<p class="terminal">Error </p>';
 		}
@@ -208,8 +230,10 @@ class ob_cp_opinio
 
 		print '<p class="contingut">Titulo CAT: <br /><br /><input class="titol_form" type="text" name="titol_cat" maxlength="1000" value="' . $opinio->titol_cat . '" /></p>';
 
-		print '<p class="contingut">Imageen: <br /><br />';
-		if ($opinio->logo != '') {
+		print '<p class="contingut"><label><input type="checkbox" name="special" value="1"' . ($opinio->special == 1 ? ' checked="checked"' : '') . ' /> Especial</label></p>';
+
+		print '<p class="contingut">Imagen: <br /><br />';
+		if ($opinio->ruta != '') {
 			print '<img src="../pics/opinio_pics/' . $opinio->ruta . '" width="325" /><br />';
 			print "<input type=\"hidden\" name=\"ruta_off\" value=\"$opinio->ruta\" \>\n";
 		}
@@ -353,6 +377,7 @@ class ob_cp_opinio
 			$opinio->idioma = $resultat['idioma'];
 			$opinio->ruta = $resultat['ruta'];
 			$opinio->idcolaboradors = $resultat['idcolaboradors'];
+			$opinio->special = $resultat['special'];
 			$opinio->dia = substr($opinio->timestamp, 8, 2);
 			$opinio->anydata = substr($opinio->timestamp, 0, 4);
 			$opinio->mes = substr($opinio->timestamp, 5, 2);
