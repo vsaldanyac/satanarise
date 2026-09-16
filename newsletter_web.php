@@ -16,6 +16,20 @@ if (!$basedades->error_conexio) {
     $interviews   = $nl_cp->get_week_interviews($basedades->bd);
     $metal_report = $nl_cp->get_week_metal_report($basedades->bd);
     $basedades->desconectar();
-    echo $nl_cp->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, '');
+
+    $html = $nl_cp->build_email_html($news, $cronicas, $reviews, $concerts, $interviews, $metal_report, '');
+
+    $og_tags = '<meta property="og:type" content="website" />' .
+        '<meta property="og:site_name" content="Satan Arise" />' .
+        '<meta property="og:url" content="https://www.satanarise.com/newsletter_web.php" />' .
+        '<meta property="og:title" content="Newsletter - Satan Arise" />' .
+        '<meta property="og:description" content="La newsletter semanal de Satan Arise: noticias, cronicas, reviews, conciertos y entrevistas de metal." />' .
+        '<meta property="og:image" content="https://www.satanarise.com/logos/SatanAriseLogoXV.jpg" />' .
+        '<meta name="twitter:card" content="summary_large_image" />' .
+        '<title>Newsletter - Satan Arise</title>';
+
+    $html = str_replace('<meta charset="UTF-8"/></head>', '<meta charset="UTF-8"/>' . $og_tags . '</head>', $html);
+
+    echo $html;
 }
 ?>

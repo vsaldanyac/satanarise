@@ -18,7 +18,7 @@
 		{
 			if ($this->bd instanceof mysqli) return;
 
-			@ $this->bd = new  mysqli('62.149.150.175','Sql613596','9d8a8df8','Sql613596_1');
+			@ $this->bd = new  mysqli('31.11.39.125','Sql613596','9d8a8df8','Sql613596_1');
 			if (mysqli_connect_errno()) {
 				$this->error_conexio=TRUE;
 				$this->bd=null;
