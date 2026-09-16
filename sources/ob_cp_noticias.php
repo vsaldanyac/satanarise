@@ -295,7 +295,7 @@ class cp_noticia
 		if ($this->resultat_consulta) {
 			print '<p class="terminal">¡¡Noticia añadida en tabla news!!</p>';
 		} else {
-			print '<p class="terminal">Error, la noticia no ha podido ser añadida en la tabla news.</p>';
+			print '<p class="terminal">Error, la noticia no ha podido ser añadida en la tabla news: ' . $bs->error . '</p>';
 		}
 		switch ($this->idioma) {
 			case 'ES':
@@ -303,7 +303,7 @@ class cp_noticia
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Noticia ES añadida en tabla newscontent!!</p>';
 				} else {
-					print '<p class="terminal">Error, la noticia ES no ha podido ser añadida en la tabla newscontent.</p>';
+					print '<p class="terminal">Error, la noticia ES no ha podido ser añadida en la tabla newscontent: ' . $bs->error . '</p>';
 				}
 				break;
 			case 'CAT':
@@ -311,7 +311,7 @@ class cp_noticia
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Noticia CAT añadida en la tabla newscontent!!</p>';
 				} else {
-					print '<p class="terminal">Error, la noticia CAT no ha podido ser añadida en la tabla newscontent.</p>';
+					print '<p class="terminal">Error, la noticia CAT no ha podido ser añadida en la tabla newscontent: ' . $bs->error . '</p>';
 				}
 				break;
 			case 'BOTH':
@@ -319,13 +319,13 @@ class cp_noticia
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Noticia ES añadida en la tabla newscontent!!</p>';
 				} else {
-					print '<p class="terminal">Error, la noticia ES no ha podido ser añadida en la tabla newscontent.</p>';
+					print '<p class="terminal">Error, la noticia ES no ha podido ser añadida en la tabla newscontent: ' . $bs->error . '</p>';
 				}
 				$this->resultat_consulta = $bs->query($query3);
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Noticia añadida CAT en la tabla newscontent!!</p>';
 				} else {
-					print '<p class="terminal">Error, la noticia CAT no ha podido ser añadida en la tabla newscontent.</p>';
+					print '<p class="terminal">Error, la noticia CAT no ha podido ser añadida en la tabla newscontent: ' . $bs->error . '</p>';
 				}
 				break;
 		}
@@ -344,7 +344,7 @@ class cp_noticia
 					print '<p class="terminal">¡¡Imagen ' . ($i + 1) . ' añadida correctamente!!</p>';
 					$contador = $contador + 1;
 				} else {
-					print '<p class="terminal">No se ha podido añadir la imagen ' . ($i + 1) . '.</p>';
+					print '<p class="terminal">No se ha podido añadir la imagen ' . ($i + 1) . ': ' . $bs->error . '</p>';
 				}
 			}
 
@@ -362,7 +362,7 @@ class cp_noticia
 			if ($this->resultat_consulta) {
 				print '<p class="terminal">¡¡Video añadido a la noticia!!</p>';
 			} else {
-				print '<p class="terminal">No se ha podido añadir el video.</p>';
+				print '<p class="terminal">No se ha podido añadir el video: ' . $bs->error . '</p>';
 			}
 
 		}
