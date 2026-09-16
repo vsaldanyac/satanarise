@@ -128,9 +128,13 @@ if ($img_info === FALSE) {
 
 	public function validar_entrada()
 	{
-		if (($this->tipo != '700') && ($this->tipo != '100')) {
+if (($this->tipo != '700') && ($this->tipo != '100')) {
 			$this->formulari_ok = FALSE;
 			$this->error = $this->error . 'Tipo de banner no válido ';
+		}
+		if (!checkdate((int)$this->mes, (int)$this->dia, (int)$this->any)) {
+			$this->formulari_ok = FALSE;
+			$this->error = $this->error . 'Fecha fin no válida ';
 		}
 		if ((!isset($this->img)) || ($this->img == '')) {
 			$this->formulari_ok = FALSE;
