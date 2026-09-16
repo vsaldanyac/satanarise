@@ -1,5 +1,13 @@
 <?php
 
+/* Strip CR/LF (and NUL) from any value placed into a mail() header, to prevent
+   header injection: the contest forms build From/Reply-To from user input. */
+if (!function_exists('sa_mail_header')) {
+    function sa_mail_header($v) {
+        return trim(str_replace(array("\r", "\n", "\0"), '', (string)$v));
+    }
+}
+
 switch ($page->concurs)
 {
 case 'bajopresion_old':
@@ -60,7 +68,10 @@ case 'bajopresion_old':
 				}
 				$subject='Sorteig BajopresióN';
 				$message="Concurs BajopresióN<br />enviat per: $name \r\n amb el mail $email \r\n Títol del videoclip: $videoclip";
-				mail('sorteo@satanarise.com',$subject,$message,"Content-type: text/html; charset=utf-8\r\nFrom: $name <$email>\r\nReply-To: $email \r\n");	
+				$headers = "Content-type: text/html; charset=utf-8\r\n"
+				         . 'From: ' . sa_mail_header($name) . ' <' . sa_mail_header($email) . ">\r\n"
+				         . 'Reply-To: ' . sa_mail_header($email) . "\r\n";
+				mail('sorteo@satanarise.com', $subject, $message, $headers);
 			}
 		}
 	
@@ -225,7 +236,10 @@ case 'fournoses':
 				}
 				$subject='Sorteig Four Noses';
 				$message="Concurs Four Noses<br />enviat per: $name \r\n amb el mail $email \r\n ";
-				mail('sorteo@satanarise.com',$subject,$message,"Content-type: text/html; charset=utf-8\r\nFrom: $name <$email>\r\nReply-To: $email \r\n");	
+				$headers = "Content-type: text/html; charset=utf-8\r\n"
+				         . 'From: ' . sa_mail_header($name) . ' <' . sa_mail_header($email) . ">\r\n"
+				         . 'Reply-To: ' . sa_mail_header($email) . "\r\n";
+				mail('sorteo@satanarise.com', $subject, $message, $headers);
 			}
 		}
 	
@@ -395,7 +409,10 @@ case 'debler':
 				}
 				$subject='Sorteig Debler';
 				$message="Concurs Debler<br />enviat per: $name \r\n amb el mail $email";
-				mail('sorteo@satanarise.com',$subject,$message,"Content-type: text/html; charset=utf-8\r\nFrom: $name <$email>\r\nReply-To: $email \r\n");	
+				$headers = "Content-type: text/html; charset=utf-8\r\n"
+				         . 'From: ' . sa_mail_header($name) . ' <' . sa_mail_header($email) . ">\r\n"
+				         . 'Reply-To: ' . sa_mail_header($email) . "\r\n";
+				mail('sorteo@satanarise.com', $subject, $message, $headers);
 			}
 		}
 	
