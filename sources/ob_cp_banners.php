@@ -150,7 +150,7 @@ class cp_banner
 		$this->img = addslashes($this->img);
 
 		if ($logica_id) {
-			$query = "update banners set tipo='" . $this->tipo . "', img='" . $this->img . "', link='" . $this->link . "', texte='" . $this->texte . "', datafi='" . $this->datafi . "' where id='" . $id . "'";
+			$query = "update banners set tipo='" . $this->tipo . "', img='" . $this->img . "', link='" . $this->link . "', texte='" . $this->texte . "', datafi='" . $this->datafi . "' where id='" . (int)$id . "'";
 		} else {
 			$query = "insert into banners (tipo, img, link, texte, datafi, contador) values ('" . $this->tipo . "', '" . $this->img . "', '" . $this->link . "', '" . $this->texte . "', '" . $this->datafi . "', 0)";
 		}
