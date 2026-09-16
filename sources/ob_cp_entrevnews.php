@@ -274,11 +274,11 @@ class ob_cp_entrevnews
 				$query = "update entrevnews set link='" . $entrevista->link . "' where identrevistes=" . $entrevista->id;
 				$this->resultat_consulta = $bs->query($query);
 				if (!$this->resultat_consulta) {
-					print '<p class="terminal">Error 1</p>';
+					print '<p class="terminal">Error 1: ' . $bs->error . '</p>';
 				}
 			}
 		} else {
-			print '<p class="terminal">Error 2</p>';
+			print '<p class="terminal">Error 2: ' . $bs->error . '</p>';
 		}
 		if ($logica_id) {
 			$query = "select ruta, tipus, ordre from entrevnewsdata where identrevistes=" . $entrevista->id . " order by tipus, ordre asc";
@@ -311,7 +311,7 @@ class ob_cp_entrevnews
 						print '<p class="terminal">¡¡Imagen logo añadida correctamente!!</p>';
 						$contador = $contador + 1;
 					} else {
-						print '<p class="terminal">No se ha podido añadir la imagen del logo.</p>';
+						print '<p class="terminal">No se ha podido añadir la imagen del logo: ' . $bs->error . '</p>';
 					}
 					if (file_exists('../pics/entrevistes_news_pics/' . $data[0]['ruta'])) {
 						unlink('../pics/entrevistes_news_pics/' . $data[0]['ruta']);
@@ -325,7 +325,7 @@ class ob_cp_entrevnews
 					print '<p class="terminal">¡¡Imagen logo añadida correctamente!!</p>';
 					$contador = $contador + 1;
 				} else {
-					print '<p class="terminal">No se ha podido añadir la imagen del logo.</p>';
+					print '<p class="terminal">No se ha podido añadir la imagen del logo: ' . $bs->error . '</p>';
 				}
 			}
 		}
@@ -355,7 +355,7 @@ class ob_cp_entrevnews
 										print '<p class="terminal">¡¡Imagen ' . $i . ' añadida correctamente!!</p>';
 
 									} else {
-										print '<p class="terminal">No se ha podido añadir la imagen ' . $i . '.</p>';
+										print '<p class="terminal">No se ha podido añadir la imagen ' . $i . ': ' . $bs->error . '</p>';
 									}
 									if (file_exists('../pics/entrevistes_news_pics/' . $data[$i]['ruta'])) {
 										unlink('../pics/entrevistes_news_pics/' . $data[$i]['ruta']);
@@ -372,7 +372,7 @@ class ob_cp_entrevnews
 							print '<p class="terminal">¡¡Imagen ' . $i . ' añadida correctamente!!</p>';
 							$contador = $contador + 1;
 						} else {
-							print '<p class="terminal">No se ha podido añadir la imagen ' . $i . '.</p>';
+							print '<p class="terminal">No se ha podido añadir la imagen ' . $i . ': ' . $bs->error . '</p>';
 						}
 					}
 				} else {
@@ -405,7 +405,7 @@ class ob_cp_entrevnews
 								if ($this->resultat_consulta) {
 									print '<p class="terminal">¡¡Audio añadido!!</p>';
 								} else {
-									print '<p class="terminal">No se ha podido añadir el audio.</p>';
+									print '<p class="terminal">No se ha podido añadir el audio: ' . $bs->error . '</p>';
 								}
 							}
 						}
@@ -416,7 +416,7 @@ class ob_cp_entrevnews
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Audio añadido!!</p>';
 				} else {
-					print '<p class="terminal">No se ha podido añadir el audio.</p>';
+					print '<p class="terminal">No se ha podido añadir el audio: ' . $bs->error . '</p>';
 				}
 			} else {
 				$query = "insert into entrevnewsdata (ordre, identrevistes, tipus, ruta) values (" . $contador . ", (select identrevistes from entrevnews order by identrevistes desc limit 1), 2, '" . $entrevista->ruta_audio . "')";
@@ -425,7 +425,7 @@ class ob_cp_entrevnews
 				if ($this->resultat_consulta) {
 					print '<p class="terminal">¡¡Audio añadido!!</p>';
 				} else {
-					print '<p class="terminal">No se ha podido añadir el audio.</p>';
+					print '<p class="terminal">No se ha podido añadir el audio: ' . $bs->error . '</p>';
 				}
 			}
 

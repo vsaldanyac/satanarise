@@ -487,11 +487,11 @@ class ob_cp_reviews
 				$query = "update reviews set link='" . $review->link . "' where idreviews=" . $review->id;
 				$this->resultat_consulta = $bs->query($query);
 				if (!$this->resultat_consulta) {
-					print '<p class="terminal">Error 1</p>';
+					print '<p class="terminal">Error 1: ' . $bs->error . '</p>';
 				}
 			}
 		} else {
-			print '<p class="terminal">Error 2</p>';
+			print '<p class="terminal">Error 2: ' . $bs->error . '</p>';
 		}
 	}
 
