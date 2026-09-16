@@ -67,6 +67,11 @@
 			$page->words = ''.$page->words;
 			$page->title = 'Newsletter - Panel de Control de Satan Arise';
 		break;
+        case ('banners'):
+			$page->description = '';
+			$page->words = ''.$page->words;
+			$page->title = 'Banners - Panel de Control de Satan Arise';
+		break;
 	}
 	/* Impresió de capçalera */
 	$page->print_heads();
@@ -97,7 +102,7 @@
 
 <?php
 			
-	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','memes','colaboradores','usuarios','newsletter');
+	$cad_menu = array ('inicio','noticias','criticas','conciertos','cronicas','entrevistas','entrevistasn','opinion','memes','colaboradores','usuarios','newsletter','banners');
 	$contmax = count($cad_menu); 
 	$cont=0;
 	
@@ -153,6 +158,10 @@
 					$tit = 'Newsletter - Satan Arise';
 					$texte = 'Newsletter';
                 break;
+                case ('banners'):
+					$tit = 'Banners - Satan Arise';
+					$texte = 'Banners';
+                break;
 				}
 			
 			print '<p class="linkmenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=main" title="'.$tit.'">';
@@ -165,7 +174,9 @@
 				if ($cad_menu[$cont] !== 'memes') {
 					print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=edit" title="'.$tit.'">Editar</a></p>'."\n";
 				}
-				print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=del" title="'.$tit.'">Eliminar</a></p>'."\n";
+				if ($cad_menu[$cont] !== 'banners') {
+					print '<p class="submenu"><a class="men" href="home_cp.php?sec='.$cad_menu[$cont].'&action=del" title="'.$tit.'">Eliminar</a></p>'."\n";
+				}
 			}
 			if ($cad_menu[$cont] == 'conciertos') print '<p class="submenu"><a class="men" href="home_cp.php?&sec='.$cad_menu[$cont].'&action=borrar_fora_de_data" title="'.$tit.'">Pasados</a></p>'."\n";								
 			$cont=$cont+1;

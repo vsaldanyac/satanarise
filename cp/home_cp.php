@@ -52,6 +52,9 @@ if (isset ($_SESSION['valid_user']))
         case ('newsletter'):
 			require ('templates/newsletter.php');
 		break;
+        case ('banners'):
+			require ('templates/banners.php');
+		break;
     }
     require('templates/end.php');
     
