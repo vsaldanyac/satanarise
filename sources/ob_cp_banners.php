@@ -362,7 +362,7 @@ print "<form id=\"form_banner\" action=\"" . htmlspecialchars($_SERVER['REQUEST_
 						<img class="ico_navegador" src="../pics/containers/next.jpg" width="43" height="43" /></a>';
 			}
 			if ($numero >= ($punter + 10)) {
-				$punter_dir = ((number_format(($numero / $quantitat), 0) * $quantitat) + 1) - 10;
+				$punter_dir = ((ceil($numero / $quantitat) - 1) * $quantitat) + 1;
 				print '<a class="linkk" href="home_cp.php?sec=banners&action=' . $action . '&punter=' . $punter_dir . '">
 						<img class="ico_navegador" src="../pics/containers/max_next.jpg" width="43" height="43" /></a>';
 			}
