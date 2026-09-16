@@ -72,7 +72,7 @@ switch ($page->action) {
 		break;
 	case 'edit':
 		?>
-		<p class="titol_parcial">Elije el banner a editar</p>
+		<p class="titol_parcial">Elige el banner a editar</p>
 		<?php
 		if (!$page->formulari) { /* si no hi ha selecció d'edició mostra banners existents a la bbdd  */
 
