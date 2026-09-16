@@ -9,6 +9,8 @@ class ob_cp_reviews
 	public $numero_resultats;
 	public $arxius_pujats;
 	public $contador_arxius_pujats;
+	public $warn_small_dims;
+	public $needs_dim_confirm;
 
 
 
@@ -19,6 +21,8 @@ class ob_cp_reviews
 		$this->error = 'Errores:<br /> ';
 		/*$this->arxius_pujats=array();*/
 		$this->contador_arxius_pujats = 0;
+		$this->warn_small_dims = array();
+		$this->needs_dim_confirm = FALSE;
 	}
 
 	public function recull_parametres($formulari, $review, $basedades) /* Mira si hi ha un formulari enviat i recull parametres */
@@ -84,6 +88,50 @@ class ob_cp_reviews
 									$this->formulari_ok = FALSE;
 								} else {
 									$review->logo = convertir_cadena_arxiu($review->banda) . $time_file . $ext;
+									$img_info = @getimagesize($directori);
+									if ($img_info !== FALSE) {
+										$orig_w = $img_info[0];
+										$orig_h = $img_info[1];
+										if ($orig_w > 485) {
+											$new_w = 485;
+											$new_h = (int)round($orig_h * $new_w / $orig_w);
+											$img_resized = imagecreatetruecolor($new_w, $new_h);
+											switch ($img_info[2]) {
+												case IMAGETYPE_JPEG:
+													$img_src = imagecreatefromjpeg($directori);
+													imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+													imagejpeg($img_resized, $directori, 90);
+													break;
+												case IMAGETYPE_PNG:
+													$img_src = imagecreatefrompng($directori);
+													imagealphablending($img_resized, false);
+													imagesavealpha($img_resized, true);
+													imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+													imagepng($img_resized, $directori);
+													break;
+												case IMAGETYPE_GIF:
+													$img_src = imagecreatefromgif($directori);
+													imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+													imagegif($img_resized, $directori);
+													break;
+												case IMAGETYPE_WEBP:
+													$img_src = imagecreatefromwebp($directori);
+													imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+													imagewebp($img_resized, $directori, 90);
+													break;
+											}
+											if (isset($img_src)) { imagedestroy($img_src); }
+											imagedestroy($img_resized);
+											$img_info = @getimagesize($directori);
+										}
+										if (!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si') {
+											if ($img_info !== FALSE && $img_info[0] < 485) {
+												$this->warn_small_dims[] = 'logo';
+												$this->needs_dim_confirm = TRUE;
+												$this->formulari_ok = FALSE;
+											}
+										}
+									}
 								}
 							} else {
 								$this->error = $this->error . 'Error al subir la imagen.<br />';
@@ -178,6 +226,50 @@ class ob_cp_reviews
 										$this->formulari_ok = FALSE;
 									} else {
 										$review->portada = convertir_cadena_arxiu($review->banda) . '_' . convertir_cadena_arxiu($review->disc) . $ext;
+										$img_info = @getimagesize($directori);
+										if ($img_info !== FALSE) {
+											$orig_w = $img_info[0];
+											$orig_h = $img_info[1];
+											if ($orig_w > 500) {
+												$new_w = 500;
+												$new_h = (int)round($orig_h * $new_w / $orig_w);
+												$img_resized = imagecreatetruecolor($new_w, $new_h);
+												switch ($img_info[2]) {
+													case IMAGETYPE_JPEG:
+														$img_src = imagecreatefromjpeg($directori);
+														imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+														imagejpeg($img_resized, $directori, 90);
+														break;
+													case IMAGETYPE_PNG:
+														$img_src = imagecreatefrompng($directori);
+														imagealphablending($img_resized, false);
+														imagesavealpha($img_resized, true);
+														imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+														imagepng($img_resized, $directori);
+														break;
+													case IMAGETYPE_GIF:
+														$img_src = imagecreatefromgif($directori);
+														imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+														imagegif($img_resized, $directori);
+														break;
+													case IMAGETYPE_WEBP:
+														$img_src = imagecreatefromwebp($directori);
+														imagecopyresampled($img_resized, $img_src, 0, 0, 0, 0, $new_w, $new_h, $orig_w, $orig_h);
+														imagewebp($img_resized, $directori, 90);
+														break;
+												}
+												if (isset($img_src)) { imagedestroy($img_src); }
+												imagedestroy($img_resized);
+												$img_info = @getimagesize($directori);
+											}
+											if (!isset($_POST['confirm_small_img']) || $_POST['confirm_small_img'] !== 'si') {
+												if ($img_info !== FALSE && $img_info[0] < 500) {
+													$this->warn_small_dims[] = 'portada';
+													$this->needs_dim_confirm = TRUE;
+													$this->formulari_ok = FALSE;
+												}
+											}
+										}
 									}
 								} else {
 									$this->error = $this->error . 'Error al subir la imagen.<br />';
@@ -499,8 +591,9 @@ class ob_cp_reviews
 
 	public function formulari($review, $basedades)
 	{
-		print "<form action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
+		print "<form id=\"form_review\" action=\"" . $_SERVER['REQUEST_URI'] . "\" method=\"post\" enctype=\"multipart/form-data\">";
 		print "<input type=\"hidden\" name=\"enviat\" value=\"si\" \>\n";
+		print "<input type=\"hidden\" name=\"confirm_small_img\" id=\"confirm_small_img\" value=\"no\" \>\n";
 		print "<input type=\"hidden\" name=\"id\" value=\"$review->id\" \>\n";
 		print "<input type=\"hidden\" name=\"link\" value=\"$review->link\" \>\n";
 
