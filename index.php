@@ -315,13 +315,21 @@ if (!$basedades->error_conexio)
     $week_actual = (int)date('W');
     $result_auto = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='newsletter_auto'");
     if ($result_auto && ($row_auto = $result_auto->fetch_assoc()) && (int)$row_auto['comptador_main'] === 1) {
-        /* Atomic claim: only the child whose UPDATE actually changes the row
-           (affected_rows === 1) proceeds to send; all racing children get 0. */
-        $bd->query("UPDATE comptadors SET comptador_main=$week_actual WHERE seccio='newsletter_week' AND comptador_main<>$week_actual");
-        if ($bd->affected_rows === 1) {
-            require_once('sources/ob_cp_newsletter.php');
-            $nl_auto = new ob_cp_newsletter;
-            $nl_auto->send_newsletter($bd);
+        /* Ensure only one worker can send at a time; update the week only after a successful send. */
+        $lock_r = $bd->query("SELECT GET_LOCK('newsletter_auto_send', 0) AS got_lock");
+        $got_lock = $lock_r && ($lock_row = $lock_r->fetch_assoc()) ? (int)$lock_row['got_lock'] : 0;
+        if ($got_lock === 1) {
+            $r_week = $bd->query("SELECT comptador_main FROM comptadors WHERE seccio='newsletter_week'");
+            $row_week = $r_week ? $r_week->fetch_assoc() : null;
+            if ($row_week && $week_actual !== (int)$row_week['comptador_main']) {
+                require_once('sources/ob_cp_newsletter.php');
+                $nl_auto = new ob_cp_newsletter;
+                $result = $nl_auto->send_newsletter($bd);
+                if (!isset($result['error'])) {
+                    $bd->query("UPDATE comptadors SET comptador_main=$week_actual WHERE seccio='newsletter_week'");
+                }
+            }
+            $bd->query("SELECT RELEASE_LOCK('newsletter_auto_send')");
         }
     }
 
