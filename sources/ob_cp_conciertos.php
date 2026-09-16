@@ -305,6 +305,8 @@ class cp_propers_concerts
 			$this->dades->$nom->sala = addslashes($this->dades->$nom->sala);
 			$this->dades->$nom->localitat = addslashes($this->dades->$nom->localitat);
 			$this->dades->$nom->link = addslashes($this->dades->$nom->link);
+			if ($this->dades->$nom->preu == '') $this->dades->$nom->preu = '0';
+			if ($this->dades->$nom->preu_ant == '') $this->dades->$nom->preu_ant = '0';
 
 			for ($y = 1; $y <= $this->num_bandes; $y++) {
 				$nom2 = 'banda' . $y;
@@ -350,7 +352,7 @@ class cp_propers_concerts
 					if ($this->resultat_consulta) {
 						print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de concertos añadida!!</p>';
 					} else {
-						print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de conciertos no se ha añadido!!</p>';
+						print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de conciertos no se ha añadido!! Error: ' . $bs->error . ' | Query: ' . $query[$i] . '</p>';
 						$i = (count($query));
 					}
 				}
@@ -391,7 +393,7 @@ class cp_propers_concerts
 						if ($this->resultat_consulta) {
 							print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de concertos añadida!!</p>';
 						} else {
-							print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de conciertos no se ha añadido!!</p>';
+							print '<p class="terminal">¡¡Entrada ' . $i . ' a la bbdd de conciertos no se ha añadido!! Error: ' . $bs->error . ' | Query: ' . $query[$i] . '</p>';
 							$i = (count($query));
 						}
 					}
