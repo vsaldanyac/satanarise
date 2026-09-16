@@ -92,8 +92,12 @@ class cp_banner
 							$this->formulari_ok = FALSE;
 						} else {
 							$this->img = $nom_final;
-							$img_info = @getimagesize($directori);
-							if ($img_info !== FALSE) {
+if ($img_info === FALSE) {
+								@unlink($directori);
+								$this->img = '';
+								$this->error = $this->error . 'El archivo no es una imagen válida.<br />';
+								$this->formulari_ok = FALSE;
+						} else {
 								$orig_w = $img_info[0];
 								$orig_h = $img_info[1];
 								if ($this->tipo == '700') {
