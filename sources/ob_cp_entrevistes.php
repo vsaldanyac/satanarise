@@ -475,7 +475,7 @@
 			}
 			print '</select></p>';
 
-			print '<p class="contingut">Banda: <br /><br /><input class="titol_form" type="text" name="banda" maxlength="1000" value="' . $entrevista->banda . '" /></p>';
+			print '<p class="contingut">Banda: <br /><br /><input class="titol_form" type="text" name="banda" maxlength="100" value="' . $entrevista->banda . '" /></p>';
 
 			print '<p class="contingut">Logo: <br /><br />';
 			if ($entrevista->logo != '') {
