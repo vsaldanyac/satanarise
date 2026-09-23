@@ -108,9 +108,9 @@ $formacio_clause = in_array(mb_strtolower($q), $instruments)
     : "OR reviews.formacio_es LIKE '%$term%'";
 
 $r = $bd->query(
-    "SELECT DISTINCT reviews.link, reviews.banda, reviews.disc, reviews.any
+    "SELECT DISTINCT reviews.link, reviews.banda, reviews.disc, reviews.any, reviews.release_date
      FROM reviews 
-     INNER JOIN label ON reviews.idLabel = label.idLabel
+     INNER JOIN label ON reviews.idlabel = label.idlabel
      WHERE ((reviews.banda LIKE '%$term%' $formacio_clause) OR (label.labelnom LIKE '%$term%'))
        AND release_date <= NOW()
      ORDER BY reviews.release_date DESC
