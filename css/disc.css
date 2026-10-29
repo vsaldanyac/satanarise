@@ -112,10 +112,13 @@ div#video {
 	position:absolute;
 	top:650px;
 	left:275px;
-	width:425px;
-	height:350px;
+	width:400px;
 	text-align:center;
+}
 
+div#video iframe {
+	width:400px !important;
+	height:225px !important;
 }
 
 
