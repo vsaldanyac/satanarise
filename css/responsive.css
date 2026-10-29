@@ -348,14 +348,29 @@ div#cover img {
 }
 
 div#logoband {
-    width: 100% !important;
-    height: auto !important;
-    margin-bottom: 10px !important;
+    display: none !important;
 }
 
 div#logoband img {
     max-width: 100% !important;
     height: auto !important;
+}
+
+div#video {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 560px !important;
+    margin: 15px auto !important;
+    text-align: center !important;
+}
+
+div#video iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+    max-width: 560px !important;
 }
 
 div#dadesdisc {
