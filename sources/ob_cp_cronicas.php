@@ -148,15 +148,15 @@ class ob_cp_cronicas
 			for ($x = 1; $x <= $cronicas->num_div; $x++) {
 				/* Recuperació textes */
 				$nom = 'div' . $x;
-				$cronicas->$nom->id_cronica = $formulari['id_div_' . $x];
-				$cronicas->$nom->texte_es = $formulari['texte_' . $x . '_es'];
-				if (($cronicas->$nom->texte_es == '') && (($cronicas->idioma == 'ES') || ($cronicas->idioma == 'BOTH'))) {
+				$cronicas->divisions[$x]->id_cronica = $formulari['id_div_' . $x];
+				$cronicas->divisions[$x]->texte_es = $formulari['texte_' . $x . '_es'];
+				if (($cronicas->divisions[$x]->texte_es == '') && (($cronicas->idioma == 'ES') || ($cronicas->idioma == 'BOTH'))) {
 					$this->error = $this->error . 'No se ha introducido el texto ' . $i . ' ES.<br />';
 					$this->formulari_2_ok = FALSE;
 
 				}
-				$cronicas->$nom->texte_cat = $formulari['texte_' . $x . '_cat'];
-				if (($cronicas->$nom->texte_cat == '') && (($cronicas->idioma == 'CAT') || ($cronicas->idioma == 'BOTH'))) {
+				$cronicas->divisions[$x]->texte_cat = $formulari['texte_' . $x . '_cat'];
+				if (($cronicas->divisions[$x]->texte_cat == '') && (($cronicas->idioma == 'CAT') || ($cronicas->idioma == 'BOTH'))) {
 					$this->error = $this->error . 'No se ha introducido el texto ' . $x . ' CAT.<br />';
 					$this->formulari_2_ok = FALSE;
 
@@ -190,15 +190,15 @@ class ob_cp_cronicas
 
 						if (isset($_POST['arxius_' . $x . '_' . $i])) {
 							print '<p>Hi ha una imatge a la posicio' . ($i) . ' de la división ' . $x . ' </p>';
-							$cronicas->$nom->imgs[$i] = $_POST['arxius_' . $x . '_' . $i];
+							$cronicas->divisions[$x]->imgs[$i] = $_POST['arxius_' . $x . '_' . $i];
 
 						}
 
 						if (isset($_POST['borrar_' . $x . '_' . $i])) {
-							if (file_exists('../pics/cronicas_pics/' . $cronicas->$nom->imgs[$i])) {
-								unlink('../pics/cronicas_pics/' . $cronicas->$nom->imgs[$i]);
+							if (file_exists('../pics/cronicas_pics/' . $cronicas->divisions[$x]->imgs[$i])) {
+								unlink('../pics/cronicas_pics/' . $cronicas->divisions[$x]->imgs[$i]);
 							}
-							$cronicas->$nom->imgs[$i] = 'borrar';
+							$cronicas->divisions[$x]->imgs[$i] = 'borrar';
 						}
 
 
@@ -222,7 +222,7 @@ class ob_cp_cronicas
 									$this->error = $this->error . 'Error al subir la imagen ' . ($i) . ' de la división ' . $x . ' a su carpeta.<br />';
 									$this->formulari_2_ok = FALSE;
 								} else {
-									$cronicas->$nom->imgs[$i] = $time_file . '_' . $x . '_' . $i . $ext;
+									$cronicas->divisions[$x]->imgs[$i] = $time_file . '_' . $x . '_' . $i . $ext;
 
 								}
 							} else {
@@ -254,10 +254,10 @@ class ob_cp_cronicas
 		for ($x = 1; $x <= $cronicas->num_div; $x++) {
 			$nom = 'div' . $x;
 			print 'División ' . $x . ':<br />';
-			print 'Texto ' . $x . ' ES: ' . $cronicas->$nom->texte_es . '<br />';
-			print 'Texto ' . $x . ' CAT: ' . $cronicas->$nom->texte_cat . '<br />';
+			print 'Texto ' . $x . ' ES: ' . $cronicas->divisions[$x]->texte_es . '<br />';
+			print 'Texto ' . $x . ' CAT: ' . $cronicas->divisions[$x]->texte_cat . '<br />';
 			for ($i = 1; $i <= 5; $i++) {
-				print 'Ruta imagen ' . $i . ': ' . $cronicas->$nom->imgs[$i] . '<br />';
+				print 'Ruta imagen ' . $i . ': ' . $cronicas->divisions[$x]->imgs[$i] . '<br />';
 			}
 		}
 		print 'Final ES: ' . $cronicas->outro_es . '<br />';
@@ -278,8 +278,8 @@ class ob_cp_cronicas
 		$cronicas->setlist = addslashes($cronicas->setlist);
 		for ($x = 1; $x <= $cronicas->num_div; $x++) {
 			$nom = 'div' . $x;
-			$cronicas->$nom->texte_es = addslashes($cronicas->$nom->texte_es);
-			$cronicas->$nom->texte_cat = addslashes($cronicas->$nom->texte_cat);
+			$cronicas->divisions[$x]->texte_es = addslashes($cronicas->divisions[$x]->texte_es);
+			$cronicas->divisions[$x]->texte_cat = addslashes($cronicas->divisions[$x]->texte_cat);
 		}
 		$cronicas->link = addslashes($cronicas->link);
 
@@ -316,17 +316,17 @@ class ob_cp_cronicas
 			}
 			for ($x = 1; $x <= $cronicas->num_div; $x++) {
 				$nom = 'div' . $x;
-				$query1 = "insert into cronicasdata (idcronicas, texte_es, texte_cat) values (" . $cronicas->id . ", '" . $cronicas->$nom->texte_es . "', '" . $cronicas->$nom->texte_cat . "')";
+				$query1 = "insert into cronicasdata (idcronicas, texte_es, texte_cat) values (" . $cronicas->id . ", '" . $cronicas->divisions[$x]->texte_es . "', '" . $cronicas->divisions[$x]->texte_cat . "')";
 				$query2 = "select idcronicasdata from cronicasdata where idcronicas=" . $cronicas->id . " order by idcronicasdata desc limit 1 ";
 				$this->resultat_consulta = $bs->query($query1);
 				if ($this->resultat_consulta) {
 					$this->resultat_consulta = $bs->query($query2);
 					$row = $this->resultat_consulta->fetch_assoc();
-					$cronicas->$nom->id_cronica = $row['idcronicasdata'];
+					$cronicas->divisions[$x]->id_cronica = $row['idcronicasdata'];
 					/* intoduir imatges */
 					for ($i = 1; $i <= 5; $i++) {
-						if (($cronicas->$nom->imgs[$i] != '') && ($cronicas->$nom->imgs[$i] != 'borrar')) {
-							$query = "insert into cronicasimgs (idcronicas, idcronicasdata, ordre, ruta) values (" . $cronicas->id . ", " . $cronicas->$nom->id_cronica . ", " . $i . ", '" . $cronicas->$nom->imgs[$i] . "')";
+						if (($cronicas->divisions[$x]->imgs[$i] != '') && ($cronicas->divisions[$x]->imgs[$i] != 'borrar')) {
+							$query = "insert into cronicasimgs (idcronicas, idcronicasdata, ordre, ruta) values (" . $cronicas->id . ", " . $cronicas->divisions[$x]->id_cronica . ", " . $i . ", '" . $cronicas->divisions[$x]->imgs[$i] . "')";
 							print $query;
 							$this->resultat_consulta = $bs->query($query);
 						}
@@ -455,19 +455,19 @@ class ob_cp_cronicas
 		for ($i = 1; $i <= $cronicas->num_div; $i++) /* Genera x concerts */{
 
 			$nom = 'div' . $i;
-			print '<input type="hidden" name="id_div_' . $i . '" value="$cronicas->$nom->id_cronica" >';
+			print '<input type="hidden" name="id_div_' . $i . '" value="' . $cronicas->divisions[$i]->id_cronica . '" >';
 			print '<p class="contingut">División ' . $i . ' ES<br /><br />
-        		<textarea class="texte_form" name="texte_' . $i . '_es">' . $cronicas->$nom->texte_es . '</textarea></p>';
+        		<textarea class="texte_form" name="texte_' . $i . '_es">' . $cronicas->divisions[$i]->texte_es . '</textarea></p>';
 
 			print '<p class="contingut">División ' . $i . ' CAT<br /><br />
-        		<textarea class="texte_form" name="texte_' . $i . '_cat">' . $cronicas->$nom->texte_cat . '</textarea></p>';
+        		<textarea class="texte_form" name="texte_' . $i . '_cat">' . $cronicas->divisions[$i]->texte_cat . '</textarea></p>';
 
 			print '<p class="contingut">Subida de imágenes: <br /><br />';
 			for ($x = 1; $x <= 5; $x++) {
 				print 'Imagen ' . ($x) . ':<br />';
-				if ($cronicas->$nom->imgs[$x] != '') {
-					print '<img src="../pics/cronicas_pics/' . $cronicas->$nom->imgs[$x] . '" width="100" /><br />';
-					print '<input type="hidden" name="arxius_' . $i . '_' . $x . '" value="' . $cronicas->$nom->imgs[$x] . '" />';
+				if ($cronicas->divisions[$i]->imgs[$x] != '') {
+					print '<img src="../pics/cronicas_pics/' . $cronicas->divisions[$i]->imgs[$x] . '" width="100" /><br />';
+					print '<input type="hidden" name="arxius_' . $i . '_' . $x . '" value="' . $cronicas->divisions[$i]->imgs[$x] . '" />';
 					print '<input type="checkbox" name="borrar_' . $i . '_' . $x . '" value="borrar_' . $i . '_' . $x . '" /> Eliminar<br />';
 					print '<input type="file" name="file_' . $i . '_' . $x . '" id="file_' . $i . '_' . $x . '"/><br />';
 				} else {
@@ -687,17 +687,17 @@ Tema 1<br />Tema2<br />Tema 3<br />Tema 4</h5>') . '<br />' . htmlspecialchars('
 				for ($i = 1; $i <= $cronicas->num_div; $i++) {
 					$nom = 'div' . $i;
 					$resultat = $this->resultat_consulta->fetch_assoc();
-					$cronicas->$nom->id = $resultat['idcronicasdata'];
-					$cronicas->$nom->id_cronica = $resultat['idcronicas'];
-					$cronicas->$nom->texte_es = $resultat['texte_es'];
-					$cronicas->$nom->texte_cat = $resultat['texte_cat'];
-					$query2 = "select * from cronicasimgs where idcronicasdata = " . $cronicas->$nom->id . " order by ordre";
+					$cronicas->divisions[$i]->id = $resultat['idcronicasdata'];
+					$cronicas->divisions[$i]->id_cronica = $resultat['idcronicas'];
+					$cronicas->divisions[$i]->texte_es = $resultat['texte_es'];
+					$cronicas->divisions[$i]->texte_cat = $resultat['texte_cat'];
+					$query2 = "select * from cronicasimgs where idcronicasdata = " . $cronicas->divisions[$i]->id . " order by ordre";
 					$this->resultat_consulta2 = $bd->query($query2);
 					if ($this->resultat_consulta2 == FALSE) {
 						print '<p class="terminal">Error al extraer de cronicasimgs</p>';
 					} else {
 						while ($resultat2 = $this->resultat_consulta2->fetch_assoc()) {
-							$cronicas->$nom->imgs[$resultat2['ordre']] = $resultat2['ruta'];
+							$cronicas->divisions[$i]->imgs[$resultat2['ordre']] = $resultat2['ruta'];
 						}
 					}
 				}

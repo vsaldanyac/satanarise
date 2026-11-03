@@ -139,7 +139,7 @@ class ob_cronicas_web
             if ($this->resultat_consulta2!=FALSE) 
 			{
                 $resultat2=$this->resultat_consulta2->fetch_assoc();
-                $cronica->colaborador1=$resultat2['nom']; 
+                $cronica->colaborador1=$resultat2['nom'] ?? ''; 
                 
 			}
             if ($cronica->idcolaborador2!=0) 
@@ -150,7 +150,7 @@ class ob_cronicas_web
                 if ($this->resultat_consulta2!=FALSE) 
                 {
                     $resultat2=$this->resultat_consulta2->fetch_assoc();
-                    $cronica->colaborador2=$resultat2['nom']; 
+                    $cronica->colaborador2=$resultat2['nom'] ?? ''; 
                 }
             }
             if ($cronica->idfoto1!=0) 
@@ -161,7 +161,7 @@ class ob_cronicas_web
                 if ($this->resultat_consulta2!=FALSE) 
                 {
                     $resultat2=$this->resultat_consulta2->fetch_assoc();
-                    $cronica->foto1=$resultat2['nom']; 
+                    $cronica->foto1=$resultat2['nom'] ?? ''; 
                 }
             }
             if ($cronica->idfoto2!=0) 
@@ -172,7 +172,7 @@ class ob_cronicas_web
                 if ($this->resultat_consulta2!=FALSE) 
                 {
                     $resultat2=$this->resultat_consulta2->fetch_assoc();
-                    $cronica->foto2=$resultat2['nom']; 
+                    $cronica->foto2=$resultat2['nom'] ?? ''; 
                 }
             }
             switch ($idioma)
@@ -207,10 +207,10 @@ class ob_cronicas_web
                             $cronica->divisions[$i]->texte_es=$resultat['texte_es'];
                         break;
                         case 'CAT':
-                            $cronica->$nom->texte_es=$resultat['texte_cat'];
+                            $cronica->divisions[$i]->texte_es=$resultat['texte_cat'];
                         break;
                     }                    
-                    $query= "select * from cronicasimgs where idcronicasdata = ".$cronica->$nom->id." order by ordre";                    
+                    $query= "select * from cronicasimgs where idcronicasdata = ".$cronica->divisions[$i]->id." order by ordre";                    
                     $this->resultat_consulta2=$bd->query($query);
                     if ($this->resultat_consulta2) 
                     { 
@@ -218,7 +218,7 @@ class ob_cronicas_web
                         for ($x=1;$x<=$this->numero_resultats;$x++)
                         {
                             $resultat2=$this->resultat_consulta2->fetch_assoc();
-                            $cronica->$nom->imgs[$x]=$resultat2['ruta'];
+                            $cronica->divisions[$i]->imgs[$x]=$resultat2['ruta'];
                         }
                     }
                     $control_fi_div=FALSE;
@@ -226,10 +226,10 @@ class ob_cronicas_web
                     {
                         if ($x==1)
                         {
-                            if ($cronica->$nom->imgs[$x]!='')
+                            if ($cronica->divisions[$i]->imgs[$x]!='')
                             {
                                 $tamany=array();
-        						$tamany=getimagesize('pics/cronicas_pics/'.$cronica->$nom->imgs[$x]);
+        						$tamany=getimagesize('pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x]);
         						if ($tamany[0]>=$tamany[1])
         						{
         							/* mes ample me alt */
@@ -241,27 +241,27 @@ class ob_cronicas_web
                                 $resto = $i%2; 
                                 if (($resto==0) && ($i!=0)) { 
                                     // Parell
-                                    $texte=$texte.'<p class="texte"><a href="pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img class="esq" src = "pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" alt="'.$cronica->titol.'" height="'.$h.'" /></a>'; 
+                                    $texte=$texte.'<p class="texte"><a href="pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img class="esq" src = "pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" alt="'.$cronica->titol.'" height="'.$h.'" /></a>'; 
                                 } else { 
                                     // senar
-                                    $texte=$texte.'<p class="texte"><a href="pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img class="dret" src = "pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" alt="'.$cronica->titol.'" height="'.$h.'" /></a>';
+                                    $texte=$texte.'<p class="texte"><a href="pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img class="dret" src = "pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" alt="'.$cronica->titol.'" height="'.$h.'" /></a>';
                                 }
-                                $texte=$texte.$cronica->$nom->texte_es.'</p>';        
+                                $texte=$texte.$cronica->divisions[$i]->texte_es.'</p>';        
                             } else {
                                 $x=6;
-                                $texte=$texte.'<p class="texte">'.$cronica->$nom->texte_es.'</p>';   
+                                $texte=$texte.'<p class="texte">'.$cronica->divisions[$i]->texte_es.'</p>';   
                             }                                                                                             
                         } else {                                
-                            if (($x==2) && ($cronica->$nom->imgs[$x]!=''))
+                            if (($x==2) && ($cronica->divisions[$i]->imgs[$x]!=''))
                             {
                                 $texte=$texte.'<div class="centrar">';
-                                $texte=$texte.'<a href="pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img style="margin:2px" src = "pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" height="180" alt="'.$cronica->titol.'" /></a>';
+                                $texte=$texte.'<a href="pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img style="margin:2px" src = "pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" height="180" alt="'.$cronica->titol.'" /></a>';
                                 $control_fi_div=TRUE;
                             
                             } else {
-                                if ($cronica->$nom->imgs[$x]!='')
+                                if ($cronica->divisions[$i]->imgs[$x]!='')
                                 {
-                                    $texte=$texte.'<a href="pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img style="margin:2px" src = "pics/cronicas_pics/'.$cronica->$nom->imgs[$x].'" height="180" alt="'.$cronica->titol.'" /></a>';
+                                    $texte=$texte.'<a href="pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" rel="lightbox[.$cronica->titol.]" title="'.$cronica->titol.'"><img style="margin:2px" src = "pics/cronicas_pics/'.$cronica->divisions[$i]->imgs[$x].'" height="180" alt="'.$cronica->titol.'" /></a>';
                                 
                                 }    
                             }
