@@ -1,5 +1,6 @@
 <?php
 
+#[\AllowDynamicProperties]
 class ob_conciertos_web
 {
 
@@ -27,7 +28,6 @@ class ob_conciertos_web
 	{
 		return $this->$nom = $valor;
 	}
-
 
 	public function extreure_concerts_per_data_entrada($bd, $punter, $quantitat, $tipo)
 	/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
@@ -596,26 +596,25 @@ class ob_conciertos_web
 				$concs = $this->resultat_consulta->num_rows;
 				for ($i = 0; $i < $concs; $i++) {
 					$resultat = $this->resultat_consulta->fetch_assoc();
-					$nom = 'concert' . ($i + 1);
-					$this->dades->$nom->id_concert = $resultat['idConcert'];
-					$this->dades->$nom->idGig = $resultat['idGig'];
-					$this->dades->$nom->link = $resultat['link'];
-					$this->dades->$nom->cartell_concert = $resultat['cartell_concert'];
-					$this->dades->$nom->dateConcert = $resultat['dateConcert'];
-					$this->dades->$nom->sala = $resultat['sala'];
-					$this->dades->$nom->localitat = $resultat['localitat'];
-					$this->dades->$nom->preu = $resultat['preu'];
-					$this->dades->$nom->preu_ant = $resultat['preu_ant'];
-					$this->dades->$nom->patrocinat = $resultat['patrocinat'];
-					$this->dades->$nom->data = $resultat['dateConcert'];
-					$array_data = $this->timestamp_a_taula($this->dades->$nom->dateConcert);
-					$this->dades->$nom->dia = $array_data['dia'];
-					$this->dades->$nom->mes = $array_data['mes'];
-					$this->dades->$nom->any = $array_data['any'];
-					$this->dades->$nom->hora = $array_data['hora'];
-					$this->dades->$nom->mins = $array_data['min'];
+					$this->dades->concerts[$i + 1]->id_concert = $resultat['idConcert'];
+					$this->dades->concerts[$i + 1]->idGig = $resultat['idGig'];
+					$this->dades->concerts[$i + 1]->link = $resultat['link'];
+					$this->dades->concerts[$i + 1]->cartell_concert = $resultat['cartell_concert'];
+					$this->dades->concerts[$i + 1]->dateConcert = $resultat['dateConcert'];
+					$this->dades->concerts[$i + 1]->sala = $resultat['sala'];
+					$this->dades->concerts[$i + 1]->localitat = $resultat['localitat'];
+					$this->dades->concerts[$i + 1]->preu = $resultat['preu'];
+					$this->dades->concerts[$i + 1]->preu_ant = $resultat['preu_ant'];
+					$this->dades->concerts[$i + 1]->patrocinat = $resultat['patrocinat'];
+					$this->dades->concerts[$i + 1]->data = $resultat['dateConcert'];
+					$array_data = $this->timestamp_a_taula($this->dades->concerts[$i + 1]->dateConcert);
+					$this->dades->concerts[$i + 1]->dia = $array_data['dia'];
+					$this->dades->concerts[$i + 1]->mes = $array_data['mes'];
+					$this->dades->concerts[$i + 1]->any = $array_data['any'];
+					$this->dades->concerts[$i + 1]->hora = $array_data['hora'];
+					$this->dades->concerts[$i + 1]->mins = $array_data['min'];
 
-					$query = "select idConcert, ordre, Grup, Video from concertsgrups where idConcert= '" . $this->dades->$nom->id_concert . "' order by ordre asc";
+					$query = "select idConcert, ordre, Grup, Video from concertsgrups where idConcert= '" . $this->dades->concerts[$i + 1]->id_concert . "' order by ordre asc";
 
 					$this->resultat_consulta2 = $bd->query($query);
 					if ($this->resultat_consulta2 == FALSE) {
@@ -625,14 +624,14 @@ class ob_conciertos_web
 						for ($y = 0; $y < $bandes; $y++) {
 							$resultat2 = $this->resultat_consulta2->fetch_assoc();
 							$nom2 = 'banda' . ($y + 1);
-							$this->dades->$nom->$nom2->nom = $resultat2['Grup'];
-							$this->dades->$nom->$nom2->video = $resultat2['Video'];
-							$this->dades->$nom->$nom2->ordre = $resultat2['ordre'];
-							$this->dades->$nom->$nom2->id_concert = $resultat2['idConcert'];
-							if ($this->dades->$nom->grups != '') {
-								$this->dades->$nom->grups = $this->dades->$nom->grups . ' + ' . $this->dades->$nom->$nom2->nom;
+							$this->dades->concerts[$i + 1]->bandes[$y + 1]->nom = $resultat2['Grup'];
+							$this->dades->concerts[$i + 1]->bandes[$y + 1]->video = $resultat2['Video'];
+							$this->dades->concerts[$i + 1]->bandes[$y + 1]->ordre = $resultat2['ordre'];
+							$this->dades->concerts[$i + 1]->bandes[$y + 1]->id_concert = $resultat2['idConcert'];
+							if ($this->dades->concerts[$i + 1]->grups != '') {
+								$this->dades->concerts[$i + 1]->grups = $this->dades->concerts[$i + 1]->grups . ' + ' . $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom;
 							} else {
-								$this->dades->$nom->grups = $this->dades->$nom->$nom2->nom;
+								$this->dades->concerts[$i + 1]->grups = $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom;
 							}
 						}
 					}
@@ -647,7 +646,7 @@ class ob_conciertos_web
 		switch ($this->dades->tipus) {
 			case '1':
 				if ($this->dades->cartell != '') { /* Hi ha cartell */
-					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" alt="' . $this->dades->concert1->grups . '" width="400" /></div>';
+					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" alt="' . $this->dades->concerts[1]->grups . '" width="400" /></div>';
 				}
 				print '<h1 class="titol_concert">';
 				if ($this->dades->titol != '') {
@@ -661,35 +660,35 @@ class ob_conciertos_web
 						$texte = array('Data', 'Sala', 'Localitat', 'Entrada', 'Anticipada', 'Obertura', 'Event de Facebook');
 						break;
 				}
-				print '<span class="blanc">' . str_replace(' + ', '<br />', $this->dades->concert1->grups) . '</span>';
+				print '<span class="blanc">' . str_replace(' + ', '<br />', $this->dades->concerts[1]->grups) . '</span>';
 				print "</h1>\n<p>";
-				print $texte[0] . ': <span class="blanc">' . $this->timestamp_a_data($this->dades->concert1->dateConcert) . '</span><br />
-				 ' . $texte[1] . ': <span class="blanc">' . $this->dades->concert1->sala . '</span><br />
- 				 ' . $texte[2] . ': <span class="blanc">' . $this->dades->concert1->localitat . '</span><br />';
-				if (($this->dades->concert1->preu != '') && ($this->dades->concert1->preu != 0)) {
+				print $texte[0] . ': <span class="blanc">' . $this->timestamp_a_data($this->dades->concerts[1]->dateConcert) . '</span><br />
+				 ' . $texte[1] . ': <span class="blanc">' . $this->dades->concerts[1]->sala . '</span><br />
+ 				 ' . $texte[2] . ': <span class="blanc">' . $this->dades->concerts[1]->localitat . '</span><br />';
+				if (($this->dades->concerts[1]->preu != '') && ($this->dades->concerts[1]->preu != 0)) {
 					print $texte[3] . ': <span class="blanc">';
-					if (($this->dades->concert1->preu == 'Gratuito') && ($idioma == 'CAT')) {
-						$this->dades->concert1->preu = 'Gratuït';
+					if (($this->dades->concerts[1]->preu == 'Gratuito') && ($idioma == 'CAT')) {
+						$this->dades->concerts[1]->preu = 'Gratuït';
 					}
-					print $this->dades->concert1->preu;
-					if (($this->dades->concert1->preu != 'Gratuït') && ($this->dades->concert1->preu != 'Gratuito')) {
+					print $this->dades->concerts[1]->preu;
+					if (($this->dades->concerts[1]->preu != 'Gratuït') && ($this->dades->concerts[1]->preu != 'Gratuito')) {
 						print ' €';
 					}
 					print '</span><br />';
 				}
 
-				if (($this->dades->concert1->preu_ant != '') && ($this->dades->concert1->preu_ant != 0)) {
-					print $texte[4] . ': <span class="blanc">' . $this->dades->concert1->preu_ant . ' €</span><br />';
+				if (($this->dades->concerts[1]->preu_ant != '') && ($this->dades->concerts[1]->preu_ant != 0)) {
+					print $texte[4] . ': <span class="blanc">' . $this->dades->concerts[1]->preu_ant . ' €</span><br />';
 				}
-				$this->dades->concert1->dateConcert = $this->timestamp_a_hora($this->dades->concert1->dateConcert);
-				if ($this->dades->concert1->dateConcert != '00:00') {
-					print $texte[5] . ': <span class="blanc">' . $this->dades->concert1->dateConcert . '</span><br />';
+				$this->dades->concerts[1]->dateConcert = $this->timestamp_a_hora($this->dades->concerts[1]->dateConcert);
+				if ($this->dades->concerts[1]->dateConcert != '00:00') {
+					print $texte[5] . ': <span class="blanc">' . $this->dades->concerts[1]->dateConcert . '</span><br />';
 				}
-				if ($this->dades->concert1->link != '') {
+				if ($this->dades->concerts[1]->link != '') {
 					print '<br /><a class="linkk" target="_blank" href="http://';
-					$this->dades->concert1->link = str_replace('http://', '', $this->dades->concert1->link);
-					$this->dades->concert1->link = str_replace('https://', '', $this->dades->concert1->link);
-					print $this->dades->concert1->link;
+					$this->dades->concerts[1]->link = str_replace('http://', '', $this->dades->concerts[1]->link);
+					$this->dades->concerts[1]->link = str_replace('https://', '', $this->dades->concerts[1]->link);
+					print $this->dades->concerts[1]->link;
 					print '">' . $texte[6] . '</a>';
 				}
 				print '
@@ -710,9 +709,8 @@ class ob_conciertos_web
 				}
 				print '<div class="centrar">';
 				for ($i = 0; $i < $this->dades->num_bandes; $i++) {
-					$nom = 'banda' . ($i + 1);
-					if ($this->dades->concert1->$nom->video != '') {
-						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+					if ($this->dades->concerts[1]->bandes[$i + 1]->video != '') {
+						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concerts[1]->bandes[$i + 1]->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 					}
 				}
 				print '</p>';
@@ -720,12 +718,12 @@ class ob_conciertos_web
 
 			case '2':
 				if ($this->dades->cartell != '') { /* Hi ha un cartell unic per la gira */
-					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" width="400" alt="' . $this->dades->concert1->grups . '" /></div>';
+					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" width="400" alt="' . $this->dades->concerts[1]->grups . '" /></div>';
 				} else {
 					for ($i = 0; $i < $this->dades->num_concerts; $i++) {
 						$nom = 'concert' . ($i + 1);
-						if ($this->dades->$nom->cartell_concert != '') {
-							print '<img class="cartell_concert" src="pics/conc/' . $this->dades->$nom->cartell_concert . '" alt="' . $this->dades->concert1->grups . '" width="222">';
+						if ($this->dades->concerts[$i + 1]->cartell_concert != '') {
+							print '<img class="cartell_concert" src="pics/conc/' . $this->dades->concerts[$i + 1]->cartell_concert . '" alt="' . $this->dades->concerts[1]->grups . '" width="222">';
 						}
 					}
 					print '<br /><br />';
@@ -744,33 +742,33 @@ class ob_conciertos_web
 				}
 				for ($i = 0; $i < $this->dades->num_concerts; $i++) {
 					$nom = 'concert' . ($i + 1);
-					print '<h1 class="titol_gira_grups">' . $this->dades->$nom->grups . "</h1>\n<p>";
-					print $texte[0] . ': <span class="blanc">' . $this->timestamp_a_data($this->dades->$nom->dateConcert) . '</span><br />
-					 	' . $texte[1] . ': <span class="blanc">' . $this->dades->$nom->sala . '</span><br />
-					 	' . $texte[2] . ': <span class="blanc">' . $this->dades->$nom->localitat . '</span><br />';
-					if (($this->dades->$nom->preu != '') && ($this->dades->$nom->preu != 0)) {
+					print '<h1 class="titol_gira_grups">' . $this->dades->concerts[$i + 1]->grups . "</h1>\n<p>";
+					print $texte[0] . ': <span class="blanc">' . $this->timestamp_a_data($this->dades->concerts[$i + 1]->dateConcert) . '</span><br />
+					 	' . $texte[1] . ': <span class="blanc">' . $this->dades->concerts[$i + 1]->sala . '</span><br />
+					 	' . $texte[2] . ': <span class="blanc">' . $this->dades->concerts[$i + 1]->localitat . '</span><br />';
+					if (($this->dades->concerts[$i + 1]->preu != '') && ($this->dades->concerts[$i + 1]->preu != 0)) {
 						print $texte[3] . ': <span class="blanc">';
-						if (($this->dades->$nom->preu == 'Gratuito') && ($idioma == 'CAT')) {
-							$this->dades->$nom->preu = 'Gratuït';
+						if (($this->dades->concerts[$i + 1]->preu == 'Gratuito') && ($idioma == 'CAT')) {
+							$this->dades->concerts[$i + 1]->preu = 'Gratuït';
 						}
-						print $this->dades->$nom->preu;
-						if (($this->dades->$nom->preu != 'Gratuït') && ($this->dades->$nom->preu != 'Gratuito')) {
+						print $this->dades->concerts[$i + 1]->preu;
+						if (($this->dades->concerts[$i + 1]->preu != 'Gratuït') && ($this->dades->concerts[$i + 1]->preu != 'Gratuito')) {
 							print ' €';
 						}
 						print '</span><br />';
 					}
-					if (($this->dades->$nom->preu_ant != '') && ($this->dades->$nom->preu_ant != 0)) {
-						print $texte[4] . ': <span class="blanc">' . $this->dades->$nom->preu_ant . ' €</span><br />';
+					if (($this->dades->concerts[$i + 1]->preu_ant != '') && ($this->dades->concerts[$i + 1]->preu_ant != 0)) {
+						print $texte[4] . ': <span class="blanc">' . $this->dades->concerts[$i + 1]->preu_ant . ' €</span><br />';
 					}
-					$this->dades->$nom->dateConcert = $this->timestamp_a_hora($this->dades->$nom->dateConcert);
-					if ($this->dades->$nom->dateConcert != '00:00') {
-						print $texte[5] . ': <span class="blanc">' . $this->dades->$nom->dateConcert . '</span><br />';
+					$this->dades->concerts[$i + 1]->dateConcert = $this->timestamp_a_hora($this->dades->concerts[$i + 1]->dateConcert);
+					if ($this->dades->concerts[$i + 1]->dateConcert != '00:00') {
+						print $texte[5] . ': <span class="blanc">' . $this->dades->concerts[$i + 1]->dateConcert . '</span><br />';
 					}
-					if ($this->dades->$nom->link != '') {
+					if ($this->dades->concerts[$i + 1]->link != '') {
 						print '<br /><a class="linkk" target="_blank" href="http://';
-						$this->dades->$nom->link = str_replace('http://', '', $this->dades->concert1->link);
-						$this->dades->$nom->link = str_replace('https://', '', $this->dades->concert1->link);
-						print $this->dades->$nom->link;
+						$this->dades->concerts[$i + 1]->link = str_replace('http://', '', $this->dades->concerts[1]->link);
+						$this->dades->concerts[$i + 1]->link = str_replace('https://', '', $this->dades->concerts[1]->link);
+						print $this->dades->concerts[$i + 1]->link;
 						print '">' . $texte[6] . '</a><br /><br /><br />';
 					}
 				}
@@ -795,15 +793,15 @@ class ob_conciertos_web
 					$nom = 'concert' . ($i + 1);
 					for ($y = 0; $y < $this->dades->num_bandes; $y++) {
 						$nom2 = 'banda' . ($y + 1);
-						$grups[] = $this->dades->$nom->$nom2->nom;
-						if ($this->dades->$nom->$nom2->video != '') {
+						$grups[] = $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom;
+						if ($this->dades->concerts[$i + 1]->bandes[$y + 1]->video != '') {
 							$coincidencia = FALSE;
 							for ($z = 0; $z < count($grups); $z++) {
-								if ($grups[$z] == $this->dades->$nom->$nom2->nom)
+								if ($grups[$z] == $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom)
 									$coincidencia = TRUE;
 							}
 							if (!$coincidencia) {
-								print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->$nom->$nom2->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+								print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concerts[$i + 1]->bandes[$y + 1]->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 							}
 						}
 					}
@@ -811,7 +809,7 @@ class ob_conciertos_web
 				break;
 			case '3':
 				if ($this->dades->cartell != '') { /* Hi ha cartell */
-					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" alt="' . $this->dades->concert1->grups . '" width="400" /></div>';
+					print '<div class="centrar"><img class="cartell_concert" src="pics/conc/' . $this->dades->cartell . '" alt="' . $this->dades->concerts[1]->grups . '" width="400" /></div>';
 				}
 				print '<h1 class="titol_concert">';
 				if ($this->dades->titol != '') {
@@ -833,22 +831,22 @@ class ob_conciertos_web
 					if ($i > 0) {
 						print ' - ';
 					}
-					print '<span class="blanc">' . $this->timestamp_a_data($this->dades->$nom->dateConcert) . '</span>';
+					print '<span class="blanc">' . $this->timestamp_a_data($this->dades->concerts[$i + 1]->dateConcert) . '</span>';
 				}
 				print '<br />';
 
-				if ($this->dades->concert1->sala != '') {
-					print $texte[1] . ': <span class="blanc">' . $this->dades->concert1->sala . '</span><br />';
+				if ($this->dades->concerts[1]->sala != '') {
+					print $texte[1] . ': <span class="blanc">' . $this->dades->concerts[1]->sala . '</span><br />';
 				}
-				print $texte[2] . ': <span class="blanc">' . $this->dades->concert1->localitat . '</span><br />';
+				print $texte[2] . ': <span class="blanc">' . $this->dades->concerts[1]->localitat . '</span><br />';
 
-				if (($this->dades->concert1->preu != '') && ($this->dades->concert1->preu != 0)) {
+				if (($this->dades->concerts[1]->preu != '') && ($this->dades->concerts[1]->preu != 0)) {
 					print $texte[3] . ': <span class="blanc">';
-					if (($this->dades->concert1->preu == 'Gratuito') && ($idioma == 'CAT')) {
-						$this->dades->concert1->preu = 'Gratuït';
+					if (($this->dades->concerts[1]->preu == 'Gratuito') && ($idioma == 'CAT')) {
+						$this->dades->concerts[1]->preu = 'Gratuït';
 					}
-					print $this->dades->concert1->preu;
-					if (($this->dades->concert1->preu != 'Gratuït') && ($this->dades->concert1->preu != 'Gratuito')) {
+					print $this->dades->concerts[1]->preu;
+					if (($this->dades->concerts[1]->preu != 'Gratuït') && ($this->dades->concerts[1]->preu != 'Gratuito')) {
 						print ' €';
 					}
 					print '</span><br />';
@@ -858,11 +856,11 @@ class ob_conciertos_web
 					$nom = 'concert' . ($i + 1);
 					for ($y = 0; $y < $this->dades->num_bandes; $y++) {
 						$nom2 = 'banda' . ($y + 1);
-						if ($this->dades->$nom->$nom2->nom != '') {
+						if ($this->dades->concerts[$i + 1]->bandes[$y + 1]->nom != '') {
 							if ($grups == '') {
-								$grups = $this->dades->$nom->$nom2->nom . '<br />';
+								$grups = $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom . '<br />';
 							} else {
-								$grups = $grups . $this->dades->$nom->$nom2->nom . '<br />';
+								$grups = $grups . $this->dades->concerts[$i + 1]->bandes[$y + 1]->nom . '<br />';
 							}
 						}
 					}
@@ -870,11 +868,11 @@ class ob_conciertos_web
 				if ($grups != '') {
 					print 'Bandas: <br /><br /><span class="blanc">' . $grups . '</span><br />';
 				}
-				if ($this->dades->concert1->link != '') {
+				if ($this->dades->concerts[1]->link != '') {
 					print '<a class="linkk" target="_blank" href="http://';
-					$this->dades->concert1->link = str_replace('http://', '', $this->dades->concert1->link);
-					$this->dades->concert1->link = str_replace('https://', '', $this->dades->concert1->link);
-					print $this->dades->concert1->link;
+					$this->dades->concerts[1]->link = str_replace('http://', '', $this->dades->concerts[1]->link);
+					$this->dades->concerts[1]->link = str_replace('https://', '', $this->dades->concerts[1]->link);
+					print $this->dades->concerts[1]->link;
 
 					print '">' . $texte[6] . '</a>';
 				}
@@ -895,9 +893,8 @@ class ob_conciertos_web
 				}
 				print '<div class="centrar">';
 				for ($i = 0; $i < $this->dades->num_bandes; $i++) {
-					$nom = 'banda' . ($i + 1);
-					if ($this->dades->concert1->$nom->video != '') {
-						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concert1->$nom->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
+					if ($this->dades->concerts[1]->bandes[$i + 1]->video != '') {
+						print '<iframe width="350" height="197" src="https://www.youtube.com/embed/' . $this->dades->concerts[1]->bandes[$i + 1]->video . '?rel=0" frameborder="0" allowfullscreen></iframe>';
 					}
 				}
 				break;

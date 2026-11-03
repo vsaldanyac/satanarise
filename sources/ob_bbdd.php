@@ -3,9 +3,10 @@
 		public $error_conexio; /* control de conecció */
 		public $bd;
 		
-		public function __consctruct() {
+		public function __construct() {
 			$this->error_conexio=FALSE;
 		}
+
 		public function __set($name,$value)
 		{
 			$this->$name=$value;

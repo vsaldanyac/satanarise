@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 	class ob_cp {
 		public $leng; /* idioma ES o EN */
 		public $first_top; /* codi de capçalera */
@@ -30,18 +31,18 @@
 <meta name="description" content="Heavy Metal, críticas, entrevistas e información de todos los estilos de metal."  />
 <meta name="keywords" content="Metal, reviews, críticas, entrevistas, noticias, power, viking, death, heavy, trash, black, gothic, gotico, pregresive, progresivo" />
 <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />'."\n";
-		}	
-		
-		public  function __get($nom) /* crea parametres */
+		}
+
+		public function __get($nom) /* crea parametres */
 		{
 			return $this->$nom;
 		}
-	
+
 		public function __set($nom,$valor) /* asigna valors al parametre */
 		{
 			return $this->$nom = $valor;
 		}
-		
+
 		public function __construct() /* inicialitza l'objecte */
 		{
 			$this->leng='ES';	
@@ -171,9 +172,9 @@
 			$time=date('Y-m-d H:i:s');
 			return ($time);
 		}
-		public function taula_a_timestamp($cadena) 
+		public function taula_a_timestamp($cadena)
 		{
-			$data=$taula['any'].$taula['mes'].$taula['dia'].$taula['hora'].$taula['min'].'00';
+			$data=$cadena['any'].$cadena['mes'].$cadena['dia'].$cadena['hora'].$cadena['min'].'00';
 
 			return $data;
 		}

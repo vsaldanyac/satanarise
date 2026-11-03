@@ -1,6 +1,7 @@
 <?php
 
-	class ob_cronicas_web
+#[\AllowDynamicProperties]
+class ob_cronicas_web
 	{
 
 		public $id;
@@ -22,13 +23,12 @@
 		{
 			return $this->$nom;
 		}
-	
+
 		public function __set($nom,$valor) /* asigna valors al parametre */
 		{
 			return $this->$nom = $valor;
-		}		
-		
-		
+		}
+
 		public function extreure_cronicas_per_data_entrada($bd,$punter,$quantitat,$leng) 
 		/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
 		{
@@ -187,25 +187,24 @@
                     $cronica->outro=$resultat['outro_cat'];
                     $link_idioma='ln=CAT&sec=contacte';
                 break;
-            }          
+            }
             $texte='<p class="texte">'.$cronica->intro.'</p>';
             $cronica->crear_divisions();
             $query= "select * from cronicasdata where idcronicas = ".$cronica->id." order by idcronicasdata";
             $this->resultat_consulta=$bd->query($query);
-            if ($this->resultat_consulta) 
-            { 
+            if ($this->resultat_consulta)
+            {
                 for ($i=1;$i<=$cronica->num_div;$i++)
                 {
-                    $nom='div'.$i;
                     $resultat=$this->resultat_consulta->fetch_assoc();
-                    $cronica->$nom->id=$resultat['idcronicasdata'];
-                    $cronica->$nom->id_cronica=$resultat['idcronicas'];
-                    $cronica->$nom->texte_es=$resultat['texte_es'];                   
-                    $cronica->$nom->texte_cat=$resultat['texte_cat'];
+                    $cronica->divisions[$i]->id=$resultat['idcronicasdata'];
+                    $cronica->divisions[$i]->id_cronica=$resultat['idcronicas'];
+                    $cronica->divisions[$i]->texte_es=$resultat['texte_es'];
+                    $cronica->divisions[$i]->texte_cat=$resultat['texte_cat'];
                     switch ($idioma)
                     {
                         case 'ES':
-                            $cronica->$nom->texte_es=$resultat['texte_es'];
+                            $cronica->divisions[$i]->texte_es=$resultat['texte_es'];
                         break;
                         case 'CAT':
                             $cronica->$nom->texte_es=$resultat['texte_cat'];

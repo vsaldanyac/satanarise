@@ -1,5 +1,6 @@
 <?php
-	class ob_cronicas 
+#[\AllowDynamicProperties]
+class ob_cronicas 
 	{
 				public $id;
 				public $titol;
@@ -26,11 +27,11 @@
         public $mes;
         public $anydata;
         public $setlist;
-		
-	
+        public $divisions = [];
+
 		public function reset_cronicas()
 		{
-			$this->id=0;            
+			$this->id=0;
     	$this->titol='';
       $this->cartel='';
       $this->num_div=0;
@@ -40,7 +41,7 @@
       $this->outro='';
       $this->outro_es='';
       $this->outro_cat='';
-      $this->idioma=''; /* ES CAT BOTH */        
+      $this->idioma=''; /* ES CAT BOTH */
       $this->idcolaborador1=0;
       $this->colaborador1='';
       $this->idcolaborador2=0;
@@ -55,20 +56,21 @@
       $this->anydata=0;
       $this->link='';
       $this->setlist='';
+      $this->divisions = [];
 		}
-    
+
     public function crear_divisions()
     {
             for ($i=1;$i<=$this->num_div;$i++)
             {
-                $nom='div'.$i;
-                $this->$nom = new ob_divisio;
-                $this->$nom->reset_divisio(); 
+                $this->divisions[$i] = new ob_divisio;
+                $this->divisions[$i]->reset_divisio();
             }
     }
 	}
     
-    class ob_divisio {
+    #[\AllowDynamicProperties]
+class ob_divisio {
 		
 	    public $id;
     	public $id_cronica;

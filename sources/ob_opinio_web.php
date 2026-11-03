@@ -1,6 +1,7 @@
 <?php
 
-	class ob_opinio_web
+#[\AllowDynamicProperties]
+class ob_opinio_web
 	{
 
 		public $id;
@@ -18,13 +19,12 @@
 		{
 			return $this->$nom;
 		}
-	
+
 		public function __set($nom,$valor) /* asigna valors al parametre */
 		{
 			return $this->$nom = $valor;
-		}		
-		
-		
+		}
+
 		public function extreure_opinio_per_data_entrada($bd,$punter,$quantitat,$leng) 
 		/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
 		{
@@ -65,9 +65,9 @@
 				$opinio->titol_es=$resultat['titol_es'];
 				$opinio->titol_cat=$resultat['titol_cat'];
 				$opinio->ruta=$resultat['ruta'];
-        		$opinio->dia=$resultat['dia'];
-				$opinio->mes=$resultat['mes'];
-				$opinio->any=$resultat['any'];
+        		$opinio->dia=$resultat['dia'] ?? '';
+				$opinio->mes=$resultat['mes'] ?? '';
+				$opinio->any=$resultat['any'] ?? '';
 				$opinio->id=$resultat['idopinio'];
 				
 				switch ($leng)

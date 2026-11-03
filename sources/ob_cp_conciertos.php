@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 class cp_propers_concerts
 {
 
@@ -26,7 +27,6 @@ class cp_propers_concerts
 		$this->needs_dim_confirm = FALSE;
 		$this->error = 'Error: ';
 		$this->timestamp = '';
-
 
 	}
 
