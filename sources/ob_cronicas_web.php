@@ -79,7 +79,7 @@ class ob_cronicas_web
                 }
 				/* mostrar dades */
                 $cadena=explode('<br />',nl2br($cronica->intro));
-                print '<div class="cronica">';
+                print '<div class="cronica cronica_index">';
                 print '<p><a class="linkk" href="index.php?'.$link.$cronica->link.'" title="'.$cronica->titol.'"><img class="cartell_cronica" src="pics/cronicas_pics/'.$cronica->cartell.'" width="80" align="middle" alt = "'.$cronica->titol.'"/>
                         <span>'.$cronica->titol.'</span><br /><br />'.$cadena[0].'</a></p></div>';
 			}
