@@ -24,10 +24,11 @@ div#cover {
 
 div#icosdisc {
 	position:absolute;
-	top:440px;
-	left:260px;
+	top:585px;
+	left:250px;
 	width:120px;
 	height:40px;
+	text-align:right;
 
 }
 div#icosdisc img {

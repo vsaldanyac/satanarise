@@ -348,7 +348,9 @@ div#cover img {
 }
 
 div#logoband {
-    display: none !important;
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 10px !important;
 }
 
 div#logoband img {
