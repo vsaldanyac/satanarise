@@ -24,10 +24,11 @@ div#cover {
 
 div#icosdisc {
 	position:absolute;
-	top:440px;
-	left:260px;
+	top:585px;
+	left:250px;
 	width:120px;
 	height:40px;
+	text-align:right;
 
 }
 div#icosdisc img {
@@ -112,10 +113,13 @@ div#video {
 	position:absolute;
 	top:650px;
 	left:275px;
-	width:425px;
-	height:350px;
+	width:400px;
 	text-align:center;
+}
 
+div#video iframe {
+	width:400px !important;
+	height:225px !important;
 }
 
 

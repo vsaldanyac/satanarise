@@ -358,6 +358,23 @@ div#logoband img {
     height: auto !important;
 }
 
+div#video {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 560px !important;
+    margin: 15px auto !important;
+    text-align: center !important;
+}
+
+div#video iframe {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16/9 !important;
+    max-width: 560px !important;
+}
+
 div#dadesdisc {
     width: 100% !important;
     padding: 10px !important;
