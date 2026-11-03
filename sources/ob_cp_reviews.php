@@ -750,7 +750,7 @@ class ob_cp_reviews
 		print '<p class="contingut">Nuevo estilo:';
 		print '<br /><input class="texte_form" type="text" name="nou_estil" maxlength="1000" value="" />';
 		print '<br />Estilo global para comparación:';
-		print '<br />1 - Heavy, 2 - Power, 3 - Death, 4 - Gothic/simphonic, 5 - Metalcore, 6 - Black, 7- Nu/alternativo, 8 - Melodic death, 9 - folk/pagan, 10 - Thrash, 11 - Progressive, 12 - Rock, 13 -  Experimental, 14 - Vacío<br /><select name="estil_blogal:">';
+		print '<br />1 - Heavy, 2 - Power, 3 - Death, 4 - Gothic/simphonic, 5 - Metalcore, 6 - Black, 7- Nu/alternativo, 8 - Melodic death, 9 - folk/pagan, 10 - Thrash, <br />11 - Progressive, 12 - Rock, 13 -  Experimental, 14 - Vacío<br /><select name="estil_blogal:">';
 		for ($y = 1; $y <= 14; $y++) {
 			print '<option value="' . $y . '">' . $y . '</option>';
 		}

@@ -91,9 +91,8 @@
 							for ($y=0;$y<$resultat2->num_rows;$y++)
 							{
 								$num=$y+1;
-								$var='imatge'.$num;
 								$resultat3=$resultat2->fetch_assoc();
-								$noticia->$var=$resultat3['ruta'];
+								$noticia->imatges[$num]=$resultat3['ruta'];
 								$noticia->control_imatges='si';
 								$noticia->num_imatges=$noticia->num_imatges+1;
 							
@@ -250,8 +249,7 @@
 				print '<div class="centrar">';
 					for ($i=2;$i<=$noticia->num_imatges;$i++)
 					{
-						$var = 'imatge'.$i;
-						print'<a href=""'.$noticia->$var.'"" rel="lightbox['.$noticia->id.']" title="'.$noticia->titol.'"><img class="general" src = "'.$noticia->$var.'" width="300" alt="'.$noticia->titol.'" /></a>';
+						print'<a href="'.$noticia->imatges[$i].'" rel="lightbox['.$noticia->id.']" title="'.$noticia->titol.'"><img class="general" src = "'.$noticia->imatges[$i].'" width="300" alt="'.$noticia->titol.'" /></a>';
 					}
 					print '</div>';
 			}
