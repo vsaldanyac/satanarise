@@ -1,6 +1,7 @@
 <?php
 
-	class ob_entrevnews_web
+#[\AllowDynamicProperties]
+class ob_entrevnews_web
 	{
 
 		public $id;
@@ -22,13 +23,12 @@
 		{
 			return $this->$nom;
 		}
-	
+
 		public function __set($nom,$valor) /* asigna valors al parametre */
 		{
 			return $this->$nom = $valor;
-		}		
-		
-		
+		}
+
 		public function extreure_entrevistes_per_data_entrada($bd,$punter,$quantitat,$leng) 
 		/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
 		{

@@ -1,5 +1,6 @@
 <?php
-	class banda 
+#[\AllowDynamicProperties]
+class banda 
 	/* Informació d'una banda que toca a un concert */ 
 	{
 		public $id;
@@ -20,7 +21,8 @@
 			
 		}
 	}
-	class concert
+#[\AllowDynamicProperties]
+class concert
 	/* Onjecte que conté la informació d'una  data concert que pot pertanyer a un concert únic, gira o festival */
 	{
 		public $cartell_concert; 
@@ -40,7 +42,8 @@
 		public $link;
 		public $id;
 		public $grups;
-		
+		public $bandes = [];
+
 		public function __construct($num_bandes)
 		{
 			$this->cartell_concert='';
@@ -55,17 +58,17 @@
 			$this->patrocinat=0;
 			$this->grups='';
 			for ($i=1;$i<=$num_bandes;$i++) {
-				$nom='banda'.$i;
-				$this->$nom= new banda();
+				$this->bandes[$i] = new banda();
 			}
-			
+
 		}
 
 	}
 	
 
 	
-	class entrada_concerts
+#[\AllowDynamicProperties]
+class entrada_concerts
 	/* Informació genérica d'un concert únic */
 	{
 		public $cartell;
@@ -77,9 +80,10 @@
 		public $descripcio;
 		public $num_concerts;
 		public $num_bandes;
+		public $concerts = [];
 
-		
-		
+
+
 		public function __construct($num_concerts, $num_bandes)
 		{
 			$this->cartell='';
@@ -92,13 +96,13 @@
 			$this->num_bandes=$num_bandes;
 			$this->num_concerts=$num_concerts;
 			for ($i=1;$i<=$num_concerts;$i++) {
-				$nom='concert'.$i;
-				$this->$nom= new concert($num_bandes);
+				$this->concerts[$i] = new concert($num_bandes);
 			}
 
 		}
 	}
-	class mini_concert
+	#[\AllowDynamicProperties]
+class mini_concert
 	{
 		public $id;
 		public $id_concert;
@@ -138,7 +142,8 @@
 		}
 		
 	}
-	class concert_entrades {
+	#[\AllowDynamicProperties]
+class concert_entrades {
 		
 		private $nom;
 		private $id;

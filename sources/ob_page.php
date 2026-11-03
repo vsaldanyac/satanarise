@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 class ob_page
 {
 	public $leng; /* idioma ES o EN */

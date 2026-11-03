@@ -58,9 +58,8 @@
 							for ($y=0;$y<$resultat2->num_rows;$y++)
 							{
 								$num=$y+1;
-								$var='imatge'.$num;
 								$resultat3=$resultat2->fetch_assoc();
-								$noticia->$var=$resultat3['ruta'];
+								$noticia->imatges[$num]=$resultat3['ruta'];
 								$noticia->control_imatges='si';
 								$noticia->num_imatges=$noticia->num_imatges+1;
 							}
@@ -232,7 +231,7 @@
 			print '<h1 class="tit_centrada">'.$noticia->titol.'</h1>';
 			if ($noticia->control_imatges=='si') 
 			{
-				print '<div class="centrar"><a href="'.$noticia->imatge1.'" rel="lightbox['.$noticia->id.']" title="'.$noticia->titol.'"><img src = "'.$noticia->imatge1.'" width="300" alt="'.$noticia->titol.'" /></a></div>';
+				print '<div class="centrar"><a href="'.$noticia->imatges[1].'" rel="lightbox['.$noticia->id.']" title="'.$noticia->titol.'"><img src = "'.$noticia->imatges[1].'" width="300" alt="'.$noticia->titol.'" /></a></div>';
 
 			}
 			//$noticia->texte=$this->posar_negretes(nl2br($this->tractar_tag_link(1,$noticia->texte)),$noticia->descripcio);

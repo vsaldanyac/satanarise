@@ -1,5 +1,6 @@
 <?php
 
+#[\AllowDynamicProperties]
 class ob_noticias_web
 {
     public $id;
@@ -26,7 +27,7 @@ class ob_noticias_web
             $noticia->descripcio = $resultat['descripcio'];
             $noticia->timestamp = $resultat['dateIn'];
             $noticia->idioma = $resultat['Idioma'];
-            $noticia->imatge1 = $resultat['ruta'];
+            $noticia->imatges[1] = $resultat['ruta'] ?? '';
             $noticia->dia = substr($noticia->timestamp, 8, 2);
             $noticia->any = substr($noticia->timestamp, 0, 4);
             $noticia->mes = substr($noticia->timestamp, 5, 2);
@@ -63,6 +64,9 @@ class ob_noticias_web
                             $var = 'imatge' . $num;
                             $resultat3 = $resultat2->fetch_assoc();
                             $noticia->$var = $resultat3['ruta'];
+                            if ($num == 1) {
+                                $noticia->imatges[1] = $resultat3['ruta'];
+                            }
                             $noticia->control_imatges = 'si';
                             $noticia->num_imatges = $noticia->num_imatges + 1;
                         }
@@ -119,7 +123,7 @@ class ob_noticias_web
     public function mostrar_noticia($noticia)
     {
         print '<meta property="og:image" content="' .
-            $noticia->imatge1 .
+            $noticia->imatges[1] .
             '" />';
         print '<div class="noticia">
 			<div class="data_not">' .
@@ -152,7 +156,7 @@ class ob_noticias_web
 
         if ($noticia->control_imatges == 'si') {
             $tamany = [];
-            $tamany = getimagesize($noticia->imatge1);
+            $tamany = getimagesize($noticia->imatges[1]);
             /* Es mesuren les proporcions a 154 alçada */
 
             $ample = floor((150 * $tamany[0]) / $tamany[1]);
@@ -178,13 +182,13 @@ class ob_noticias_web
                 }
             }
             print '<div class="centrar"><a href="' .
-                $noticia->imatge1 .
+                $noticia->imatges[1] .
                 '" rel="lightbox[' .
                 $noticia->id .
                 ']" title="' .
                 $noticia->titol .
                 '"><img src = "' .
-                $noticia->imatge1 .
+                $noticia->imatges[1] .
                 '" ' .
                 $tam_imp .
                 ' alt="' .
@@ -237,9 +241,9 @@ class ob_noticias_web
             '</div>';
 
         print '<h1 class="tit_centrada">' . $noticia->titol . '</h1>';
-        if ($noticia->control_imatges == 'si') {
+        if ($noticia->control_imatges == 'si' && !empty($noticia->imatges[1])) {
             $tamany = [];
-            $tamany = getimagesize($noticia->imatge1);
+            $tamany = getimagesize($noticia->imatges[1]);
             /* Es mesuren les proporcions a 154 alçada */
 
             $ample = floor((150 * $tamany[0]) / $tamany[1]);
@@ -265,13 +269,13 @@ class ob_noticias_web
                 }
             }
             print '<div class="centrar"><a href="' .
-                $noticia->imatge1 .
+                $noticia->imatges[1] .
                 '" rel="lightbox[' .
                 $noticia->id .
                 ']" title="' .
                 $noticia->titol .
                 '"><img src = "' .
-                $noticia->imatge1 .
+                $noticia->imatges[1] .
                 '" ' .
                 $tam_imp .
                 ' alt="' .
@@ -364,7 +368,7 @@ class ob_noticias_web
             $noticia->titol .
             '">
 				<img src = "' .
-            $noticia->imatge1 .
+            $noticia->imatges[1] .
             '" alt="' .
             $noticia->titol .
             '" /></a></div>	';

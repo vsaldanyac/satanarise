@@ -1,6 +1,7 @@
 <?php
 
-	class ob_entrevistes_web
+#[\AllowDynamicProperties]
+class ob_entrevistes_web
 	{
 
 		public $id;
@@ -22,13 +23,12 @@
 		{
 			return $this->$nom;
 		}
-	
+
 		public function __set($nom,$valor) /* asigna valors al parametre */
 		{
 			return $this->$nom = $valor;
-		}		
-		
-		
+		}
+
 		public function extreure_entrevistes_per_data_entrada($bd,$punter,$quantitat,$leng) 
 		/* consulta noticies a la bbdd a partir de la conexió, el numero d'inici de la consulta per data i la quantitat a mostrar */
 		{
@@ -247,7 +247,7 @@
       for ($y=0;$y<5;$y++)
       {
           $link_img[$y]='';
-          if ($entrevista->imgs[$y]!='')
+          if (!empty($entrevista->imgs[$y]))
           {
               if (($y==0) || ($y==2)  || ($y==4))
               {
@@ -268,7 +268,7 @@
       for ($y=0;$y<5;$y++)
       {
           $link_img[$y]='';
-          if ($entrevista->imgs[$y]!='')
+          if (!empty($entrevista->imgs[$y]))
           {
               $link_img[$y]='<div class="centrar"><a href="pics/entrevistes_pics/'.$entrevista->imgs[$y].'" rel="lightbox[.$entrevista->banda.]" title=".$entrevista->banda."><img src="pics/entrevistes_pics/'.$entrevista->imgs[$y].'" width="400" alt="'.$entrevista->banda.'" /></a></div><br />';
           }
@@ -276,8 +276,8 @@
       $entrevista->texte=str_replace('[imgcentrada1]',$link_img[0],$entrevista->texte);
       $entrevista->texte=str_replace('[imgcentrada2]',$link_img[1],$entrevista->texte);
       $entrevista->texte=str_replace('[imgcentrada3]',$link_img[2],$entrevista->texte);
-      $entrevista->texte=str_replace('[imgcentrada4]',$link_img[4],$entrevista->texte);
-      $entrevista->texte=str_replace('[imgcentrada5]',$link_img[5],$entrevista->texte);
+      $entrevista->texte=str_replace('[imgcentrada4]',$link_img[3],$entrevista->texte);
+      $entrevista->texte=str_replace('[imgcentrada5]',$link_img[4],$entrevista->texte);
       
       print $this->preparar_texte($entrevista->texte,$tags);
 
